@@ -1,0 +1,216 @@
+/**
+ * HU01-08 — Estilos del catálogo
+ * RF-026: interfaz usable desde 320 px de ancho sin desplazamiento horizontal.
+ * RF-001: grid responsive para la lista de criaturas.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Variables                                                            */
+/* ------------------------------------------------------------------ */
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fca5a5;
+  --color-error-text: #991b1b;
+  --color-placeholder-bg: #e2e8f0;
+  --radius: 0.5rem;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                 */
+/* ------------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-width: 320px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout principal                                                     */
+/* ------------------------------------------------------------------ */
+.catalog-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.catalog-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.catalog-header h1 {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ------------------------------------------------------------------ */
+/* Loading indicator                                                    */
+/* ------------------------------------------------------------------ */
+[role="status"] {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Error message                                                        */
+/* ------------------------------------------------------------------ */
+[role="alert"] {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  color: var(--color-error-text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+[role="alert"] p {
+  margin: 0;
+}
+
+[role="alert"] button {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+[role="alert"] button:hover {
+  background: var(--color-primary-hover);
+}
+
+/* ------------------------------------------------------------------ */
+/* Pokemon list — grid responsive                                       */
+/* ------------------------------------------------------------------ */
+.pokemon-list__grid {
+  display: grid;
+  /* Mínimo 140 px por tarjeta; máximo 1fr. Funciona desde 320 px (RF-026). */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Pokemon card                                                         */
+/* ------------------------------------------------------------------ */
+[data-pokemon-id] {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: var(--shadow);
+}
+
+[data-pokemon-id]:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+  transform: translateY(-2px);
+}
+
+.pokemon-card__img {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokemon-card__img img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.pokemon-card__number {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.pokemon-card__name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+/* ------------------------------------------------------------------ */
+/* Pagination                                                           */
+/* ------------------------------------------------------------------ */
+nav[aria-label="Paginación del catálogo"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+nav[aria-label="Paginación del catálogo"] button {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-width: 90px;
+}
+
+nav[aria-label="Paginación del catálogo"] button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+nav[aria-label="Paginación del catálogo"] button:disabled {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.pagination__info {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state                                                          */
+/* ------------------------------------------------------------------ */
+[data-empty] {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
