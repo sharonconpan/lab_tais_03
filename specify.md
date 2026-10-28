@@ -1,6 +1,6 @@
 # Especificación de Requisitos — PokeDex Explorer
 
-**Versión:** 1.1.0
+**Versión:** 1.2.0
 **Fecha:** 27/10/2026
 **Última enmienda:** 27/10/2026
 **Fase SDD:** specify
@@ -181,9 +181,9 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **And** todos los demás datos se muestran con normalidad
 
 **Escenario 3 — Volver a la lista conservando contexto**
-- **Given** que el usuario llegó a la ficha después de realizar una búsqueda y estando en una página concreta del catálogo
+- **Given** que el usuario llegó a la ficha después de realizar una búsqueda, con uno o más tipos seleccionados y estando en una página concreta del catálogo
 - **When** pulsa la opción de volver
-- **Then** regresa a la lista con el mismo término de búsqueda activo y en la misma página en que estaba antes de abrir la ficha
+- **Then** regresa a la lista con el mismo término de búsqueda activo, los mismos tipos seleccionados y en la misma página en que estaba antes de abrir la ficha
 
 **Escenario 4 — Error al cargar la ficha**
 - **Given** que la PokéAPI no responde al solicitar los datos de una criatura
@@ -225,7 +225,8 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **Given** que la combinación de filtros activos no produce ningún resultado
 - **When** se aplica el filtro
 - **Then** se muestra un mensaje en español indicando que no hay criaturas para esa combinación
-- **And** se ofrece la opción de limpiar los filtros
+- **And** se ofrece la opción de "limpiar filtros", que quita únicamente los tipos seleccionados y conserva el texto de búsqueda activo
+- **And** se ofrece también la opción de "limpiar la búsqueda", que quita únicamente el texto de búsqueda y conserva los tipos seleccionados
 
 **Escenario 5 — Eliminar filtro de tipo**
 - **Given** que el usuario tiene uno o más tipos seleccionados
@@ -245,8 +246,9 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 **Escenario 1 — Ver detalle de habilidad**
 - **Given** que el usuario está en la ficha de una criatura y ve la lista de sus habilidades
 - **When** selecciona una habilidad
-- **Then** se muestra el nombre y la descripción de esa habilidad en español (o en el idioma disponible si no hay traducción al español)
+- **Then** se muestra el nombre y la descripción de esa habilidad en español
 - **And** se muestra un indicador de carga mientras se obtiene el detalle
+- **Note** el comportamiento cuando no existe descripción en español está pendiente de resolución en NC-02
 
 **Escenario 2 — Cerrar el detalle**
 - **Given** que el usuario está viendo el detalle de una habilidad
@@ -277,12 +279,13 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **Given** que el usuario selecciona dos criaturas distintas para comparar
 - **When** accede a la vista de comparación
 - **Then** se muestran las fichas de ambas criaturas en paralelo con sus seis estadísticas base
-- **And** en cada estadística se resalta visualmente cuál de las dos criaturas tiene el valor mayor
+- **And** en cada estadística se indica cuál de las dos criaturas tiene el valor mayor mediante una señal que no depende únicamente del color, sino que incluye además una indicación textual o simbólica (por ejemplo, una etiqueta, un icono o un símbolo)
 
 **Escenario 2 — Estadística empatada**
 - **Given** que ambas criaturas tienen exactamente el mismo valor en una estadística
 - **When** se muestra la comparación
-- **Then** esa estadística se presenta de forma que indique empate, sin destacar ninguna de las dos criaturas
+- **Then** esa estadística se presenta indicando empate mediante una señal que no depende únicamente del color, sino que incluye además una indicación textual o simbólica (por ejemplo, una etiqueta, un icono o un símbolo)
+- **And** ninguna de las dos criaturas queda destacada sobre la otra en esa estadística
 
 **Escenario 3 — Comparar una criatura consigo misma**
 - **Given** que el usuario selecciona la misma criatura en ambas posiciones de la comparación
@@ -354,7 +357,7 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 **RF-012** La ficha de una criatura muestra: imagen, número nacional, nombre, tipo o tipos, altura, peso, lista de habilidades y los valores de las seis estadísticas base (PS, Ataque, Defensa, Ataque Especial, Defensa Especial, Velocidad).
 *Trazabilidad: HU-03, Esc. 1*
 
-**RF-013** Al volver desde la ficha al catálogo, la aplicación restaura el término de búsqueda activo y la página en que se encontraba el usuario antes de abrir la ficha.
+**RF-013** Al volver desde la ficha al catálogo, la aplicación restaura el término de búsqueda activo, los tipos seleccionados y la página en que se encontraba el usuario antes de abrir la ficha.
 *Trazabilidad: HU-03, Esc. 3*
 
 ### Filtro por Tipo
@@ -478,12 +481,12 @@ La respuesta determina el flujo de navegación de HU-06 y afecta a las historias
 
 | Historia | RF relacionados | Casos límite | Criterios de éxito |
 |----------|-----------------|--------------|-------------------|
-| HU-01    | RF-001, RF-002, RF-003, RF-023, RF-024, RF-025, RF-026 | CL-05, CL-09 | CE-01, CE-02 |
-| HU-02    | RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-027 | CL-01, CL-02, CL-03, CL-04, CL-08 | CE-02 |
-| HU-03    | RF-003, RF-012, RF-013, RF-023, RF-024, RF-025 | CL-05 | CE-01, CE-02 |
-| HU-04    | RF-014, RF-015, RF-016, RF-017 | CL-06 | CE-02, CE-05 |
-| HU-05    | RF-018, RF-019, RF-023, RF-024, RF-025 | — | CE-03, CE-05 |
-| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025 | CL-10 | CE-02 |
+| HU-01    | RF-001, RF-002, RF-003, RF-023, RF-024, RF-025, RF-026 | CL-05, CL-09 | CE-01, CE-02, CE-04, CE-06, CE-07 |
+| HU-02    | RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-027 | CL-01, CL-02, CL-03, CL-04, CL-08 | CE-02, CE-04, CE-06 |
+| HU-03    | RF-003, RF-012, RF-013, RF-023, RF-024, RF-025 | CL-05 | CE-01, CE-02, CE-04, CE-07 |
+| HU-04    | RF-014, RF-015, RF-016, RF-017 | CL-06 | CE-02, CE-04, CE-05, CE-06 |
+| HU-05    | RF-018, RF-019, RF-023, RF-024, RF-025 | — | CE-03, CE-04, CE-05, CE-07 |
+| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025 | CL-10 | CE-02, CE-04, CE-06, CE-07 |
 
 ---
 
@@ -497,16 +500,28 @@ La respuesta determina el flujo de navegación de HU-06 y afecta a las historias
 
 | # | Elemento | Tipo | Descripción |
 |---|----------|------|-------------|
-| 1 | CE-06 (antes CE-06, ahora CE-05) | Corrección | Se reformula el criterio de caché sin mencionar herramientas ni el navegador: "los datos ya consultados se muestran sin espera perceptible al volver a verlos en los 5 minutos siguientes". El umbral de verificación pasa a ser una prueba de acceso repetido. |
+| 1 | CE-05 (era CE-06 en v1.0.0) | Corrección | Se reformula el criterio de caché eliminando la referencia a herramientas de red del navegador. Nuevo enunciado: "los datos ya consultados se muestran sin espera perceptible al volver a verlos en los 5 minutos siguientes". El umbral de verificación pasa a ser una prueba de acceso repetido. (El ID cambia de CE-06 a CE-05 por la renumeración del punto 9 de esta misma versión.) |
 | 2 | HU-01 | Adición | Se agrega el Escenario 6 "Pantalla de 320 px de ancho" con GWT completo, cubriendo RF-026. |
 | 3 | HU-06 | Adición | Se agrega el Escenario 6 "Indicador de carga durante la comparación" con GWT completo, cubriendo RF-023. |
 | 4 | RF-023 | Corrección de trazabilidad | Se reemplaza "HU-06 (implícito)" por "HU-06 Esc. 6" ahora que el escenario existe explícitamente. |
 | 5 | RF-026 | Corrección de trazabilidad | Se añade "HU-01 Esc. 6" a la trazabilidad, junto a la referencia a la constitución U-02. |
 | 6 | HU-02 | Ampliación | El enunciado especifica que la búsqueda se aplica sobre todo el catálogo. Se agrega Escenario 10 "Paginación de resultados de búsqueda" con GWT. |
 | 7 | RF-027 (nuevo) | Adición | La búsqueda se aplica al catálogo completo y sus resultados se paginan igual que el catálogo general. Trazabilidad: HU-02 Esc. 10. |
-| 8 | CE-03 | Eliminación | Se elimina el criterio de cobertura de pruebas ≥ 80 % porque ya está cubierto por el principio P-02 de la constitución v1.1.0; duplicarlo aquí generaba redundancia y posible inconsistencia. |
-| 9 | CE-04..CE-08 | Renumeración | Al eliminar CE-03, los criterios CE-04 a CE-08 pasan a ser CE-03 a CE-07. Todas las referencias en la tabla de trazabilidad se actualizan. |
+| 8 | CE-03 (v1.0.0) | Eliminación | Se elimina el criterio de cobertura de pruebas ≥ 80 % porque ya está cubierto por el principio P-02 de la constitución v1.1.0; duplicarlo aquí generaba redundancia y posible inconsistencia. |
+| 9 | CE-04..CE-08 (v1.0.0) | Renumeración | Al eliminar CE-03, los criterios CE-04 a CE-08 pasan a ser CE-03 a CE-07. Todas las referencias en la tabla de trazabilidad se actualizan. |
 | 10 | Encabezado | Actualización | Versión actualizada a 1.1.0 y añadido el campo "Última enmienda: 27/10/2026". |
+
+### v1.2.0 — 27/10/2026
+
+| # | Elemento | Tipo | Descripción |
+|---|----------|------|-------------|
+| 1 | HU-03 Esc. 3 | Ampliación | Al volver desde la ficha se restauran también los tipos seleccionados, además del término de búsqueda y la página. |
+| 2 | RF-013 | Ampliación | Se añade la restauración de los tipos seleccionados al comportamiento de volver desde la ficha. |
+| 3 | HU-05 Esc. 1 | Corrección | Se elimina el paréntesis "(o en el idioma disponible si no hay traducción al español)"; el caso sin traducción queda remitido a NC-02 sin resolverse. |
+| 4 | HU-04 Esc. 4 | Precisión semántica | Se diferencia explícitamente "limpiar filtros" (quita tipos, conserva búsqueda) de "limpiar la búsqueda" (quita texto, conserva tipos). Ambas opciones se ofrecen ante lista vacía. |
+| 5 | HU-06 Esc. 1 | Ampliación | El resaltado de la estadística mayor debe incluir indicación textual o simbólica; no puede depender únicamente del color. |
+| 6 | HU-06 Esc. 2 | Ampliación | La indicación de empate debe incluir indicación textual o simbólica; no puede depender únicamente del color. |
+| 7 | Tabla de trazabilidad | Corrección | CE-04 se asocia a todas las historias (aplica a toda la interfaz); CE-06 se asocia a HU-01, HU-02, HU-04 y HU-06 (las que tienen casos límite); CE-07 se asocia a HU-01, HU-03, HU-05 y HU-06 (las que tienen escenario de timeout). |
 
 ### v1.0.0 — 27/10/2026
 Versión inicial con 6 historias de usuario, 26 RF, 10 casos límite y 8 criterios de éxito.
