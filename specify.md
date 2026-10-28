@@ -1,7 +1,8 @@
 # Especificación de Requisitos — PokeDex Explorer
 
-**Versión:** 1.0.0
+**Versión:** 1.1.0
 **Fecha:** 27/10/2026
+**Última enmienda:** 27/10/2026
 **Fase SDD:** specify
 **Constitución de referencia:** v1.1.0
 **Estado:** Pendiente de revisión humana (S-04)
@@ -87,12 +88,18 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **When** el usuario está esperando el catálogo
 - **Then** la aplicación cancela la espera, muestra un mensaje de tiempo agotado en español y ofrece reintentar
 
+**Escenario 6 — Pantalla de 320 px de ancho**
+- **Given** que el usuario accede a la aplicación desde un dispositivo con pantalla de 320 px de ancho
+- **When** el catálogo se muestra
+- **Then** todos los elementos del catálogo (imagen, número, nombre, controles de paginación) son visibles y operables sin desplazamiento horizontal
+- **And** ningún elemento funcional queda oculto, truncado o inaccesible
+
 ---
 
 ### HU-02 — Buscar una criatura [P1]
 
 **Como** visitante de la aplicación,
-**quiero** buscar criaturas por nombre o por número,
+**quiero** buscar criaturas por nombre o por número sobre todo el catálogo disponible en la PokéAPI,
 **para** encontrar rápidamente una criatura específica sin tener que navegar por todo el catálogo.
 
 #### Criterios de aceptación
@@ -145,6 +152,11 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **Given** que el usuario confirma la búsqueda dos veces en sucesión rápida
 - **When** se procesan ambas acciones
 - **Then** la aplicación realiza una sola petición y muestra un único conjunto de resultados, sin duplicar peticiones ni mostrar estados intermedios inconsistentes
+
+**Escenario 10 — Paginación de resultados de búsqueda**
+- **Given** que la búsqueda produce más resultados de los que caben en una página
+- **When** se muestran los resultados
+- **Then** se aplica la misma paginación que en el catálogo general, con controles de navegación entre páginas e indicación de página actual y total de páginas
 
 ---
 
@@ -288,6 +300,12 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **When** el usuario está esperando
 - **Then** la aplicación cancela la espera, muestra un mensaje en español y ofrece reintentar
 
+**Escenario 6 — Indicador de carga durante la comparación**
+- **Given** que el usuario inicia una comparación entre dos criaturas distintas
+- **When** la aplicación solicita los datos de ambas criaturas a la PokéAPI
+- **Then** se muestra un indicador de carga mientras se espera la respuesta
+- **And** el indicador desaparece en cuanto los datos están disponibles y la comparación se presenta completa
+
 ---
 
 ## 6. Requisitos Funcionales
@@ -375,7 +393,7 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 ### Estados Transversales
 
 **RF-023** Toda operación que requiera datos de la PokéAPI muestra un indicador de carga mientras espera la respuesta.
-*Trazabilidad: HU-01 Esc. 1 / HU-03 Esc. 1 / HU-05 Esc. 1 / HU-06 (implícito)*
+*Trazabilidad: HU-01 Esc. 1 / HU-03 Esc. 1 / HU-05 Esc. 1 / HU-06 Esc. 6*
 
 **RF-024** Cuando la PokéAPI devuelve un error o no responde, la aplicación muestra un mensaje comprensible en español e incluye una opción para reintentar la operación.
 *Trazabilidad: HU-01 Esc. 4 / HU-03 Esc. 4 / HU-05 Esc. 3 / HU-06 Esc. 4*
@@ -384,7 +402,10 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 *Trazabilidad: HU-01 Esc. 5 / HU-03 Esc. 5 / HU-05 Esc. 4 / HU-06 Esc. 5*
 
 **RF-026** La aplicación es usable en pantallas de ancho igual o superior a 320 px sin que ningún elemento funcional quede inaccesible u oculto.
-*Trazabilidad: Constitución U-02*
+*Trazabilidad: HU-01 Esc. 6 / Constitución U-02*
+
+**RF-027** La búsqueda por nombre o número se aplica sobre el catálogo completo disponible en la PokéAPI; cuando los resultados superan el tamaño de página, se presentan paginados con los mismos controles de navegación que el catálogo general.
+*Trazabilidad: HU-02, Esc. 10*
 
 ---
 
@@ -415,12 +436,11 @@ Los siguientes criterios son medibles y no mencionan tecnología. Se verifican d
 |----|----------|--------|
 | CE-01 | El catálogo carga y es interactivo desde una conexión de banda ancha típica | < 3 segundos desde la primera solicitud |
 | CE-02 | Las interacciones de búsqueda, filtro y paginación producen retroalimentación visible | < 200 ms tras la acción del usuario |
-| CE-03 | Cobertura de pruebas automatizadas sobre lógica y acceso a datos | ≥ 80 % |
-| CE-04 | Todos los textos visibles al usuario están en español | 100 % de los textos de la interfaz |
-| CE-05 | Cumplimiento de accesibilidad WCAG 2.1 nivel AA en contraste, teclado y etiquetas | Sin fallos en auditoría automatizada de accesibilidad |
-| CE-06 | Ningún recurso ya consultado genera una nueva petición de red dentro de los 5 minutos siguientes | Verificable en herramientas de red del navegador |
-| CE-07 | Todos los casos límite documentados tienen prueba automatizada en estado pasado | 10 de 10 casos con prueba verde |
-| CE-08 | Ninguna operación queda en estado de carga indefinido; toda espera superior a 10 s produce mensaje y opción de reintento | Verificable en pruebas de tiempo de espera simulado |
+| CE-03 | Todos los textos visibles al usuario están en español | 100 % de los textos de la interfaz |
+| CE-04 | Cumplimiento de accesibilidad WCAG 2.1 nivel AA en contraste, teclado y etiquetas | Sin fallos en auditoría automatizada de accesibilidad |
+| CE-05 | Los datos ya consultados se muestran sin espera perceptible al volver a verlos en los 5 minutos siguientes | Verificable mediante prueba de acceso repetido a recursos ya solicitados |
+| CE-06 | Todos los casos límite documentados tienen prueba automatizada en estado pasado | 10 de 10 casos con prueba verde |
+| CE-07 | Ninguna operación queda en estado de carga indefinido; toda espera superior a 10 s produce mensaje y opción de reintento | Verificable en pruebas de tiempo de espera simulado |
 
 ---
 
@@ -459,12 +479,34 @@ La respuesta determina el flujo de navegación de HU-06 y afecta a las historias
 | Historia | RF relacionados | Casos límite | Criterios de éxito |
 |----------|-----------------|--------------|-------------------|
 | HU-01    | RF-001, RF-002, RF-003, RF-023, RF-024, RF-025, RF-026 | CL-05, CL-09 | CE-01, CE-02 |
-| HU-02    | RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011 | CL-01, CL-02, CL-03, CL-04, CL-08 | CE-02, CE-03 |
+| HU-02    | RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-027 | CL-01, CL-02, CL-03, CL-04, CL-08 | CE-02 |
 | HU-03    | RF-003, RF-012, RF-013, RF-023, RF-024, RF-025 | CL-05 | CE-01, CE-02 |
-| HU-04    | RF-014, RF-015, RF-016, RF-017 | CL-06 | CE-02, CE-06 |
-| HU-05    | RF-018, RF-019, RF-023, RF-024, RF-025 | — | CE-04, CE-06 |
-| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025 | CL-10 | CE-02, CE-03 |
+| HU-04    | RF-014, RF-015, RF-016, RF-017 | CL-06 | CE-02, CE-05 |
+| HU-05    | RF-018, RF-019, RF-023, RF-024, RF-025 | — | CE-03, CE-05 |
+| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025 | CL-10 | CE-02 |
 
 ---
 
 *Documento pendiente de revisión humana (principio S-04). Una vez aprobado, la siguiente fase es `clarify` para resolver NC-01, NC-02 y NC-03.*
+
+---
+
+## 11. Registro de Cambios
+
+### v1.1.0 — 27/10/2026
+
+| # | Elemento | Tipo | Descripción |
+|---|----------|------|-------------|
+| 1 | CE-06 (antes CE-06, ahora CE-05) | Corrección | Se reformula el criterio de caché sin mencionar herramientas ni el navegador: "los datos ya consultados se muestran sin espera perceptible al volver a verlos en los 5 minutos siguientes". El umbral de verificación pasa a ser una prueba de acceso repetido. |
+| 2 | HU-01 | Adición | Se agrega el Escenario 6 "Pantalla de 320 px de ancho" con GWT completo, cubriendo RF-026. |
+| 3 | HU-06 | Adición | Se agrega el Escenario 6 "Indicador de carga durante la comparación" con GWT completo, cubriendo RF-023. |
+| 4 | RF-023 | Corrección de trazabilidad | Se reemplaza "HU-06 (implícito)" por "HU-06 Esc. 6" ahora que el escenario existe explícitamente. |
+| 5 | RF-026 | Corrección de trazabilidad | Se añade "HU-01 Esc. 6" a la trazabilidad, junto a la referencia a la constitución U-02. |
+| 6 | HU-02 | Ampliación | El enunciado especifica que la búsqueda se aplica sobre todo el catálogo. Se agrega Escenario 10 "Paginación de resultados de búsqueda" con GWT. |
+| 7 | RF-027 (nuevo) | Adición | La búsqueda se aplica al catálogo completo y sus resultados se paginan igual que el catálogo general. Trazabilidad: HU-02 Esc. 10. |
+| 8 | CE-03 | Eliminación | Se elimina el criterio de cobertura de pruebas ≥ 80 % porque ya está cubierto por el principio P-02 de la constitución v1.1.0; duplicarlo aquí generaba redundancia y posible inconsistencia. |
+| 9 | CE-04..CE-08 | Renumeración | Al eliminar CE-03, los criterios CE-04 a CE-08 pasan a ser CE-03 a CE-07. Todas las referencias en la tabla de trazabilidad se actualizan. |
+| 10 | Encabezado | Actualización | Versión actualizada a 1.1.0 y añadido el campo "Última enmienda: 27/10/2026". |
+
+### v1.0.0 — 27/10/2026
+Versión inicial con 6 historias de usuario, 26 RF, 10 casos límite y 8 criterios de éxito.
