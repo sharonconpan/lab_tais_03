@@ -1,6 +1,6 @@
 # Especificación de Requisitos — PokeDex Explorer
 
-**Versión:** 1.2.0
+**Versión:** 1.3.0
 **Fecha:** 27/10/2026
 **Última enmienda:** 27/10/2026
 **Fase SDD:** specify
@@ -212,9 +212,10 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **And** la lista resultante está paginada con las mismas reglas que el catálogo general
 
 **Escenario 2 — Filtro por múltiples tipos**
-- **Given** que el usuario selecciona dos o más tipos
+- **Given** que el usuario selecciona dos o más tipos del selector
 - **When** aplica el filtro
-- **Then** la lista muestra únicamente las criaturas que tienen todos los tipos seleccionados simultáneamente [NEEDS CLARIFICATION: ¿la combinación de múltiples tipos es AND (la criatura debe tener todos los tipos seleccionados) u OR (basta con que tenga al menos uno)? El comportamiento AND es más restrictivo y podría devolver listas muy cortas o vacías; OR es más amplio. Se solicita decisión explícita antes de implementar.]
+- **Then** la lista muestra las criaturas que tienen al menos uno de los tipos seleccionados (lógica OR)
+- **And** la lista resultante está paginada con las mismas reglas que el catálogo general
 
 **Escenario 3 — Filtro combinado con búsqueda**
 - **Given** que el usuario tiene activa una búsqueda por nombre o número
@@ -243,12 +244,11 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 
 #### Criterios de aceptación
 
-**Escenario 1 — Ver detalle de habilidad**
+**Escenario 1 — Ver detalle de habilidad con descripción en español**
 - **Given** que el usuario está en la ficha de una criatura y ve la lista de sus habilidades
-- **When** selecciona una habilidad
+- **When** selecciona una habilidad que tiene descripción disponible en español en la PokéAPI
 - **Then** se muestra el nombre y la descripción de esa habilidad en español
 - **And** se muestra un indicador de carga mientras se obtiene el detalle
-- **Note** el comportamiento cuando no existe descripción en español está pendiente de resolución en NC-02
 
 **Escenario 2 — Cerrar el detalle**
 - **Given** que el usuario está viendo el detalle de una habilidad
@@ -265,13 +265,19 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **When** el usuario está esperando el detalle de una habilidad
 - **Then** la aplicación cancela la espera, muestra un mensaje en español y ofrece reintentar
 
+**Escenario 5 — Habilidad sin descripción en español**
+- **Given** que el usuario selecciona una habilidad que no tiene descripción disponible en español en la PokéAPI
+- **When** se muestra el detalle de esa habilidad
+- **Then** se muestra la descripción en inglés (el idioma de respaldo disponible en la PokéAPI)
+- **And** junto a la descripción aparece una nota en español indicando que la descripción no está disponible en español
+
 ---
 
 ### HU-06 — Comparar dos criaturas [P3]
 
 **Como** visitante de la aplicación,
-**quiero** elegir dos criaturas y verlas una al lado de la otra con sus estadísticas base,
-**para** decidir cuál tiene mejores valores en cada estadística.
+**quiero** acceder a una sección dedicada de comparación donde pueda buscar y elegir dos criaturas cualesquiera, y verlas una al lado de la otra con sus estadísticas base,
+**para** decidir cuál tiene mejores valores en cada estadística sin necesidad de abrir ninguna ficha previamente.
 
 #### Criterios de aceptación
 
@@ -308,6 +314,13 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 - **When** la aplicación solicita los datos de ambas criaturas a la PokéAPI
 - **Then** se muestra un indicador de carga mientras se espera la respuesta
 - **And** el indicador desaparece en cuanto los datos están disponibles y la comparación se presenta completa
+
+**Escenario 7 — Acceso mediante sección dedicada**
+- **Given** que el usuario navega a la sección de comparación desde la navegación principal de la aplicación
+- **When** accede a esa sección
+- **Then** se presentan dos selectores independientes, uno para cada criatura, cada uno con un campo de búsqueda por nombre o número que opera sobre el catálogo completo
+- **And** el usuario puede seleccionar cualquier criatura en cualquiera de los dos selectores sin necesidad de haber visitado previamente la ficha de ninguna de ellas
+- **And** la comparación solo se inicia una vez que ambos selectores tienen una criatura elegida
 
 ---
 
@@ -362,7 +375,7 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 
 ### Filtro por Tipo
 
-**RF-014** La aplicación permite seleccionar uno o más tipos para filtrar el catálogo, mostrando solo las criaturas que cumplen el criterio de tipo. [NEEDS CLARIFICATION: ver HU-04, Esc. 2 — se necesita confirmar si la combinación de múltiples tipos aplica lógica AND u OR antes de redactar este RF de forma definitiva.]
+**RF-014** La aplicación permite seleccionar uno o más tipos para filtrar el catálogo. Cuando se selecciona un solo tipo, muestra las criaturas que tienen ese tipo. Cuando se seleccionan dos o más tipos, muestra las criaturas que tienen al menos uno de ellos (lógica OR).
 *Trazabilidad: HU-04, Esc. 1, 2*
 
 **RF-015** El filtro por tipo es combinable con la búsqueda por nombre o número; la lista resultante cumple ambos criterios simultáneamente.
@@ -376,22 +389,25 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 
 ### Habilidades
 
-**RF-018** Desde la ficha de una criatura, el usuario puede consultar el nombre y la descripción de cada una de sus habilidades.
-*Trazabilidad: HU-05, Esc. 1*
+**RF-018** Desde la ficha de una criatura, el usuario puede consultar el nombre y la descripción de cada una de sus habilidades. Si la descripción está disponible en español se muestra en español; si no está disponible en español, se muestra en inglés acompañada de una nota en español que indica que la descripción no está disponible en español.
+*Trazabilidad: HU-05, Esc. 1, 5*
 
 **RF-019** Al cerrar el detalle de una habilidad, el usuario regresa a la ficha de la criatura sin perder los datos ya cargados.
 *Trazabilidad: HU-05, Esc. 2*
 
 ### Comparación
 
-**RF-020** La aplicación permite seleccionar dos criaturas distintas y mostrarlas en paralelo con sus seis estadísticas base, resaltando en cada estadística cuál de las dos tiene el valor mayor.
+**RF-020** La aplicación permite seleccionar dos criaturas distintas y mostrarlas en paralelo con sus seis estadísticas base, indicando en cada estadística cuál de las dos tiene el valor mayor mediante una señal textual o simbólica que no depende únicamente del color.
 *Trazabilidad: HU-06, Esc. 1*
 
-**RF-021** Cuando ambas criaturas tienen el mismo valor en una estadística, esa estadística se presenta de forma que indica empate sin destacar ninguna de las dos.
+**RF-021** Cuando ambas criaturas tienen el mismo valor en una estadística, esa estadística se presenta indicando empate mediante una señal textual o simbólica que no depende únicamente del color, sin destacar ninguna de las dos.
 *Trazabilidad: HU-06, Esc. 2*
 
 **RF-022** Cuando el usuario intenta comparar una criatura consigo misma, la aplicación muestra un mensaje en español y no realiza peticiones adicionales.
 *Trazabilidad: HU-06, Esc. 3*
+
+**RF-029** La comparación se realiza desde una sección dedicada accesible desde la navegación principal de la aplicación. Dicha sección ofrece dos selectores independientes, cada uno con búsqueda por nombre o número sobre el catálogo completo, y la comparación solo se activa cuando ambos selectores tienen una criatura elegida.
+*Trazabilidad: HU-06, Esc. 7*
 
 ### Estados Transversales
 
@@ -409,6 +425,9 @@ Las historias están priorizadas: **P1** es indispensable para el lanzamiento, *
 
 **RF-027** La búsqueda por nombre o número se aplica sobre el catálogo completo disponible en la PokéAPI; cuando los resultados superan el tamaño de página, se presentan paginados con los mismos controles de navegación que el catálogo general.
 *Trazabilidad: HU-02, Esc. 10*
+
+**RF-028** El selector de tipos informa al usuario que cada criatura puede tener como máximo dos tipos, de manera que seleccionar más de dos tipos con lógica OR puede producir solapamientos; esta información se presenta como orientación, sin impedir la selección de más de dos tipos.
+*Trazabilidad: HU-04, Esc. 2*
 
 ---
 
@@ -449,33 +468,13 @@ Los siguientes criterios son medibles y no mencionan tecnología. Se verifican d
 
 ## 9. Puntos que Requieren Clarificación
 
-Los siguientes puntos son genuinamente ambiguos y deben resolverse en la fase `clarify` antes de que RF-014 pueda considerarse completo y antes de iniciar `plan`:
+Todas las aclaraciones pendientes han sido resueltas en la fase `clarify` del 27/10/2026 y sus decisiones han sido incorporadas a los requisitos y escenarios de este documento. No quedan puntos abiertos para la fase `plan`.
 
-### [NEEDS CLARIFICATION — NC-01]
-**Lógica de combinación de múltiples tipos (HU-04, Esc. 2 / RF-014)**
-¿Cuando el usuario selecciona más de un tipo, la lista muestra criaturas que tienen **todos** los tipos seleccionados (AND) o criaturas que tienen **al menos uno** de los tipos seleccionados (OR)?
-— AND produce resultados más precisos pero listas potencialmente muy cortas o vacías.
-— OR produce listas más amplias pero puede incluir criaturas no relevantes para el usuario.
-La respuesta modifica el enunciado de RF-014 y su escenario GWT de referencia.
-
-### [NEEDS CLARIFICATION — NC-02]
-**Idioma del detalle de habilidades (HU-05, Esc. 1)**
-La PokéAPI ofrece las descripciones de habilidades en varios idiomas; la disponibilidad de la descripción en español varía por habilidad y por generación de juego.
-¿Cuál es el comportamiento esperado cuando no existe una descripción en español?
-— Opción A: mostrar la descripción en inglés con una nota indicando que no hay traducción al español.
-— Opción B: mostrar solo la descripción en español y, si no existe, mostrar un mensaje de "descripción no disponible".
-— Opción C: mostrar la descripción del idioma más próximo disponible sin indicación adicional.
-La respuesta afecta a RF-018 y a los escenarios GWT de HU-05.
-
-### [NEEDS CLARIFICATION — NC-03]
-**Punto de entrada a la comparación (HU-06)**
-¿Cómo selecciona el usuario las dos criaturas para comparar?
-— Opción A: desde la ficha de cualquier criatura hay un botón "comparar con otra", que lleva a un selector de segunda criatura.
-— Opción B: existe una sección dedicada de comparación donde el usuario busca y selecciona las dos criaturas desde cero.
-— Opción C: el usuario puede marcar criaturas en el catálogo (máximo dos) y luego comparar.
-La respuesta determina el flujo de navegación de HU-06 y afecta a las historias HU-01 y HU-03.
-
----
+| NC | Decisión tomada | Incorporada en |
+|----|-----------------|----------------|
+| NC-01 — Lógica AND/OR al filtrar por tipos | **OR**: se muestran las criaturas que tienen al menos uno de los tipos seleccionados | HU-04 Esc. 2, RF-014, RF-028 |
+| NC-02 — Descripción de habilidad sin traducción al español | **Inglés + nota**: se muestra la descripción en inglés con nota en español indicando la ausencia de traducción | HU-05 Esc. 1, Esc. 5, RF-018 |
+| NC-03 — Punto de entrada a la comparación | **Sección dedicada**: sección accesible desde la navegación principal con dos selectores independientes | HU-06 Esc. 7, RF-029 |
 
 ## 10. Trazabilidad Resumen
 
@@ -484,13 +483,13 @@ La respuesta determina el flujo de navegación de HU-06 y afecta a las historias
 | HU-01    | RF-001, RF-002, RF-003, RF-023, RF-024, RF-025, RF-026 | CL-05, CL-09 | CE-01, CE-02, CE-04, CE-06, CE-07 |
 | HU-02    | RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-027 | CL-01, CL-02, CL-03, CL-04, CL-08 | CE-02, CE-04, CE-06 |
 | HU-03    | RF-003, RF-012, RF-013, RF-023, RF-024, RF-025 | CL-05 | CE-01, CE-02, CE-04, CE-07 |
-| HU-04    | RF-014, RF-015, RF-016, RF-017 | CL-06 | CE-02, CE-04, CE-05, CE-06 |
+| HU-04    | RF-014, RF-015, RF-016, RF-017, RF-028 | CL-06 | CE-02, CE-04, CE-05, CE-06 |
 | HU-05    | RF-018, RF-019, RF-023, RF-024, RF-025 | — | CE-03, CE-04, CE-05, CE-07 |
-| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025 | CL-10 | CE-02, CE-04, CE-06, CE-07 |
+| HU-06    | RF-020, RF-021, RF-022, RF-023, RF-024, RF-025, RF-029 | CL-10 | CE-02, CE-04, CE-06, CE-07 |
 
 ---
 
-*Documento pendiente de revisión humana (principio S-04). Una vez aprobado, la siguiente fase es `clarify` para resolver NC-01, NC-02 y NC-03.*
+*Documento pendiente de revisión humana (principio S-04). Las aclaraciones NC-01, NC-02 y NC-03 han sido resueltas. Una vez aprobado, la siguiente fase es `plan`.*
 
 ---
 
@@ -510,6 +509,24 @@ La respuesta determina el flujo de navegación de HU-06 y afecta a las historias
 | 8 | CE-03 (v1.0.0) | Eliminación | Se elimina el criterio de cobertura de pruebas ≥ 80 % porque ya está cubierto por el principio P-02 de la constitución v1.1.0; duplicarlo aquí generaba redundancia y posible inconsistencia. |
 | 9 | CE-04..CE-08 (v1.0.0) | Renumeración | Al eliminar CE-03, los criterios CE-04 a CE-08 pasan a ser CE-03 a CE-07. Todas las referencias en la tabla de trazabilidad se actualizan. |
 | 10 | Encabezado | Actualización | Versión actualizada a 1.1.0 y añadido el campo "Última enmienda: 27/10/2026". |
+
+### v1.3.0 — 27/10/2026
+
+| # | Elemento | Tipo | Descripción |
+|---|----------|------|-------------|
+| 1 | HU-04 Esc. 2 | Resolución NC-01 | Lógica de combinación de tipos definida como OR: se muestran las criaturas que tienen al menos uno de los tipos seleccionados. Se elimina la marca `[NEEDS CLARIFICATION — NC-01]`. |
+| 2 | RF-014 | Resolución NC-01 | Reescrito para declarar explícitamente la lógica OR en la combinación de múltiples tipos. |
+| 3 | RF-028 (nuevo) | Resolución NC-01 | El selector informa al usuario que cada criatura tiene máximo dos tipos, sin impedir seleccionar más de dos. |
+| 4 | HU-05 Esc. 1 | Resolución NC-02 | Ajustado para el caso en que la descripción sí existe en español (escenario de éxito principal). |
+| 5 | HU-05 Esc. 5 (nuevo) | Resolución NC-02 | Escenario GWT para cuando no existe descripción en español: se muestra en inglés con nota en español. Se elimina la marca `[NEEDS CLARIFICATION — NC-02]`. |
+| 6 | RF-018 | Resolución NC-02 | Reescrito para cubrir ambos casos: descripción en español disponible, y descripción en inglés con nota cuando no lo está. |
+| 7 | HU-06 enunciado | Resolución NC-03 | Actualizado para reflejar que la comparación parte de una sección dedicada accesible desde la navegación principal. |
+| 8 | HU-06 Esc. 7 (nuevo) | Resolución NC-03 | Escenario GWT para el acceso mediante sección dedicada con dos selectores independientes. Se elimina la marca `[NEEDS CLARIFICATION — NC-03]`. |
+| 9 | RF-020 | Resolución NC-03 | Actualizado para alinear terminología con los escenarios revisados de HU-06. |
+| 10 | RF-029 (nuevo) | Resolución NC-03 | Describe la sección dedicada de comparación: acceso desde navegación principal, dos selectores con búsqueda sobre catálogo completo, comparación activa solo cuando ambos tienen selección. |
+| 11 | Sección 9 | Actualización | Reemplazada por tabla resumen de decisiones tomadas en `clarify`; ya no contiene marcas `[NEEDS CLARIFICATION]`. |
+| 12 | Tabla de trazabilidad | Actualización | RF-028 añadido a HU-04; RF-029 añadido a HU-06. |
+| 13 | Pie del documento | Actualización | Refleja que las 3 aclaraciones están resueltas y la siguiente fase es `plan`. |
 
 ### v1.2.0 — 27/10/2026
 
