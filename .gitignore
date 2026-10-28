@@ -1,22 +1,9 @@
-﻿# Dependencias
 node_modules/
-
-# Builds y compilación
 dist/
-dist-ssr/
-
-# Archivos de cobertura de pruebas
 coverage/
-.nyc_output/
-
-# Logs de npm o errores
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Entorno y sistema operativo
+*.log
 .env
-.env.local
+.env.*
+!.env.example
 .DS_Store
 Thumbs.db

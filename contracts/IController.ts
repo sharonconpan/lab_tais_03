@@ -1,5 +1,4 @@
 import type { AsyncState } from '../src/domain/types';
-
 /**
  * Contrato base de los controladores de aplicación.
  * Cada controlador gestiona un estado AsyncState y notifica a los
