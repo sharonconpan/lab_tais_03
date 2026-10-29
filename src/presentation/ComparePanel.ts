@@ -96,7 +96,7 @@ export class ComparePanel implements IComponent<ComparePanelProps> {
   private _buildSlotColumn(
     slot: 'A' | 'B',
     pokemon: PokemonDetail | null,
-    result: CompareResult | null
+    _result: CompareResult | null
   ): HTMLElement {
     const col = document.createElement('div');
     col.className = `compare-panel__slot compare-panel__slot--${slot.toLowerCase()}`;
@@ -177,7 +177,6 @@ export class ComparePanel implements IComponent<ComparePanelProps> {
     const tbody = document.createElement('tbody');
 
     // Indexar stats por nombre para acceso rápido
-    const mapA = new Map<BaseStat['name'], BaseStat>(slotA.stats.map((s) => [s.name, s]));
     const mapB = new Map<BaseStat['name'], BaseStat>(slotB.stats.map((s) => [s.name, s]));
 
     // Iterar en el orden canónico de slotA

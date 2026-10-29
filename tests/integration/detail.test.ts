@@ -9,7 +9,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   MockPokeApiClient,
   FIXTURE_PIKACHU,
-  FIXTURE_NO_IMAGE,
 } from '../mocks/MockPokeApiClient';
 import { DetailController }  from '../../src/application/DetailController';
 import { DetailView }        from '../../src/presentation/DetailView';

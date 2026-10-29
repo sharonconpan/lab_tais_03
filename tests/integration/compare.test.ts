@@ -21,7 +21,7 @@ import { CompareController } from '../../src/application/CompareController';
 import { ComparePanel }      from '../../src/presentation/ComparePanel';
 import { LoadingIndicator }  from '../../src/presentation/LoadingIndicator';
 import { ErrorMessage }      from '../../src/presentation/ErrorMessage';
-import type { AsyncState, CompareResult } from '../../src/domain/types';
+import type { CompareResult } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
 // Helpers                                                              //
@@ -31,11 +31,6 @@ function queryText(container: HTMLElement, text: string): boolean {
 }
 function getByRole(container: HTMLElement, role: string): HTMLElement | null {
   return container.querySelector(`[role="${role}"]`);
-}
-function getAllByText(container: HTMLElement, text: string): HTMLElement[] {
-  return Array.from(container.querySelectorAll('*')).filter(
-    (el) => el.textContent?.trim() === text
-  ) as HTMLElement[];
 }
 
 // ------------------------------------------------------------------ //
@@ -316,9 +311,6 @@ describe('HU-06 — Comparación: Escenario 2 — Estadística empatada', () => 
     // Usamos dos instancias de pikachu con mismos stats
     const ctrl = new CompareController(mockApi);
     await ctrl.selectA(25);
-    // Usamos un segundo mock API que devuelve pikachu también para B
-    const mockApi2 = new MockPokeApiClient();
-    const ctrl2 = new CompareController(mockApi2);
 
     // Verificar compareStats directamente
     const { compareStats } = await import('../../src/application/compareStats');

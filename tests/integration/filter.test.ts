@@ -20,7 +20,7 @@ import {
 import { FilterController }  from '../../src/application/FilterController';
 import { TypeFilter }        from '../../src/presentation/TypeFilter';
 import { PokemonList }       from '../../src/presentation/PokemonList';
-import type { AsyncState, PokemonEntry, PokemonType } from '../../src/domain/types';
+import type { PokemonEntry, PokemonType } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
 // Helpers                                                              //
@@ -29,23 +29,6 @@ function queryText(container: HTMLElement, text: string): boolean {
   return container.textContent?.includes(text) ?? false;
 }
 
-function waitForSuccess(
-  ctrl: FilterController
-): Promise<{ status: 'success'; data: PokemonEntry[] }> {
-  return new Promise((resolve) => {
-    const unsub = ctrl.subscribe((s) => {
-      if (s.status === 'success') {
-        unsub();
-        resolve(s as { status: 'success'; data: PokemonEntry[] });
-      }
-    });
-    // Si ya está en success, resolver inmediatamente
-    if (ctrl.state.status === 'success') {
-      unsub();
-      resolve(ctrl.state as { status: 'success'; data: PokemonEntry[] });
-    }
-  });
-}
 
 // ------------------------------------------------------------------ //
 // Setup                                                                //
