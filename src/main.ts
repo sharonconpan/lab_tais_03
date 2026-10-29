@@ -1,20 +1,23 @@
 /**
- * HU01-08 / HU02-06 / HU03-04 / HU04-05 / HU05-04 — Punto de entrada
+ * HU01-08 / HU02-06 / HU03-04 / HU04-05 / HU05-04 / HU06-05 — Punto de entrada
  * RF-001..RF-003, RF-023..RF-026 (HU-01)
  * RF-004..RF-011, RF-027 (HU-02)
  * RF-012, RF-013 (HU-03)
  * RF-014..RF-017, RF-028 (HU-04)
  * RF-018, RF-019 (HU-05)
+ * RF-020, RF-021, RF-022, RF-029 (HU-06)
  *
  * Modos de la interfaz:
- *   'catalog' — CatalogController + SearchController + TypeFilter visibles
- *   'detail'  — DetailView visible, catálogo oculto (HU-03)
- *   'ability' — AbilityDetail superpuesto sobre DetailView (HU-05);
- *               DetailView permanece en el DOM con sus datos intactos
+ *   'catalog'  — CatalogController + SearchController + TypeFilter visibles
+ *   'detail'   — DetailView visible, catálogo oculto (HU-03)
+ *   'ability'  — AbilityDetail superpuesto sobre DetailView (HU-05);
+ *                DetailView permanece en el DOM con sus datos intactos
+ *   'compare'  — ComparePanel visible, catálogo oculto (HU-06)
  */
 import './styles/catalog.css';
 import './styles/detail.css';
 import './styles/filter.css';
+import './styles/compare.css';
 
 import { PokeApiClient }        from './services/PokeApiClient';
 import { CatalogController }    from './application/CatalogController';
@@ -22,6 +25,7 @@ import { SearchController }     from './application/SearchController';
 import { DetailController }     from './application/DetailController';
 import { FilterController }     from './application/FilterController';
 import { AbilityController }    from './application/AbilityController';
+import { CompareController }    from './application/CompareController';
 import { LoadingIndicator }     from './presentation/LoadingIndicator';
 import { ErrorMessage }         from './presentation/ErrorMessage';
 import { PokemonList }          from './presentation/PokemonList';
@@ -30,10 +34,12 @@ import { SearchBar }            from './presentation/SearchBar';
 import { TypeFilter }           from './presentation/TypeFilter';
 import { DetailView }           from './presentation/DetailView';
 import { AbilityDetail }        from './presentation/AbilityDetail';
+import { ComparePanel }         from './presentation/ComparePanel';
 import type {
   AsyncState,
   AbilityDetail as AbilityDetailType,
   CatalogContext,
+  CompareResult,
   PokemonDetail,
   PokemonEntry,
   PokemonType,
@@ -48,6 +54,7 @@ const searchCtrl    = new SearchController(api);
 const filterCtrl    = new FilterController(api);
 const detailCtrl    = new DetailController(api);
 const abilityCtrl   = new AbilityController(api);
+const compareCtrl   = new CompareController(api);
 
 // ------------------------------------------------------------------ //
 // Estado de la UI                                                      //
@@ -125,8 +132,125 @@ abilityWrapper.appendChild(abilityErrorEl.element);
 
 detailWrapper.appendChild(abilityWrapper);
 
+// ── Navegación principal ─────────────────────────────────────────
+const navBar = document.createElement('nav');
+navBar.className = 'main-nav';
+navBar.setAttribute('aria-label', 'Navegación principal');
+
+const compareNavBtn = document.createElement('button');
+compareNavBtn.type = 'button';
+compareNavBtn.className = 'main-nav__compare-btn';
+compareNavBtn.textContent = '⚔ Comparar';
+compareNavBtn.setAttribute('aria-label', 'Ir a comparación de criaturas');
+compareNavBtn.addEventListener('click', () => showCompare());
+navBar.appendChild(compareNavBtn);
+
+const catalogNavBtn = document.createElement('button');
+catalogNavBtn.type = 'button';
+catalogNavBtn.className = 'main-nav__catalog-btn';
+catalogNavBtn.textContent = '📋 Catálogo';
+catalogNavBtn.setAttribute('aria-label', 'Volver al catálogo');
+catalogNavBtn.style.display = 'none';
+catalogNavBtn.addEventListener('click', () => showCatalog({ searchTerm: '', selectedTypes: [], page: 1 }));
+navBar.appendChild(catalogNavBtn);
+
+header.appendChild(navBar);
+
+// ── Vista comparación (HU-06) ─────────────────────────────────────
+const compareWrapper = document.createElement('div');
+compareWrapper.className = 'compare-wrapper';
+compareWrapper.setAttribute('hidden', '');
+
+const compareLoadingEl = new LoadingIndicator({ visible: false });
+const compareErrorEl   = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
+compareErrorEl.element.style.display = 'none';
+
+// SearchBars para cada slot (RF-029)
+const compareSearchA = new SearchBar({
+  onSearch: (term) => compareCtrl.selectA(term),
+  onClear:  ()     => {},
+});
+const compareSearchB = new SearchBar({
+  onSearch: (term) => compareCtrl.selectB(term),
+  onClear:  ()     => {},
+});
+
+let comparePanelEl: ComparePanel | null = null;
+
+compareWrapper.appendChild(compareLoadingEl.element);
+compareWrapper.appendChild(compareErrorEl.element);
+
 app.appendChild(catalogWrapper);
 app.appendChild(detailWrapper);
+app.appendChild(compareWrapper);
+
+// ------------------------------------------------------------------ //
+// Suscripción a la comparación (HU-06)                               //
+// ------------------------------------------------------------------ //
+compareCtrl.subscribe((state: AsyncState<CompareResult>) => {
+  switch (state.status) {
+    case 'loading':
+      compareLoadingEl.update({ visible: true });
+      compareErrorEl.element.style.display = 'none';
+      break;
+    case 'success': {
+      compareLoadingEl.update({ visible: false });
+      compareErrorEl.element.style.display = 'none';
+      const sA = compareCtrl.stateA as { status: 'success'; data: PokemonDetail };
+      const sB = compareCtrl.stateB as { status: 'success'; data: PokemonDetail };
+      const props = {
+        result: state.data,
+        slotA:  sA.status === 'success' ? sA.data : null,
+        slotB:  sB.status === 'success' ? sB.data : null,
+        onSelectA: () => {},
+        onSelectB: () => {},
+      };
+      if (comparePanelEl) {
+        comparePanelEl.update(props);
+      } else {
+        comparePanelEl = new ComparePanel(props);
+        compareWrapper.appendChild(comparePanelEl.element);
+      }
+      break;
+    }
+    case 'error':
+      compareLoadingEl.update({ visible: false });
+      compareErrorEl.update({
+        message:   state.message,
+        retryable: state.retryable,
+        onRetry:   () => {},
+      });
+      compareErrorEl.element.style.display = '';
+      // Actualizar panel con datos parciales si existen
+      _refreshComparePanel();
+      break;
+    case 'idle':
+      compareLoadingEl.update({ visible: false });
+      _refreshComparePanel();
+      break;
+  }
+});
+
+function _refreshComparePanel(): void {
+  const sA = compareCtrl.stateA;
+  const sB = compareCtrl.stateB;
+  const slotA = sA.status === 'success' ? sA.data : null;
+  const slotB = sB.status === 'success' ? sB.data : null;
+  const result = compareCtrl.state.status === 'success' ? (compareCtrl.state as { status: 'success'; data: CompareResult }).data : null;
+  const props = {
+    result,
+    slotA,
+    slotB,
+    onSelectA: () => {},
+    onSelectB: () => {},
+  };
+  if (comparePanelEl) {
+    comparePanelEl.update(props);
+  } else {
+    comparePanelEl = new ComparePanel(props);
+    compareWrapper.appendChild(comparePanelEl.element);
+  }
+}
 
 // ------------------------------------------------------------------ //
 // Helpers de paginación                                               //
@@ -321,6 +445,9 @@ async function showDetail(id: number): Promise<void> {
     page:          activeListCtrl().pagination.page,
   };
   catalogWrapper.setAttribute('hidden', '');
+  compareWrapper.setAttribute('hidden', '');
+  compareNavBtn.style.display = '';
+  catalogNavBtn.style.display = 'none';
   detailWrapper.removeAttribute('hidden');
   await detailCtrl.load(id, ctx);
 }
@@ -328,10 +455,54 @@ async function showDetail(id: number): Promise<void> {
 /** Vuelve al catálogo restaurando el contexto (HU-03) */
 function showCatalog(_ctx: CatalogContext): void {
   detailWrapper.setAttribute('hidden', '');
+  compareWrapper.setAttribute('hidden', '');
+  compareNavBtn.style.display = '';
+  catalogNavBtn.style.display = 'none';
   catalogWrapper.removeAttribute('hidden');
   if (filterActive)      renderListState(filterCtrl.state);
   else if (searchActive) renderListState(searchCtrl.state);
   else                   renderListState(catalogCtrl.state);
+}
+
+/** Muestra la sección de comparación (HU-06, RF-029) */
+function showCompare(): void {
+  catalogWrapper.setAttribute('hidden', '');
+  detailWrapper.setAttribute('hidden', '');
+  compareWrapper.removeAttribute('hidden');
+  compareNavBtn.style.display = 'none';
+  catalogNavBtn.style.display = '';
+
+  // Inicializar el panel si aún no existe
+  if (!comparePanelEl) {
+    comparePanelEl = new ComparePanel({
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
+    });
+    compareWrapper.appendChild(comparePanelEl.element);
+  }
+
+  // Añadir search bars para los slots si no están aún
+  if (!compareWrapper.contains(compareSearchA.element)) {
+    const searchAreaA = document.createElement('div');
+    searchAreaA.className = 'compare-wrapper__search compare-wrapper__search--a';
+    const labelA = document.createElement('p');
+    labelA.textContent = 'Criatura A — Buscar por nombre o número:';
+    searchAreaA.appendChild(labelA);
+    searchAreaA.appendChild(compareSearchA.element);
+
+    const searchAreaB = document.createElement('div');
+    searchAreaB.className = 'compare-wrapper__search compare-wrapper__search--b';
+    const labelB = document.createElement('p');
+    labelB.textContent = 'Criatura B — Buscar por nombre o número:';
+    searchAreaB.appendChild(labelB);
+    searchAreaB.appendChild(compareSearchB.element);
+
+    compareWrapper.insertBefore(searchAreaA, compareWrapper.firstChild);
+    compareWrapper.insertBefore(searchAreaB, compareWrapper.children[1]);
+  }
 }
 
 /**

@@ -306,31 +306,31 @@ Con el MVP desplegado el usuario puede explorar el catálogo completo, navegar e
 
 > Prerrequisito: BASE-05. Independiente de HU-03..HU-05.
 
-### HU06-01 — Prueba de integración: comparación
+### HU06-01 — Prueba de integración: comparación [X]
 
 **Archivo:** `tests/integration/compare.test.ts`
 **RF:** RF-020, RF-021, RF-022, RF-023, RF-024, RF-025, RF-029
 **Qué hace:** pruebas (TDD); verificar: acceso desde navegación principal muestra dos selectores; estadística mayor identificada con señal textual/simbólica; empate identificado con señal de empate; misma criatura en ambos slots muestra mensaje en español y no hace petición; error en una criatura muestra mensaje identificando cuál; timeout muestra mensaje; indicador de carga mientras se cargan ambas criaturas.
 
-### HU06-02 — Lógica de comparación de stats [P]
+### HU06-02 — Lógica de comparación de stats [X] [P]
 
 **Archivo:** `src/application/compareStats.ts`, `tests/unit/compareStats.test.ts`
 **RF:** RF-020, RF-021
 **Qué hace:** función pura `compareStats(a: PokemonDetail, b: PokemonDetail): Record<BaseStat['name'], StatComparison>`; para cada stat: si `a > b` → `'A'`, si `b > a` → `'B'`, si igual → `'tie'`; prueba con fast-check: si todos los stats de A son mayores → todos son `'A'`; simetría: `compareStats(a, b)` es el inverso de `compareStats(b, a)` para valores no empatados; empate verificado con criatura consigo misma.
 
-### HU06-03 — Componente `ComparePanel` [P]
+### HU06-03 — Componente `ComparePanel` [X] [P]
 
 **Archivo:** `src/presentation/ComparePanel.ts`, `tests/unit/ComparePanel.test.ts`
 **RF:** RF-020, RF-021, RF-029
 **Qué hace:** acepta `{ result: CompareResult | null; slotA: PokemonDetail | null; slotB: PokemonDetail | null; onSelectA: ...; onSelectB: ... }`; dos columnas con `PokemonCard` y stats; por cada stat donde `statResults[name] === 'A'`: muestra etiqueta textual "▲" o "Mayor" junto al valor de A; `=== 'B'`: junto al valor de B; `=== 'tie'`: muestra "=" o "Empate" sin destacar ninguna; la señal NO depende solo del color (RF-020, RF-021); prueba verifica etiquetas textuales para cada caso y que el estado sin selección muestra selectores vacíos.
 
-### HU06-04 — Controlador `CompareController`
+### HU06-04 — Controlador `CompareController` [X]
 
 **Archivo:** `src/application/CompareController.ts`, `tests/unit/CompareController.test.ts`
 **RF:** RF-020, RF-021, RF-022, RF-023, RF-024, RF-025, RF-029
 **Qué hace:** gestiona dos slots; `selectA(idOrName)` y `selectB(idOrName)` cargan con `getPokemonDetail`; antes de comparar valida que `slotA.id !== slotB.id` (RF-022); cuando ambos están listos calcula `compareStats`; estado `error` diferencia qué slot falló (RF-024 de HU-06 Esc. 4); indicador de carga mientras cualquier slot está en `loading` (RF-023 / HU-06 Esc. 6); prueba cubre todos los escenarios.
 
-### HU06-05 — Conectar comparación en `main.ts` y navegación
+### HU06-05 — Conectar comparación en `main.ts` y navegación [X]
 
 **Archivo:** `src/main.ts`, `src/styles/compare.css`
 **RF:** RF-029, RF-020, RF-021, RF-022, RF-023, RF-024, RF-025

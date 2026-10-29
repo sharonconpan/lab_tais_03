@@ -1,0 +1,207 @@
+/**
+ * HU06-05 — Estilos de la sección de comparación
+ * RF-026: responsivo desde 320 px de ancho (min-width: 320px)
+ * RF-020, RF-021: señales textuales/simbólicas visibles con buen contraste
+ */
+
+/* ── Navegación principal ──────────────────────────────────────── */
+.main-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.main-nav button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  background: #2d3748;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.main-nav button:hover,
+.main-nav button:focus-visible {
+  background: #4a5568;
+  outline: 2px solid #63b3ed;
+  outline-offset: 2px;
+}
+
+/* ── Wrapper de la sección comparación ────────────────────────── */
+.compare-wrapper {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.compare-wrapper__search {
+  margin-bottom: 0.75rem;
+}
+
+.compare-wrapper__search p {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+/* ── Panel principal ───────────────────────────────────────────── */
+.compare-panel {
+  width: 100%;
+}
+
+.compare-panel__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1a202c;
+}
+
+/* ── Grid de dos columnas ──────────────────────────────────────── */
+.compare-panel__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Una columna en pantallas muy estrechas (< 480 px) */
+@media (max-width: 480px) {
+  .compare-panel__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Slot ──────────────────────────────────────────────────────── */
+.compare-panel__slot {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #f7fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0; /* evitar overflow en grid */
+}
+
+.compare-panel__select-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  background: #edf2f7;
+  color: #2d3748;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.compare-panel__select-btn:hover,
+.compare-panel__select-btn:focus-visible {
+  background: #e2e8f0;
+  outline: 2px solid #63b3ed;
+  outline-offset: 2px;
+}
+
+.compare-panel__img img,
+.compare-panel__img svg {
+  width: 96px;
+  height: 96px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.compare-panel__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a202c;
+  text-align: center;
+  margin: 0;
+}
+
+.compare-panel__empty {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Tabla de estadísticas comparadas ─────────────────────────── */
+.compare-panel__stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block; /* permite scroll horizontal en móvil */
+}
+
+@media (min-width: 480px) {
+  .compare-panel__stats-table {
+    display: table;
+  }
+}
+
+.compare-panel__stats-table th,
+.compare-panel__stats-table td {
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.compare-panel__stat-label {
+  font-weight: 600;
+  color: #4a5568;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.compare-panel__stat-row:nth-child(odd) {
+  background: #f7fafc;
+}
+
+/* ── Marcadores de ganador / empate ───────────────────────────── */
+
+/* Ganador en A — se muestra a la izquierda del valor A */
+.stat-winner--a {
+  color: #2b6cb0;     /* azul — contraste sobre fondo claro */
+  font-weight: 700;
+  font-size: 1rem;
+  margin-right: 0.2rem;
+}
+
+/* Ganador en B — se muestra a la derecha del valor B */
+.stat-winner--b {
+  color: #c05621;     /* naranja/marrón — contraste sobre fondo claro */
+  font-weight: 700;
+  font-size: 1rem;
+  margin-left: 0.2rem;
+}
+
+/* Empate — aparece centrado, sin destacar ninguna columna */
+.stat-tie {
+  color: #718096;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ── Valores numéricos ────────────────────────────────────────── */
+.compare-panel__val--a {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.compare-panel__val--b {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+/* ── Estados transversales ────────────────────────────────────── */
+
+/* El compare-wrapper usa los mismos loading/error que el resto */
+.compare-wrapper [role="status"],
+.compare-wrapper [role="alert"] {
+  margin: 1rem 0;
+}
