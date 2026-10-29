@@ -43,6 +43,11 @@ export class SearchBar {
     if (props.onClear !== undefined)  this._onClear  = props.onClear;
   }
 
+  /** Devuelve el término actual del campo de texto (sin recortar) */
+  getCurrentTerm(): string {
+    return this._input.value;
+  }
+
   /** Limpia el campo y oculta la validación */
   reset(): void {
     this._input.value = '';

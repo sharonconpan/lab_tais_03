@@ -1,0 +1,236 @@
+/**
+ * HU03-04 — Estilos de la ficha de criatura (DetailView)
+ * RF-026: interfaz usable desde 320 px de ancho sin desplazamiento horizontal.
+ * RF-012: imagen, número, nombre, tipos, altura, peso, habilidades, 6 stats.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Contenedor principal de la ficha                                     */
+/* ------------------------------------------------------------------ */
+.detail-view {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius, 0.5rem);
+  box-shadow: var(--shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Botón Volver                                                         */
+/* ------------------------------------------------------------------ */
+.detail-view__back {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius, 0.5rem);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--color-text, #1e293b);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.detail-view__back:hover {
+  background: var(--color-bg, #f8fafc);
+  border-color: var(--color-primary, #3b82f6);
+  color: var(--color-primary, #3b82f6);
+}
+
+/* ------------------------------------------------------------------ */
+/* Cabecera: imagen + identidad                                         */
+/* ------------------------------------------------------------------ */
+.detail-view__header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;       /* En móvil muy estrecho (320 px) apila verticalmente */
+}
+
+.detail-view__img {
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-placeholder-bg, #e2e8f0);
+  border-radius: var(--radius, 0.5rem);
+  overflow: hidden;
+}
+
+.detail-view__img img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.detail-view__identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-view__number {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.detail-view__name {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 700;
+  color: var(--color-text, #1e293b);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Secciones de información                                             */
+/* ------------------------------------------------------------------ */
+.detail-view__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-view__section h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted, #64748b);
+  margin: 0;
+}
+
+/* Sección horizontal (altura + peso) */
+.detail-view__section--phys {
+  flex-direction: row;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.detail-view__section--phys dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.detail-view__section--phys dt {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-view__section--phys dd {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #1e293b);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tipos                                                                */
+/* ------------------------------------------------------------------ */
+.detail-view__types {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-view__type {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  background: var(--color-border, #e2e8f0);
+  color: var(--color-text, #1e293b);
+}
+
+/* Colores por tipo */
+.detail-view__type--fire     { background: #fde68a; color: #78350f; }
+.detail-view__type--water    { background: #bae6fd; color: #0c4a6e; }
+.detail-view__type--electric { background: #fef08a; color: #713f12; }
+.detail-view__type--grass    { background: #bbf7d0; color: #14532d; }
+.detail-view__type--ice      { background: #cffafe; color: #164e63; }
+.detail-view__type--fighting { background: #fecaca; color: #7f1d1d; }
+.detail-view__type--poison   { background: #e9d5ff; color: #4c1d95; }
+.detail-view__type--ground   { background: #fed7aa; color: #7c2d12; }
+.detail-view__type--flying   { background: #ddd6fe; color: #2e1065; }
+.detail-view__type--psychic  { background: #fbcfe8; color: #831843; }
+.detail-view__type--bug      { background: #d9f99d; color: #365314; }
+.detail-view__type--rock     { background: #d6d3d1; color: #292524; }
+.detail-view__type--ghost    { background: #c4b5fd; color: #2e1065; }
+.detail-view__type--dragon   { background: #a5b4fc; color: #1e1b4b; }
+.detail-view__type--dark     { background: #a8a29e; color: #1c1917; }
+.detail-view__type--steel    { background: #cbd5e1; color: #1e293b; }
+.detail-view__type--fairy    { background: #fce7f3; color: #831843; }
+.detail-view__type--normal   { background: #e5e7eb; color: #1f2937; }
+
+/* ------------------------------------------------------------------ */
+/* Habilidades                                                          */
+/* ------------------------------------------------------------------ */
+.detail-view__abilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-view__ability {
+  background: var(--color-bg, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius, 0.5rem);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.875rem;
+  color: var(--color-text, #1e293b);
+  text-transform: capitalize;
+}
+
+/* ------------------------------------------------------------------ */
+/* Estadísticas base                                                    */
+/* ------------------------------------------------------------------ */
+.detail-view__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* etiqueta | valor */
+  gap: 0.375rem 0.75rem;
+  margin: 0;
+}
+
+/* En pantallas muy estrechas (< 400 px) una sola columna */
+@media (max-width: 399px) {
+  .detail-view__stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-view__stats dt {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #64748b);
+  align-self: center;
+}
+
+.detail-view__stats dd {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text, #1e293b);
+  align-self: center;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Estado oculto de la ficha                                           */
+/* (main.ts alterna display none/block)                                */
+/* ------------------------------------------------------------------ */
+.detail-wrapper[hidden] {
+  display: none !important;
+}
