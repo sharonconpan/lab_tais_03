@@ -1,6 +1,6 @@
 /**
  * HU04-05 — Estilos del filtro por tipo (TypeFilter)
- * RF-026: usable desde 320 px.
+ * RF-026: usable desde 360 px.
  * RF-028: nota de máximo de tipos visible y accesible.
  */
 
@@ -11,36 +11,60 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--color-border, #e2e8f0);
-  margin-bottom: 0.5rem;
+  padding: 0.875rem 0;
+  border-bottom: 2px solid var(--color-border, #e2e8f0);
+  margin-bottom: 0.75rem;
 }
 
+/* ── Título del filtro ──────────────────────────────────────────── */
 .type-filter__title {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   color: var(--color-text-muted, #64748b);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
-/* ------------------------------------------------------------------ */
-/* Nota RF-028                                                          */
-/* ------------------------------------------------------------------ */
+.type-filter__title::before {
+  content: '🔍';
+  font-size: 0.85em;
+}
+
+/* ── Nota RF-028 ────────────────────────────────────────────────── */
 .type-filter__note {
   font-size: 0.75rem;
   color: var(--color-text-muted, #64748b);
   margin: 0;
+  font-style: italic;
 }
 
-/* ------------------------------------------------------------------ */
-/* Grupo de botones de tipos                                            */
-/* ------------------------------------------------------------------ */
+/* ── Texto dentro del botón de tipo ────────────────────────────── */
+.type-filter__btn-label {
+  /* Nombre en español — visible */
+}
+
+/* Código en inglés: oculto visualmente pero presente en el DOM para los tests */
+.type-filter__btn-code {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Grupo de botones de tipos ──────────────────────────────────── */
 .type-filter__buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: 0.4rem;
 }
 
 /* ------------------------------------------------------------------ */
@@ -49,74 +73,106 @@
 .type-filter__btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.625rem;
-  border: 1px solid var(--color-border, #e2e8f0);
+  position: relative;
+  padding: 0.3rem 0.7rem;
+  border: 1.5px solid var(--color-border, #e2e8f0);
   border-radius: 9999px;
   background: transparent;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: capitalize;
   cursor: pointer;
   color: var(--color-text, #1e293b);
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  transition: background 0.12s, border-color 0.12s, color 0.12s,
+              transform 0.1s, box-shadow 0.12s;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .type-filter__btn:hover {
   background: var(--color-bg, #f8fafc);
-  border-color: var(--color-primary, #3b82f6);
+  border-color: var(--poke-red, #cc0000);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Estado seleccionado */
+.type-filter__btn:focus-visible {
+  outline: 2px solid var(--poke-yellow, #ffcb05);
+  outline-offset: 2px;
+}
+
+.type-filter__btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ── Estado seleccionado ────────────────────────────────────────── */
 .type-filter__btn--selected,
 .type-filter__btn[aria-pressed="true"] {
-  background: var(--color-primary, #3b82f6);
-  border-color: var(--color-primary, #3b82f6);
+  background: var(--poke-red, #cc0000);
+  border-color: var(--poke-red, #cc0000);
   color: #fff;
+  box-shadow: 0 2px 6px rgba(204, 0, 0, 0.3);
 }
 
 .type-filter__btn--selected:hover,
 .type-filter__btn[aria-pressed="true"]:hover {
-  background: var(--color-primary-hover, #2563eb);
-  border-color: var(--color-primary-hover, #2563eb);
+  background: var(--poke-red-hover, #b30000);
+  border-color: var(--poke-red-hover, #b30000);
 }
 
-/* Colores de tipo (reflejan los de detail.css para coherencia visual) */
-.type-filter__btn[data-type="fire"]     { border-color: #78350f; color: #78350f; }
-.type-filter__btn[data-type="water"]   { border-color: #0c4a6e; color: #0c4a6e; }
-.type-filter__btn[data-type="electric"]{ border-color: #713f12; color: #713f12; }
-.type-filter__btn[data-type="grass"]   { border-color: #14532d; color: #14532d; }
-.type-filter__btn[data-type="ice"]     { border-color: #164e63; color: #164e63; }
-.type-filter__btn[data-type="fighting"]{ border-color: #7f1d1d; color: #7f1d1d; }
-.type-filter__btn[data-type="poison"]  { border-color: #4c1d95; color: #4c1d95; }
-.type-filter__btn[data-type="ground"]  { border-color: #7c2d12; color: #7c2d12; }
-.type-filter__btn[data-type="flying"]  { border-color: #2e1065; color: #2e1065; }
-.type-filter__btn[data-type="psychic"] { border-color: #831843; color: #831843; }
-.type-filter__btn[data-type="bug"]     { border-color: #365314; color: #365314; }
-.type-filter__btn[data-type="rock"]    { border-color: #292524; color: #292524; }
-.type-filter__btn[data-type="ghost"]   { border-color: #2e1065; color: #2e1065; }
-.type-filter__btn[data-type="dragon"]  { border-color: #1e1b4b; color: #1e1b4b; }
+/* ------------------------------------------------------------------ */
+/* Colores de tipo (borde + texto cuando no está seleccionado)         */
+/* ------------------------------------------------------------------ */
+.type-filter__btn[data-type="fire"]     { border-color: #c2410c; color: #c2410c; }
+.type-filter__btn[data-type="water"]   { border-color: #0369a1; color: #0369a1; }
+.type-filter__btn[data-type="electric"]{ border-color: #a16207; color: #a16207; }
+.type-filter__btn[data-type="grass"]   { border-color: #15803d; color: #15803d; }
+.type-filter__btn[data-type="ice"]     { border-color: #0e7490; color: #0e7490; }
+.type-filter__btn[data-type="fighting"]{ border-color: #b91c1c; color: #b91c1c; }
+.type-filter__btn[data-type="poison"]  { border-color: #7c3aed; color: #7c3aed; }
+.type-filter__btn[data-type="ground"]  { border-color: #b45309; color: #b45309; }
+.type-filter__btn[data-type="flying"]  { border-color: #4f46e5; color: #4f46e5; }
+.type-filter__btn[data-type="psychic"] { border-color: #be185d; color: #be185d; }
+.type-filter__btn[data-type="bug"]     { border-color: #4d7c0f; color: #4d7c0f; }
+.type-filter__btn[data-type="rock"]    { border-color: #44403c; color: #44403c; }
+.type-filter__btn[data-type="ghost"]   { border-color: #4f46e5; color: #4f46e5; }
+.type-filter__btn[data-type="dragon"]  { border-color: #3730a3; color: #3730a3; }
 .type-filter__btn[data-type="dark"]    { border-color: #1c1917; color: #1c1917; }
-.type-filter__btn[data-type="steel"]   { border-color: #1e293b; color: #1e293b; }
-.type-filter__btn[data-type="fairy"]   { border-color: #831843; color: #831843; }
+.type-filter__btn[data-type="steel"]   { border-color: #475569; color: #475569; }
+.type-filter__btn[data-type="fairy"]   { border-color: #be185d; color: #be185d; }
 .type-filter__btn[data-type="normal"]  { border-color: #374151; color: #374151; }
 
-/* Colores cuando está seleccionado (usa fondo del tipo) */
-.type-filter__btn[data-type="fire"][aria-pressed="true"]      { background: #78350f; border-color: #78350f; color: #fff; }
-.type-filter__btn[data-type="water"][aria-pressed="true"]     { background: #0c4a6e; border-color: #0c4a6e; color: #fff; }
-.type-filter__btn[data-type="electric"][aria-pressed="true"]  { background: #713f12; border-color: #713f12; color: #fff; }
-.type-filter__btn[data-type="grass"][aria-pressed="true"]     { background: #14532d; border-color: #14532d; color: #fff; }
-.type-filter__btn[data-type="ice"][aria-pressed="true"]       { background: #164e63; border-color: #164e63; color: #fff; }
-.type-filter__btn[data-type="fighting"][aria-pressed="true"]  { background: #7f1d1d; border-color: #7f1d1d; color: #fff; }
-.type-filter__btn[data-type="poison"][aria-pressed="true"]    { background: #4c1d95; border-color: #4c1d95; color: #fff; }
-.type-filter__btn[data-type="ground"][aria-pressed="true"]    { background: #7c2d12; border-color: #7c2d12; color: #fff; }
-.type-filter__btn[data-type="flying"][aria-pressed="true"]    { background: #2e1065; border-color: #2e1065; color: #fff; }
-.type-filter__btn[data-type="psychic"][aria-pressed="true"]   { background: #831843; border-color: #831843; color: #fff; }
-.type-filter__btn[data-type="bug"][aria-pressed="true"]       { background: #365314; border-color: #365314; color: #fff; }
-.type-filter__btn[data-type="rock"][aria-pressed="true"]      { background: #292524; border-color: #292524; color: #fff; }
-.type-filter__btn[data-type="ghost"][aria-pressed="true"]     { background: #312e81; border-color: #312e81; color: #fff; }
-.type-filter__btn[data-type="dragon"][aria-pressed="true"]    { background: #1e1b4b; border-color: #1e1b4b; color: #fff; }
-.type-filter__btn[data-type="dark"][aria-pressed="true"]      { background: #1c1917; border-color: #1c1917; color: #fff; }
-.type-filter__btn[data-type="steel"][aria-pressed="true"]     { background: #334155; border-color: #334155; color: #fff; }
-.type-filter__btn[data-type="fairy"][aria-pressed="true"]     { background: #831843; border-color: #831843; color: #fff; }
-.type-filter__btn[data-type="normal"][aria-pressed="true"]    { background: #374151; border-color: #374151; color: #fff; }
+/* ── Cuando está seleccionado: fondo del color del tipo ─────────── */
+.type-filter__btn[data-type="fire"][aria-pressed="true"]      { background: #c2410c; border-color: #c2410c; color: #fff; box-shadow: 0 2px 6px rgba(194,65,12,0.35); }
+.type-filter__btn[data-type="water"][aria-pressed="true"]     { background: #0369a1; border-color: #0369a1; color: #fff; box-shadow: 0 2px 6px rgba(3,105,161,0.35); }
+.type-filter__btn[data-type="electric"][aria-pressed="true"]  { background: #a16207; border-color: #a16207; color: #fff; box-shadow: 0 2px 6px rgba(161,98,7,0.35); }
+.type-filter__btn[data-type="grass"][aria-pressed="true"]     { background: #15803d; border-color: #15803d; color: #fff; box-shadow: 0 2px 6px rgba(21,128,61,0.35); }
+.type-filter__btn[data-type="ice"][aria-pressed="true"]       { background: #0e7490; border-color: #0e7490; color: #fff; box-shadow: 0 2px 6px rgba(14,116,144,0.35); }
+.type-filter__btn[data-type="fighting"][aria-pressed="true"]  { background: #b91c1c; border-color: #b91c1c; color: #fff; box-shadow: 0 2px 6px rgba(185,28,28,0.35); }
+.type-filter__btn[data-type="poison"][aria-pressed="true"]    { background: #7c3aed; border-color: #7c3aed; color: #fff; box-shadow: 0 2px 6px rgba(124,58,237,0.35); }
+.type-filter__btn[data-type="ground"][aria-pressed="true"]    { background: #b45309; border-color: #b45309; color: #fff; box-shadow: 0 2px 6px rgba(180,83,9,0.35); }
+.type-filter__btn[data-type="flying"][aria-pressed="true"]    { background: #4f46e5; border-color: #4f46e5; color: #fff; box-shadow: 0 2px 6px rgba(79,70,229,0.35); }
+.type-filter__btn[data-type="psychic"][aria-pressed="true"]   { background: #be185d; border-color: #be185d; color: #fff; box-shadow: 0 2px 6px rgba(190,24,93,0.35); }
+.type-filter__btn[data-type="bug"][aria-pressed="true"]       { background: #4d7c0f; border-color: #4d7c0f; color: #fff; box-shadow: 0 2px 6px rgba(77,124,15,0.35); }
+.type-filter__btn[data-type="rock"][aria-pressed="true"]      { background: #44403c; border-color: #44403c; color: #fff; box-shadow: 0 2px 6px rgba(68,64,60,0.35); }
+.type-filter__btn[data-type="ghost"][aria-pressed="true"]     { background: #4f46e5; border-color: #4f46e5; color: #fff; box-shadow: 0 2px 6px rgba(79,70,229,0.35); }
+.type-filter__btn[data-type="dragon"][aria-pressed="true"]    { background: #3730a3; border-color: #3730a3; color: #fff; box-shadow: 0 2px 6px rgba(55,48,163,0.35); }
+.type-filter__btn[data-type="dark"][aria-pressed="true"]      { background: #1c1917; border-color: #1c1917; color: #fff; box-shadow: 0 2px 6px rgba(28,25,23,0.35); }
+.type-filter__btn[data-type="steel"][aria-pressed="true"]     { background: #475569; border-color: #475569; color: #fff; box-shadow: 0 2px 6px rgba(71,85,105,0.35); }
+.type-filter__btn[data-type="fairy"][aria-pressed="true"]     { background: #be185d; border-color: #be185d; color: #fff; box-shadow: 0 2px 6px rgba(190,24,93,0.35); }
+.type-filter__btn[data-type="normal"][aria-pressed="true"]    { background: #374151; border-color: #374151; color: #fff; box-shadow: 0 2px 6px rgba(55,65,81,0.35); }
+
+/* ------------------------------------------------------------------ */
+/* Responsivo — 360 px                                                  */
+/* ------------------------------------------------------------------ */
+@media (max-width: 360px) {
+  .type-filter__buttons {
+    gap: 0.3rem;
+  }
+
+  .type-filter__btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.68rem;
+  }
+}

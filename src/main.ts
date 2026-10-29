@@ -15,10 +15,13 @@
  *   'compare'  — ComparePanel visible, catálogo oculto (HU-06)
  */
 import './styles/catalog.css';
+import './styles/header.css';
+import './styles/searchbar.css';
 import './styles/detail.css';
 import './styles/filter.css';
 import './styles/compare.css';
 
+import { i18n } from './i18n/es';
 import { PokeApiClient } from './services/PokeApiClient';
 import { CatalogController } from './application/CatalogController';
 import { SearchController } from './application/SearchController';
@@ -51,7 +54,7 @@ import type {
 const api = new PokeApiClient();
 const catalogCtrl = new CatalogController(api);
 const searchCtrl = new SearchController(api);
-const filterCtrl = new FilterController(api);
+const filterCtrl = new FilterController(api, { andMode: true });
 const detailCtrl = new DetailController(api);
 const abilityCtrl = new AbilityController(api);
 const compareCtrl = new CompareController(api);
@@ -167,15 +170,14 @@ const compareLoadingEl = new LoadingIndicator({ visible: false });
 const compareErrorEl = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
 compareErrorEl.element.style.display = 'none';
 
-// SearchBars para cada slot (RF-029)
-const compareSearchA = new SearchBar({
-  onSearch: (term) => compareCtrl.selectA(term),
-  onClear: () => {},
-});
-const compareSearchB = new SearchBar({
-  onSearch: (term) => compareCtrl.selectB(term),
-  onClear: () => {},
-});
+// Selects nativos para cada slot (HU-06 / RF-029)
+const compareSelectA = document.createElement('select');
+compareSelectA.className = 'compare-select compare-select--a';
+compareSelectA.setAttribute('aria-label', 'Selecciona criatura A');
+
+const compareSelectB = document.createElement('select');
+compareSelectB.className = 'compare-select compare-select--b';
+compareSelectB.setAttribute('aria-label', 'Selecciona criatura B');
 
 let comparePanelEl: ComparePanel | null = null;
 
@@ -339,6 +341,9 @@ detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
         // Insert before abilityWrapper so ability overlays on top
         detailWrapper.insertBefore(detailViewEl.element, abilityWrapper);
       }
+      // ── Mover abilityWrapper inline: justo después de la sección de habilidades ──
+      // Esto garantiza que el panel de habilidad aparezca en contexto, sin scroll.
+      _attachAbilityWrapperInline();
       break;
     }
     case 'error':
@@ -449,6 +454,26 @@ async function handleTypeChange(types: PokemonType[]): Promise<void> {
 // Navegación: catálogo ↔ detalle ↔ habilidad                        //
 // ------------------------------------------------------------------ //
 
+/**
+ * Mueve el abilityWrapper para que quede inline dentro del detailView,
+ * justo después de la sección de habilidades.
+ * Se llama cada vez que el DetailView se re-renderiza (update), porque
+ * update() hace innerHTML='' y el abilityWrapper se desconecta del DOM.
+ */
+function _attachAbilityWrapperInline(): void {
+  if (!detailViewEl) return;
+  const abilitiesSection = detailViewEl.element.querySelector<HTMLElement>(
+    '[data-section="abilities"]'
+  );
+  if (abilitiesSection) {
+    // Insertar abilityWrapper justo después de la sección de habilidades
+    abilitiesSection.after(abilityWrapper);
+  } else {
+    // Fallback: al final del detailViewEl
+    detailViewEl.element.appendChild(abilityWrapper);
+  }
+}
+
 /** Muestra la ficha de una criatura (HU-03) */
 async function showDetail(id: number): Promise<void> {
   const ctx: CatalogContext = {
@@ -484,6 +509,63 @@ function showCompare(): void {
   compareNavBtn.style.display = 'none';
   catalogNavBtn.style.display = '';
 
+  // Inicializar la UI de comparación si aún no se ha construido
+  if (!compareWrapper.querySelector('.compare-slots')) {
+    // ── Botón Volver dentro del panel ─────────────────────────────
+    const backBtn = document.createElement('button');
+    backBtn.type = 'button';
+    backBtn.className = 'compare-back-btn';
+    backBtn.textContent = i18n.volverAlCatalogoBtn;
+    backBtn.setAttribute('aria-label', 'Volver al catálogo');
+    backBtn.addEventListener('click', () =>
+      showCatalog({ searchTerm: '', selectedTypes: [], page: 1 })
+    );
+    compareWrapper.insertBefore(backBtn, compareWrapper.firstChild);
+
+    // ── Área de selects ───────────────────────────────────────────
+    const slotsArea = document.createElement('div');
+    slotsArea.className = 'compare-slots';
+
+    const areaA = document.createElement('div');
+    areaA.className = 'compare-slot-area compare-slot-area--a';
+    const labelA = document.createElement('label');
+    labelA.htmlFor = 'compare-select-a';
+    labelA.className = 'compare-slot-label';
+    labelA.textContent = i18n.labelSlotA;
+    compareSelectA.id = 'compare-select-a';
+    areaA.appendChild(labelA);
+    areaA.appendChild(compareSelectA);
+
+    const areaB = document.createElement('div');
+    areaB.className = 'compare-slot-area compare-slot-area--b';
+    const labelB = document.createElement('label');
+    labelB.htmlFor = 'compare-select-b';
+    labelB.className = 'compare-slot-label';
+    labelB.textContent = i18n.labelSlotB;
+    compareSelectB.id = 'compare-select-b';
+    areaB.appendChild(labelB);
+    areaB.appendChild(compareSelectB);
+
+    slotsArea.appendChild(areaA);
+    slotsArea.appendChild(areaB);
+
+    // Insertar después del botón Volver y antes de loading/error
+    compareWrapper.insertBefore(slotsArea, compareWrapper.children[1]);
+
+    // ── Poblar selects con el índice ──────────────────────────────
+    _populateCompareSelects();
+
+    // ── Escuchar cambios en los selects ───────────────────────────
+    compareSelectA.addEventListener('change', () => {
+      const val = compareSelectA.value;
+      if (val) compareCtrl.selectA(val);
+    });
+    compareSelectB.addEventListener('change', () => {
+      const val = compareSelectB.value;
+      if (val) compareCtrl.selectB(val);
+    });
+  }
+
   // Inicializar el panel si aún no existe
   if (!comparePanelEl) {
     comparePanelEl = new ComparePanel({
@@ -495,25 +577,47 @@ function showCompare(): void {
     });
     compareWrapper.appendChild(comparePanelEl.element);
   }
+}
 
-  // Añadir search bars para los slots si no están aún
-  if (!compareWrapper.contains(compareSearchA.element)) {
-    const searchAreaA = document.createElement('div');
-    searchAreaA.className = 'compare-wrapper__search compare-wrapper__search--a';
-    const labelA = document.createElement('p');
-    labelA.textContent = 'Criatura A — Buscar por nombre o número:';
-    searchAreaA.appendChild(labelA);
-    searchAreaA.appendChild(compareSearchA.element);
+/** Puebla ambos selects con el índice COMPLETO de Pokémon directamente desde la API.
+ *  getPokemonIndex usa limit=100000 y caché interna, por lo que la segunda llamada
+ *  es instantánea.
+ */
+function _populateCompareSelects(): void {
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = i18n.seleccionaOpcion;
+  placeholder.disabled = true;
+  placeholder.selected = true;
 
-    const searchAreaB = document.createElement('div');
-    searchAreaB.className = 'compare-wrapper__search compare-wrapper__search--b';
-    const labelB = document.createElement('p');
-    labelB.textContent = 'Criatura B — Buscar por nombre o número:';
-    searchAreaB.appendChild(labelB);
-    searchAreaB.appendChild(compareSearchB.element);
+  const placeholderB = placeholder.cloneNode(true) as HTMLOptionElement;
 
-    compareWrapper.insertBefore(searchAreaA, compareWrapper.firstChild);
-    compareWrapper.insertBefore(searchAreaB, compareWrapper.children[1]);
+  compareSelectA.innerHTML = '';
+  compareSelectB.innerHTML = '';
+  compareSelectA.appendChild(placeholder);
+  compareSelectB.appendChild(placeholderB);
+
+  // Siempre pedimos el índice completo a la API (usa caché interna si ya se cargó)
+  api
+    .getPokemonIndex()
+    .then((entries) => {
+      _appendSelectOptions(compareSelectA, entries);
+      _appendSelectOptions(compareSelectB, entries);
+    })
+    .catch(() => {
+      /* no crítico: los selects quedarán solo con el placeholder */
+    });
+}
+
+function _appendSelectOptions(
+  select: HTMLSelectElement,
+  entries: import('./domain/types').PokemonEntry[]
+): void {
+  for (const entry of entries) {
+    const opt = document.createElement('option');
+    opt.value = entry.name;
+    opt.textContent = `N.º${entry.id} ${entry.displayName}`;
+    select.appendChild(opt);
   }
 }
 

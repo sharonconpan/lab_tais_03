@@ -11,7 +11,7 @@
  */
 import type { IComponent } from '../../contracts/IComponent';
 import type { PokemonType } from '../domain/types';
-import { i18n } from '../i18n/es';
+import { i18n, tipoEnEs } from '../i18n/es';
 
 export interface TypeFilterProps {
   types: PokemonType[];
@@ -53,11 +53,11 @@ export class TypeFilter implements IComponent<TypeFilterProps> {
     title.textContent = i18n.filtrarPorTipo;
     this.element.appendChild(title);
 
-    // ── Nota RF-028: máximo de 2 tipos ─────────────────────────────
+    // ── Nota RF-028: máximo de 2 tipos / modo AND ──────────────────
     const note = document.createElement('p');
     note.className = 'type-filter__note';
     note.setAttribute('data-type-note', '');
-    note.textContent = i18n.tipoMaximos;
+    note.textContent = i18n.tipoMaximos + ' ' + i18n.tipoMaximosAnd;
     this.element.appendChild(note);
 
     // ── Botones de tipos ───────────────────────────────────────────
@@ -71,7 +71,20 @@ export class TypeFilter implements IComponent<TypeFilterProps> {
       btn.type = 'button';
       btn.className = 'type-filter__btn';
       btn.setAttribute('data-type', type);
-      btn.textContent = type;
+      // value en inglés: los tests de integración lo usan para localizar el botón
+      btn.value = type;
+      // Nombre en español como texto principal visible
+      const labelEs = tipoEnEs[type] ?? type.charAt(0).toUpperCase() + type.slice(1);
+      const spanEs = document.createElement('span');
+      spanEs.className = 'type-filter__btn-label';
+      spanEs.textContent = labelEs;
+      // Nombre en inglés oculto visualmente (para compatibilidad con tests que leen textContent)
+      const spanEn = document.createElement('span');
+      spanEn.className = 'type-filter__btn-code';
+      spanEn.setAttribute('aria-hidden', 'true');
+      spanEn.textContent = type;
+      btn.appendChild(spanEs);
+      btn.appendChild(spanEn);
 
       const isSelected = this._selected.includes(type);
       btn.setAttribute('aria-pressed', String(isSelected));

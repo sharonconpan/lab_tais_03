@@ -48,7 +48,39 @@ export const i18n = {
   // Filtros
   filtrarPorTipo: 'Filtrar por tipo',
   tipoMaximos: 'Cada criatura tiene como máximo 2 tipos.',
+  tipoMaximosAnd: 'Con 2 tipos se muestran criaturas que tengan AMBOS.',
   sinResultadosFiltro: 'No hay criaturas para esta combinación.',
+
+  // Habilidades — etiqueta de oculta
+  habilidadOculta: '(oculta)',
+
+  // Comparación — labels de slots y selector
+  labelSlotA: 'Criatura A:',
+  labelSlotB: 'Criatura B:',
+  seleccionaOpcion: '— Elige una criatura —',
+  volverAlCatalogoBtn: '← Volver al catálogo',
 } as const;
+
+/** Mapa de tipos en inglés → nombre en español para la UI */
+export const tipoEnEs: Record<string, string> = {
+  normal: 'Normal',
+  fire: 'Fuego',
+  water: 'Agua',
+  electric: 'Eléctrico',
+  grass: 'Planta',
+  ice: 'Hielo',
+  fighting: 'Lucha',
+  poison: 'Veneno',
+  ground: 'Tierra',
+  flying: 'Volador',
+  psychic: 'Psíquico',
+  bug: 'Bicho',
+  rock: 'Roca',
+  ghost: 'Fantasma',
+  dragon: 'Dragón',
+  dark: 'Siniestro',
+  steel: 'Acero',
+  fairy: 'Hada',
+};
 
 export type I18nKey = keyof typeof i18n;

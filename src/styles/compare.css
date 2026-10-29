@@ -1,50 +1,43 @@
 /**
  * HU06-05 — Estilos de la sección de comparación
- * RF-026: responsivo desde 320 px de ancho (min-width: 320px)
+ * RF-026: responsivo desde 360 px de ancho (min-width: 360px)
  * RF-020, RF-021: señales textuales/simbólicas visibles con buen contraste
  */
 
-/* ── Navegación principal ──────────────────────────────────────── */
-.main-nav {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.main-nav button {
-  padding: 0.4rem 0.9rem;
-  border: 1px solid #4a5568;
-  border-radius: 6px;
-  background: #2d3748;
-  color: #e2e8f0;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.main-nav button:hover,
-.main-nav button:focus-visible {
-  background: #4a5568;
-  outline: 2px solid #63b3ed;
-  outline-offset: 2px;
-}
-
 /* ── Wrapper de la sección comparación ────────────────────────── */
 .compare-wrapper {
-  padding: 1rem;
-  max-width: 900px;
+  padding: 1.25rem 1rem;
+  max-width: 960px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
+/* ── Área de búsqueda por slot ─────────────────────────────────── */
 .compare-wrapper__search {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.875rem;
 }
 
 .compare-wrapper__search p {
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  font-size: 0.875rem;
-  color: #718096;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  font-size: 0.825rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted, #718096);
+}
+
+/* Layout de dos búsquedas en paralelo en pantallas anchas */
+.compare-searches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .compare-searches {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Panel principal ───────────────────────────────────────────── */
@@ -53,10 +46,18 @@
 }
 
 .compare-panel__title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 800;
   margin-bottom: 1rem;
-  color: #1a202c;
+  color: var(--poke-black, #1a202c);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compare-panel__title::before {
+  content: '⚔';
+  font-size: 1.1rem;
 }
 
 /* ── Grid de dos columnas ──────────────────────────────────────── */
@@ -67,7 +68,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Una columna en pantallas muy estrechas (< 480 px) */
+/* Una columna en pantallas estrechas */
 @media (max-width: 480px) {
   .compare-panel__grid {
     grid-template-columns: 1fr;
@@ -76,36 +77,59 @@
 
 /* ── Slot ──────────────────────────────────────────────────────── */
 .compare-panel__slot {
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 0.75rem;
-  background: #f7fafc;
+  border: 2px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 1rem 0.875rem;
+  background: var(--color-surface, #ffffff);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  min-width: 0; /* evitar overflow en grid */
+  gap: 0.625rem;
+  min-width: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
 
+/* Slot A — borde azul Pokémon */
+.compare-panel__slot--a {
+  border-color: var(--poke-blue, #3d7dca);
+  background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%);
+}
+
+/* Slot B — borde rojo Pokémon */
+.compare-panel__slot--b {
+  border-color: var(--poke-red, #cc0000);
+  background: linear-gradient(180deg, #fff0f0 0%, #ffffff 100%);
+}
+
+/* ── Botón "Selecciona una criatura" ──────────────────────────── */
 .compare-panel__select-btn {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 6px;
-  background: #edf2f7;
-  color: #2d3748;
-  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  border: 2px solid var(--color-border, #cbd5e0);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-text, #2d3748);
+  font-size: 0.825rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
   width: 100%;
+  text-align: center;
 }
 
 .compare-panel__select-btn:hover,
 .compare-panel__select-btn:focus-visible {
-  background: #e2e8f0;
-  outline: 2px solid #63b3ed;
+  background: var(--color-bg, #f8fafc);
+  border-color: var(--poke-blue, #3d7dca);
+  outline: 2px solid var(--poke-yellow, #ffcb05);
   outline-offset: 2px;
 }
 
+.compare-panel__select-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── Imagen del Pokémon en slot ────────────────────────────────── */
 .compare-panel__img img,
 .compare-panel__img svg {
   width: 96px;
@@ -114,28 +138,35 @@
   object-fit: contain;
 }
 
+/* ── Nombre en slot ────────────────────────────────────────────── */
 .compare-panel__name {
   font-size: 1rem;
-  font-weight: 600;
-  color: #1a202c;
+  font-weight: 700;
+  color: var(--color-text, #1a202c);
   text-align: center;
   margin: 0;
+  text-transform: capitalize;
 }
 
+/* ── Mensaje slot vacío ────────────────────────────────────────── */
 .compare-panel__empty {
-  color: #a0aec0;
+  color: var(--color-text-muted, #a0aec0);
   font-size: 0.875rem;
   text-align: center;
   margin: 0;
+  font-style: italic;
 }
 
 /* ── Tabla de estadísticas comparadas ─────────────────────────── */
 .compare-panel__stats-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   overflow-x: auto;
-  display: block; /* permite scroll horizontal en móvil */
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border, #e2e8f0);
 }
 
 @media (min-width: 480px) {
@@ -144,64 +175,234 @@
   }
 }
 
+/* Cabecera de la tabla */
+.compare-panel__stats-table thead {
+  background: linear-gradient(135deg, var(--poke-red, #cc0000) 0%, var(--poke-red-dark, #9b0000) 100%);
+  color: #ffffff;
+}
+
+.compare-panel__stats-table thead th {
+  padding: 0.55rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Filas del cuerpo */
 .compare-panel__stats-table th,
 .compare-panel__stats-table td {
-  padding: 0.4rem 0.5rem;
+  padding: 0.45rem 0.625rem;
   text-align: center;
   vertical-align: middle;
 }
 
 .compare-panel__stat-label {
   font-weight: 600;
-  color: #4a5568;
+  color: var(--color-text-muted, #4a5568);
   text-align: center;
   white-space: nowrap;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .compare-panel__stat-row:nth-child(odd) {
-  background: #f7fafc;
+  background: var(--color-bg, #f7fafc);
+}
+
+.compare-panel__stat-row:hover {
+  background: #edf2f7;
 }
 
 /* ── Marcadores de ganador / empate ───────────────────────────── */
 
-/* Ganador en A — se muestra a la izquierda del valor A */
+/* Ganador en A — azul Pokémon */
 .stat-winner--a {
-  color: #2b6cb0;     /* azul — contraste sobre fondo claro */
-  font-weight: 700;
+  color: var(--poke-blue, #2b6cb0);
+  font-weight: 800;
   font-size: 1rem;
   margin-right: 0.2rem;
 }
 
-/* Ganador en B — se muestra a la derecha del valor B */
+/* Ganador en B — rojo Pokémon */
 .stat-winner--b {
-  color: #c05621;     /* naranja/marrón — contraste sobre fondo claro */
-  font-weight: 700;
+  color: var(--poke-red, #cc0000);
+  font-weight: 800;
   font-size: 1rem;
   margin-left: 0.2rem;
 }
 
-/* Empate — aparece centrado, sin destacar ninguna columna */
+/* Empate */
 .stat-tie {
-  color: #718096;
+  color: var(--color-text-muted, #718096);
   font-weight: 600;
   font-size: 0.95rem;
 }
 
 /* ── Valores numéricos ────────────────────────────────────────── */
 .compare-panel__val--a {
-  color: #2d3748;
-  font-weight: 500;
+  color: var(--poke-blue, #2d3748);
+  font-weight: 600;
 }
 
 .compare-panel__val--b {
-  color: #2d3748;
-  font-weight: 500;
+  color: var(--poke-red-dark, #2d3748);
+  font-weight: 600;
 }
 
 /* ── Estados transversales ────────────────────────────────────── */
-
-/* El compare-wrapper usa los mismos loading/error que el resto */
 .compare-wrapper [role="status"],
 .compare-wrapper [role="alert"] {
   margin: 1rem 0;
+}
+
+/* ── Responsivo 360 px ─────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .compare-wrapper {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .compare-panel__stats-table th,
+  .compare-panel__stats-table td {
+    padding: 0.35rem 0.35rem;
+    font-size: 0.78rem;
+  }
+
+  .compare-panel__slot {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .compare-panel__title {
+    font-size: 1.1rem;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Selects nativos de comparación (HU-06)                              */
+/* ------------------------------------------------------------------ */
+.compare-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1.1rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--poke-yellow, #ffcb05);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--poke-yellow, #ffcb05);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+}
+
+.compare-back-btn:hover {
+  background: var(--poke-yellow, #ffcb05);
+  color: var(--poke-black, #1a1a1a);
+  transform: translateY(-1px);
+}
+
+.compare-back-btn:focus-visible {
+  outline: 3px solid var(--poke-white, #fff);
+  outline-offset: 2px;
+}
+
+/* ── Área de slots (grid 2 cols → 1 col en móvil) ─────────────── */
+.compare-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .compare-slots {
+    grid-template-columns: 1fr;
+  }
+}
+
+.compare-slot-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.compare-slot-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* Slot A — acento azul */
+.compare-slot-area--a .compare-slot-label {
+  color: var(--poke-blue, #3d7dca);
+}
+
+/* Slot B — acento rojo */
+.compare-slot-area--b .compare-slot-label {
+  color: var(--poke-red, #cc0000);
+}
+
+/* ── Select nativo ──────────────────────────────────────────────── */
+.compare-select {
+  width: 100%;
+  padding: 0.55rem 0.875rem;
+  border: 2px solid var(--color-border, #e2e8f0);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1e293b);
+  font-size: 0.875rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  /* Flecha personalizada */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.compare-select:hover {
+  border-color: var(--poke-blue, #3d7dca);
+}
+
+.compare-select:focus {
+  outline: none;
+  border-color: var(--poke-red, #cc0000);
+  box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15);
+}
+
+.compare-select--a:focus {
+  border-color: var(--poke-blue, #3d7dca);
+  box-shadow: 0 0 0 3px rgba(61, 125, 202, 0.18);
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsivo 360 px — comparación                                     */
+/* ------------------------------------------------------------------ */
+@media (max-width: 360px) {
+  .compare-back-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .compare-select {
+    font-size: 0.8rem;
+    padding: 0.45rem 2rem 0.45rem 0.625rem;
+  }
+
+  .compare-panel__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-panel__slot {
+    padding: 0.625rem 0.5rem;
+  }
 }

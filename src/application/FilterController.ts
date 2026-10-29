@@ -21,12 +21,14 @@
 import type { IController } from '../../contracts/IController';
 import type { IPokeApiClient } from '../../contracts/IPokeApiClient';
 import type { AsyncState, PaginationParams, PokemonEntry, PokemonType } from '../domain/types';
-import { applyTypeFilter } from './typeFilter';
+import { applyTypeFilter, applyTypeFilterAnd } from './typeFilter';
 import { TimeoutError, toErrorMessage } from '../services/errors';
 import { i18n } from '../i18n/es';
 
 export interface FilterControllerOptions {
   pageSize?: number;
+  /** Si es true, con 2+ tipos muestra solo criaturas que tengan AMBOS (AND). Default: false */
+  andMode?: boolean;
 }
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -45,11 +47,13 @@ export class FilterController implements IController<PokemonEntry[]> {
   private _filtered: PokemonEntry[] = [];
   private _page = 1;
   private readonly _pageSize: number;
+  private readonly _andMode: boolean;
   private readonly _api: IPokeApiClient;
 
   constructor(api: IPokeApiClient, options?: FilterControllerOptions) {
     this._api = api;
     this._pageSize = options?.pageSize ?? DEFAULT_PAGE_SIZE;
+    this._andMode = options?.andMode ?? false;
   }
 
   // ------------------------------------------------------------------ //
@@ -122,8 +126,10 @@ export class FilterController implements IController<PokemonEntry[]> {
       // Determinar el índice base
       const base = this._searchBase ?? (await this._getFullIndex());
 
-      // Aplicar filtro OR
-      this._filtered = applyTypeFilter(base, typeEntries);
+      // Aplicar filtro OR o AND según el modo configurado
+      this._filtered = this._andMode
+        ? applyTypeFilterAnd(base, typeEntries)
+        : applyTypeFilter(base, typeEntries);
       this._page = 1;
       this._setState({ status: 'success', data: this._currentPage() });
     } catch (err) {

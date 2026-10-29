@@ -136,6 +136,7 @@ export class DetailView implements IComponent<DetailViewProps> {
     // ── Habilidades (RF-012) ──────────────────────────────────────────
     const abilitiesSection = document.createElement('section');
     abilitiesSection.className = 'detail-view__section';
+    abilitiesSection.setAttribute('data-section', 'abilities');
     const abilitiesLabel = document.createElement('h3');
     abilitiesLabel.textContent = i18n.habilidades;
     abilitiesSection.appendChild(abilitiesLabel);
@@ -145,7 +146,7 @@ export class DetailView implements IComponent<DetailViewProps> {
     for (const ability of detail.abilities) {
       const li = document.createElement('li');
       li.className = 'detail-view__ability';
-      const label = ability.isHidden ? `${ability.name} (oculta)` : ability.name;
+      const label = ability.isHidden ? `${ability.name} ${i18n.habilidadOculta}` : ability.name;
 
       if (props.onAbilityClick) {
         const btn = document.createElement('button');
