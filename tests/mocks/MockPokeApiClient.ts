@@ -77,6 +77,7 @@ export class MockPokeApiClient implements IPokeApiClient {
   private _indexBehavior: MockBehavior = 'success';
   private _detailBehavior: MockBehavior = 'success';
   private _delay = 0;
+  private _extraEntries: PokemonEntry[] = [];
 
   /** Configura el comportamiento de getPokemonIndex */
   setIndexBehavior(b: MockBehavior): this { this._indexBehavior = b; return this; }
@@ -84,6 +85,8 @@ export class MockPokeApiClient implements IPokeApiClient {
   setDetailBehavior(b: MockBehavior): this { this._detailBehavior = b; return this; }
   /** Añade retardo artificial (ms) — útil para probar el indicador de carga */
   setDelay(ms: number): this { this._delay = ms; return this; }
+  /** Añade una entrada extra al índice (útil para tests de búsqueda con datos específicos) */
+  addIndexEntry(entry: PokemonEntry): this { this._extraEntries.push(entry); return this; }
 
   private async _wait(): Promise<void> {
     if (this._delay > 0) await new Promise((r) => setTimeout(r, this._delay));
@@ -94,7 +97,7 @@ export class MockPokeApiClient implements IPokeApiClient {
     if (this._indexBehavior === 'network-error') throw new NetworkError();
     if (this._indexBehavior === 'timeout') throw new TimeoutError();
     if (this._indexBehavior === 'not-found') throw new NotFoundError('pokemon-index');
-    return [...FIXTURE_INDEX];
+    return [...FIXTURE_INDEX, ...this._extraEntries];
   }
 
   async getPokemonDetail(idOrName: number | string, _options?: FetchOptions): Promise<PokemonDetail> {
