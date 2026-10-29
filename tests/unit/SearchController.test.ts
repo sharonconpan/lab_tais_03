@@ -4,9 +4,7 @@
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { SearchController } from '../../src/application/SearchController';
-import {
-  MockPokeApiClient,
-} from '../mocks/MockPokeApiClient';
+import { MockPokeApiClient } from '../mocks/MockPokeApiClient';
 import type { PokemonEntry } from '../../src/domain/types';
 
 describe('SearchController', () => {
@@ -116,8 +114,13 @@ describe('SearchController', () => {
   // ------------------------------------------------------------------ //
   // RF-006 — caracteres especiales                                        //
   // ------------------------------------------------------------------ //
-  it("search(\"farfetch'd\") → success con farfetchd", async () => {
-    mockApi.addIndexEntry({ id: 83, name: "farfetch'd", displayName: "Farfetch'd", imageUrl: null });
+  it('search("farfetch\'d") → success con farfetchd', async () => {
+    mockApi.addIndexEntry({
+      id: 83,
+      name: "farfetch'd",
+      displayName: "Farfetch'd",
+      imageUrl: null,
+    });
     const ctrl = new SearchController(mockApi);
     await ctrl.search("farfetch'd");
     const state = ctrl.state;
@@ -192,7 +195,12 @@ describe('SearchController', () => {
   it('nextPage avanza al siguiente bloque de resultados', async () => {
     // Añadir suficientes entradas para necesitar paginación
     for (let i = 100; i < 125; i++) {
-      mockApi.addIndexEntry({ id: i, name: `pokemon-${i}`, displayName: `Pokémon ${i}`, imageUrl: null });
+      mockApi.addIndexEntry({
+        id: i,
+        name: `pokemon-${i}`,
+        displayName: `Pokémon ${i}`,
+        imageUrl: null,
+      });
     }
     const ctrl = new SearchController(mockApi, { pageSize: 20 });
     await ctrl.search('pokemon');

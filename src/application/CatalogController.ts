@@ -121,9 +121,7 @@ export class CatalogController implements IController<PokemonEntry[]> {
 
   private _handleError(err: unknown): void {
     const isTimeout = err instanceof TimeoutError;
-    const message = isTimeout
-      ? i18n.tiempoAgotado
-      : toErrorMessage(err);
+    const message = isTimeout ? i18n.tiempoAgotado : toErrorMessage(err);
     // TimeoutError y NetworkError son retryable; NotFoundError no
     const retryable = err instanceof Error && (err as { retryable?: boolean }).retryable !== false;
     this._setState({ status: 'error', message, retryable });

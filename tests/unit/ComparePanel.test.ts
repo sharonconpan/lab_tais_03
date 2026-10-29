@@ -25,7 +25,12 @@ function makeResult(
   overrides?: Partial<Record<BaseStat['name'], 'A' | 'B' | 'tie'>>
 ): CompareResult {
   const names: BaseStat['name'][] = [
-    'hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'
+    'hp',
+    'attack',
+    'defense',
+    'special-attack',
+    'special-defense',
+    'speed',
   ];
   const statResults = {} as Record<BaseStat['name'], 'A' | 'B' | 'tie'>;
   for (const name of names) {
@@ -42,8 +47,11 @@ function makeResult(
 describe('ComparePanel — estado inicial (sin selección)', () => {
   it('renderiza sin errores con props nulas', () => {
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     expect(panel.element).toBeInstanceOf(HTMLElement);
     panel.destroy();
@@ -51,17 +59,22 @@ describe('ComparePanel — estado inicial (sin selección)', () => {
 
   it('muestra dos slots (uno para A y otro para B)', () => {
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
 
     // Debe haber al menos un elemento con clase o data-slot indicando los dos slots
-    const slotA = container.querySelector('[data-slot="A"]') ??
-                  container.querySelector('.compare-panel__slot--a');
-    const slotB = container.querySelector('[data-slot="B"]') ??
-                  container.querySelector('.compare-panel__slot--b');
+    const slotA =
+      container.querySelector('[data-slot="A"]') ??
+      container.querySelector('.compare-panel__slot--a');
+    const slotB =
+      container.querySelector('[data-slot="B"]') ??
+      container.querySelector('.compare-panel__slot--b');
     expect(slotA).not.toBeNull();
     expect(slotB).not.toBeNull();
     panel.destroy();
@@ -69,8 +82,11 @@ describe('ComparePanel — estado inicial (sin selección)', () => {
 
   it('muestra texto indicando que hay que seleccionar una criatura', () => {
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -87,8 +103,11 @@ describe('ComparePanel — estado inicial (sin selección)', () => {
 describe('ComparePanel — solo slot A seleccionado', () => {
   it('muestra el nombre de la criatura A', () => {
     const panel = new ComparePanel({
-      result: null, slotA: FIXTURE_PIKACHU, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: FIXTURE_PIKACHU,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -105,8 +124,11 @@ describe('ComparePanel — resultado completo (RF-020)', () => {
   it('muestra los nombres de ambas criaturas', () => {
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE);
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -122,8 +144,11 @@ describe('ComparePanel — resultado completo (RF-020)', () => {
     expect(result.statResults['speed']).toBe('A');
 
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -131,10 +156,11 @@ describe('ComparePanel — resultado completo (RF-020)', () => {
     // La señal para A en el stat speed debe existir
     const speedRow = container.querySelector('[data-stat="speed"]');
     expect(speedRow).not.toBeNull();
-    const markerA = speedRow?.querySelector('[data-winner="A"]') ??
-                    Array.from(speedRow?.querySelectorAll('*') ?? []).find(
-                      (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
-                    );
+    const markerA =
+      speedRow?.querySelector('[data-winner="A"]') ??
+      Array.from(speedRow?.querySelectorAll('*') ?? []).find(
+        (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
+      );
     expect(markerA).not.toBeUndefined();
     panel.destroy();
   });
@@ -145,18 +171,22 @@ describe('ComparePanel — resultado completo (RF-020)', () => {
     expect(result.statResults['hp']).toBe('B');
 
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
 
     const hpRow = container.querySelector('[data-stat="hp"]');
     expect(hpRow).not.toBeNull();
-    const markerB = hpRow?.querySelector('[data-winner="B"]') ??
-                    Array.from(hpRow?.querySelectorAll('*') ?? []).find(
-                      (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
-                    );
+    const markerB =
+      hpRow?.querySelector('[data-winner="B"]') ??
+      Array.from(hpRow?.querySelectorAll('*') ?? []).find(
+        (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
+      );
     expect(markerB).not.toBeUndefined();
     panel.destroy();
   });
@@ -164,24 +194,30 @@ describe('ComparePanel — resultado completo (RF-020)', () => {
   it('muestra los 6 valores de stats para ambas criaturas', () => {
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE);
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
 
     // Verificar algunos valores concretos de cada criatura
-    expect(queryText(container, '35')).toBe(true);  // pikachu hp
+    expect(queryText(container, '35')).toBe(true); // pikachu hp
     expect(queryText(container, '115')).toBe(true); // jigglypuff hp
-    expect(queryText(container, '90')).toBe(true);  // pikachu speed
+    expect(queryText(container, '90')).toBe(true); // pikachu speed
     panel.destroy();
   });
 
   it('muestra las 6 etiquetas de stats en español', () => {
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE);
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -204,8 +240,11 @@ describe('ComparePanel — empate en un stat (RF-021)', () => {
     });
 
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -213,22 +252,26 @@ describe('ComparePanel — empate en un stat (RF-021)', () => {
     const saRow = container.querySelector('[data-stat="special-attack"]');
     expect(saRow).not.toBeNull();
 
-    const tieMarker = saRow?.querySelector('[data-winner="tie"]') ??
-                      Array.from(saRow?.querySelectorAll('*') ?? []).find(
-                        (el) => el.textContent?.includes('=') || el.textContent?.toLowerCase().includes('empate')
-                      );
+    const tieMarker =
+      saRow?.querySelector('[data-winner="tie"]') ??
+      Array.from(saRow?.querySelectorAll('*') ?? []).find(
+        (el) => el.textContent?.includes('=') || el.textContent?.toLowerCase().includes('empate')
+      );
     expect(tieMarker).not.toBeUndefined();
     panel.destroy();
   });
 
   it('para stat empatado NO hay un data-winner="A" ni "B"', () => {
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE, {
-      'speed': 'tie',
+      speed: 'tie',
     });
 
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -247,8 +290,11 @@ describe('ComparePanel — callbacks de selección (RF-029)', () => {
   it('invoca onSelectA al interactuar con el selector del slot A', () => {
     const onSelectA = vi.fn();
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA,
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -265,8 +311,11 @@ describe('ComparePanel — callbacks de selección (RF-029)', () => {
   it('invoca onSelectB al interactuar con el selector del slot B', () => {
     const onSelectB = vi.fn();
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB,
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB,
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -285,8 +334,11 @@ describe('ComparePanel — callbacks de selección (RF-029)', () => {
 describe('ComparePanel — update', () => {
   it('update con resultado completo muestra el nuevo contenido', () => {
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     const container = document.createElement('div');
     container.appendChild(panel.element);
@@ -295,8 +347,11 @@ describe('ComparePanel — update', () => {
 
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE);
     panel.update({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
 
     expect(queryText(container, FIXTURE_PIKACHU.displayName)).toBe(true);
@@ -310,8 +365,11 @@ describe('ComparePanel — update', () => {
 describe('ComparePanel — destroy', () => {
   it('destroy no lanza errores con props nulas', () => {
     const panel = new ComparePanel({
-      result: null, slotA: null, slotB: null,
-      onSelectA: () => {}, onSelectB: () => {},
+      result: null,
+      slotA: null,
+      slotB: null,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     expect(() => panel.destroy()).not.toThrow();
   });
@@ -319,8 +377,11 @@ describe('ComparePanel — destroy', () => {
   it('destroy limpia el elemento', () => {
     const result = makeResult(FIXTURE_PIKACHU, FIXTURE_NO_IMAGE);
     const panel = new ComparePanel({
-      result, slotA: FIXTURE_PIKACHU, slotB: FIXTURE_NO_IMAGE,
-      onSelectA: () => {}, onSelectB: () => {},
+      result,
+      slotA: FIXTURE_PIKACHU,
+      slotB: FIXTURE_NO_IMAGE,
+      onSelectA: () => {},
+      onSelectB: () => {},
     });
     panel.destroy();
     expect(panel.element.innerHTML).toBe('');

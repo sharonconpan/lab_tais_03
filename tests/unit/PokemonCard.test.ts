@@ -43,8 +43,7 @@ describe('PokemonCard', () => {
     }
     // Debe haber un SVG o elemento de placeholder
     const placeholder =
-      card.element.querySelector('[data-placeholder]') ??
-      card.element.querySelector('svg');
+      card.element.querySelector('[data-placeholder]') ?? card.element.querySelector('svg');
     expect(placeholder).not.toBeNull();
   });
 
@@ -75,8 +74,7 @@ describe('PokemonCard', () => {
     expect(card.element.textContent).toContain('Jigglypuff');
     // Ahora debe mostrar placeholder
     const placeholder =
-      card.element.querySelector('[data-placeholder]') ??
-      card.element.querySelector('svg');
+      card.element.querySelector('[data-placeholder]') ?? card.element.querySelector('svg');
     expect(placeholder).not.toBeNull();
   });
 

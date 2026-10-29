@@ -23,10 +23,20 @@ import type { PokemonDetail, BaseStat } from '../../src/domain/types';
 /** Construye un PokemonDetail mínimo con stats personalizados */
 function makeDetail(id: number, statsValues: number[]): PokemonDetail {
   const names: BaseStat['name'][] = [
-    'hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'
+    'hp',
+    'attack',
+    'defense',
+    'special-attack',
+    'special-defense',
+    'speed',
   ];
   const labels: BaseStat['label'][] = [
-    'PS', 'Ataque', 'Defensa', 'Ataque Esp.', 'Defensa Esp.', 'Velocidad'
+    'PS',
+    'Ataque',
+    'Defensa',
+    'Ataque Esp.',
+    'Defensa Esp.',
+    'Velocidad',
   ];
   return {
     id,
@@ -46,7 +56,12 @@ function makeDetail(id: number, statsValues: number[]): PokemonDetail {
 }
 
 const STAT_NAMES: BaseStat['name'][] = [
-  'hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'
+  'hp',
+  'attack',
+  'defense',
+  'special-attack',
+  'special-defense',
+  'speed',
 ];
 
 // ------------------------------------------------------------------ //
@@ -139,12 +154,12 @@ describe('compareStats — Stats mixtos', () => {
     const jigglypuff = makeDetail(39, [115, 45, 20, 45, 25, 20]);
     const result = compareStats(pikachu, jigglypuff);
 
-    expect(result['hp']).toBe('B');               // 35 < 115
-    expect(result['attack']).toBe('A');            // 55 > 45
-    expect(result['defense']).toBe('A');           // 40 > 20
-    expect(result['special-attack']).toBe('A');    // 50 > 45
-    expect(result['special-defense']).toBe('A');   // 50 > 25 → A gana
-    expect(result['speed']).toBe('A');             // 90 > 20
+    expect(result['hp']).toBe('B'); // 35 < 115
+    expect(result['attack']).toBe('A'); // 55 > 45
+    expect(result['defense']).toBe('A'); // 40 > 20
+    expect(result['special-attack']).toBe('A'); // 50 > 45
+    expect(result['special-defense']).toBe('A'); // 50 > 25 → A gana
+    expect(result['speed']).toBe('A'); // 90 > 20
   });
 
   it('stat individual: A mayor → "A"', () => {
@@ -212,7 +227,7 @@ describe('compareStats — Propiedades (fast-check)', () => {
           fc.integer({ min: 50, max: 255 }),
           fc.integer({ min: 50, max: 255 }),
           fc.integer({ min: 50, max: 255 }),
-          fc.integer({ min: 50, max: 255 }),
+          fc.integer({ min: 50, max: 255 })
         ),
         fc.tuple(
           fc.integer({ min: 1, max: 49 }),
@@ -220,7 +235,7 @@ describe('compareStats — Propiedades (fast-check)', () => {
           fc.integer({ min: 1, max: 49 }),
           fc.integer({ min: 1, max: 49 }),
           fc.integer({ min: 1, max: 49 }),
-          fc.integer({ min: 1, max: 49 }),
+          fc.integer({ min: 1, max: 49 })
         ),
         (statsA, statsB) => {
           const a = makeDetail(1, [...statsA]);
@@ -241,7 +256,7 @@ describe('compareStats — Propiedades (fast-check)', () => {
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
-          fc.integer({ min: 1, max: 255 }),
+          fc.integer({ min: 1, max: 255 })
         ),
         (stats) => {
           const a = makeDetail(1, [...stats]);
@@ -262,7 +277,7 @@ describe('compareStats — Propiedades (fast-check)', () => {
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
-          fc.integer({ min: 1, max: 255 }),
+          fc.integer({ min: 1, max: 255 })
         ),
         fc.tuple(
           fc.integer({ min: 1, max: 255 }),
@@ -270,7 +285,7 @@ describe('compareStats — Propiedades (fast-check)', () => {
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
           fc.integer({ min: 1, max: 255 }),
-          fc.integer({ min: 1, max: 255 }),
+          fc.integer({ min: 1, max: 255 })
         ),
         (statsA, statsB) => {
           const a = makeDetail(1, [...statsA]);

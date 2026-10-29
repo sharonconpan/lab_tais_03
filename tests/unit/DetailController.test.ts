@@ -7,12 +7,8 @@
  * RF-025: TimeoutError → error retryable=true, mensaje "tiempo agotado"
  */
 import { describe, it, expect, vi } from 'vitest';
-import { DetailController }         from '../../src/application/DetailController';
-import {
-  MockPokeApiClient,
-  FIXTURE_PIKACHU,
-  FIXTURE_NO_IMAGE,
-} from '../mocks/MockPokeApiClient';
+import { DetailController } from '../../src/application/DetailController';
+import { MockPokeApiClient, FIXTURE_PIKACHU, FIXTURE_NO_IMAGE } from '../mocks/MockPokeApiClient';
 import type { AsyncState, CatalogContext, PokemonDetail } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
@@ -108,7 +104,7 @@ describe('DetailController — CatalogContext', () => {
     await ctrl.load(25, ctx);
 
     const retrieved = ctrl.getCatalogContext();
-    retrieved.searchTerm = 'mutado';  // modificar la copia
+    retrieved.searchTerm = 'mutado'; // modificar la copia
 
     expect(ctrl.getCatalogContext().searchTerm).toBe('chu'); // interno intacto
   });

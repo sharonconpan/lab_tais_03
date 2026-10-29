@@ -31,9 +31,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: () => {},
     });
-    const prevBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Anterior"]'
-    )!;
+    const prevBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Anterior"]')!;
     expect(prevBtn.disabled).toBe(true);
   });
 
@@ -43,9 +41,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: () => {},
     });
-    const prevBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Anterior"]'
-    )!;
+    const prevBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Anterior"]')!;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -56,9 +52,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: () => {},
     });
-    const nextBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Siguiente"]'
-    )!;
+    const nextBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Siguiente"]')!;
     expect(nextBtn.disabled).toBe(true);
   });
 
@@ -68,9 +62,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: () => {},
     });
-    const nextBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Siguiente"]'
-    )!;
+    const nextBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Siguiente"]')!;
     expect(nextBtn.disabled).toBe(false);
   });
 
@@ -81,9 +73,7 @@ describe('Pagination', () => {
       onPrev: spy,
       onNext: () => {},
     });
-    const prevBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Anterior"]'
-    )!;
+    const prevBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Anterior"]')!;
     prevBtn.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -95,9 +85,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: spy,
     });
-    const nextBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Siguiente"]'
-    )!;
+    const nextBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Siguiente"]')!;
     nextBtn.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -108,9 +96,7 @@ describe('Pagination', () => {
       onPrev: () => {},
       onNext: () => {},
     });
-    const prevBtn = p.element.querySelector<HTMLButtonElement>(
-      'button[aria-label="Anterior"]'
-    )!;
+    const prevBtn = p.element.querySelector<HTMLButtonElement>('button[aria-label="Anterior"]')!;
     expect(prevBtn.disabled).toBe(true);
 
     p.update({ params: { page: 3, pageSize: 20, total: 100 }, onPrev: () => {}, onNext: () => {} });

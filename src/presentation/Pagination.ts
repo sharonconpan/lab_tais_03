@@ -41,8 +41,12 @@ export class Pagination implements IComponent<PaginationProps> {
     this._nextBtn.removeEventListener('click', this._handleNext);
   }
 
-  private _handlePrev = (): void => { this._onPrev(); };
-  private _handleNext = (): void => { this._onNext(); };
+  private _handlePrev = (): void => {
+    this._onPrev();
+  };
+  private _handleNext = (): void => {
+    this._onNext();
+  };
 
   private _build(): void {
     this._prevBtn = document.createElement('button');

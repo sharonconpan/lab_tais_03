@@ -7,9 +7,9 @@ import { PokemonList } from '../../src/presentation/PokemonList';
 import type { PokemonEntry } from '../../src/domain/types';
 
 const ENTRIES: PokemonEntry[] = [
-  { id: 1,  name: 'bulbasaur', displayName: 'Bulbasaur',  imageUrl: 'https://img/1.png' },
-  { id: 4,  name: 'charmander', displayName: 'Charmander', imageUrl: 'https://img/4.png' },
-  { id: 25, name: 'pikachu',   displayName: 'Pikachu',    imageUrl: 'https://img/25.png' },
+  { id: 1, name: 'bulbasaur', displayName: 'Bulbasaur', imageUrl: 'https://img/1.png' },
+  { id: 4, name: 'charmander', displayName: 'Charmander', imageUrl: 'https://img/4.png' },
+  { id: 25, name: 'pikachu', displayName: 'Pikachu', imageUrl: 'https://img/25.png' },
 ];
 
 describe('PokemonList', () => {
@@ -34,8 +34,9 @@ describe('PokemonList', () => {
 
   it('cada tarjeta muestra el id correcto', () => {
     const list = new PokemonList({ items: ENTRIES, onSelect: () => {} });
-    const ids = Array.from(list.element.querySelectorAll('[data-pokemon-id]'))
-      .map((el) => el.getAttribute('data-pokemon-id'));
+    const ids = Array.from(list.element.querySelectorAll('[data-pokemon-id]')).map((el) =>
+      el.getAttribute('data-pokemon-id')
+    );
     expect(ids).toContain('1');
     expect(ids).toContain('4');
     expect(ids).toContain('25');

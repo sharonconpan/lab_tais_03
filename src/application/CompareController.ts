@@ -177,11 +177,11 @@ export class CompareController implements IController<CompareResult> {
   }
 
   private _buildErrorState(err: unknown): AsyncState<PokemonDetail> & { status: 'error' } {
-    const isTimeout  = err instanceof TimeoutError;
+    const isTimeout = err instanceof TimeoutError;
     const isNotFound = err instanceof NotFoundError;
     return {
-      status:    'error',
-      message:   isTimeout ? i18n.tiempoAgotado : toErrorMessage(err),
+      status: 'error',
+      message: isTimeout ? i18n.tiempoAgotado : toErrorMessage(err),
       retryable: !isNotFound,
     };
   }

@@ -16,10 +16,10 @@ import {
   FIXTURE_ABILITY_EN_ONLY,
 } from '../mocks/MockPokeApiClient';
 import { AbilityController } from '../../src/application/AbilityController';
-import { AbilityDetail }     from '../../src/presentation/AbilityDetail';
-import { LoadingIndicator }  from '../../src/presentation/LoadingIndicator';
-import { ErrorMessage }      from '../../src/presentation/ErrorMessage';
-import type { AsyncState }   from '../../src/domain/types';
+import { AbilityDetail } from '../../src/presentation/AbilityDetail';
+import { LoadingIndicator } from '../../src/presentation/LoadingIndicator';
+import { ErrorMessage } from '../../src/presentation/ErrorMessage';
+import type { AsyncState } from '../../src/domain/types';
 import type { AbilityDetail as AbilityDetailType } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
@@ -105,8 +105,8 @@ describe('HU-05 — Detalle de habilidad: pruebas de integración', () => {
     const view = new AbilityDetail({ detail: s.data, onClose: () => {} });
     container.appendChild(view.element);
 
-    const closeBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('cerrar')
+    const closeBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('cerrar')
     );
     expect(closeBtn).not.toBeUndefined();
   });
@@ -120,8 +120,8 @@ describe('HU-05 — Detalle de habilidad: pruebas de integración', () => {
     const view = new AbilityDetail({ detail: s.data, onClose });
     container.appendChild(view.element);
 
-    const closeBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('cerrar')
+    const closeBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('cerrar')
     )!;
     closeBtn.click();
     expect(onClose).toHaveBeenCalledTimes(1);

@@ -11,8 +11,9 @@ import type { PokemonType } from '../../src/domain/types';
 const TYPES: PokemonType[] = ['fire', 'water', 'electric', 'normal', 'fairy'];
 
 function getBtn(root: HTMLElement, type: string): HTMLButtonElement | undefined {
-  return Array.from(root.querySelectorAll<HTMLButtonElement>('[data-type]'))
-    .find((b) => b.getAttribute('data-type') === type);
+  return Array.from(root.querySelectorAll<HTMLButtonElement>('[data-type]')).find(
+    (b) => b.getAttribute('data-type') === type
+  );
 }
 
 // ------------------------------------------------------------------ //
@@ -72,12 +73,16 @@ describe('TypeFilter — aria-pressed inicial', () => {
 
   it('tipo seleccionado tiene clase type-filter__btn--selected', () => {
     const tf = new TypeFilter({ types: ['electric'], selected: ['electric'], onChange: () => {} });
-    expect(getBtn(tf.element, 'electric')?.classList.contains('type-filter__btn--selected')).toBe(true);
+    expect(getBtn(tf.element, 'electric')?.classList.contains('type-filter__btn--selected')).toBe(
+      true
+    );
   });
 
   it('tipo no seleccionado no tiene clase --selected', () => {
     const tf = new TypeFilter({ types: ['electric'], selected: [], onChange: () => {} });
-    expect(getBtn(tf.element, 'electric')?.classList.contains('type-filter__btn--selected')).toBe(false);
+    expect(getBtn(tf.element, 'electric')?.classList.contains('type-filter__btn--selected')).toBe(
+      false
+    );
   });
 });
 
@@ -102,7 +107,11 @@ describe('TypeFilter — selección y deselección', () => {
 
   it('seleccionar dos tipos en secuencia → onChange con los dos', () => {
     const received: PokemonType[][] = [];
-    const tf = new TypeFilter({ types: TYPES, selected: [], onChange: (s) => received.push([...s]) });
+    const tf = new TypeFilter({
+      types: TYPES,
+      selected: [],
+      onChange: (s) => received.push([...s]),
+    });
     getBtn(tf.element, 'fire')!.click();
     getBtn(tf.element, 'water')!.click();
     const last = received[received.length - 1];
@@ -112,7 +121,11 @@ describe('TypeFilter — selección y deselección', () => {
 
   it('deseleccionar uno de dos → onChange con solo el restante', () => {
     const received: PokemonType[][] = [];
-    const tf = new TypeFilter({ types: TYPES, selected: ['fire', 'water'], onChange: (s) => received.push([...s]) });
+    const tf = new TypeFilter({
+      types: TYPES,
+      selected: ['fire', 'water'],
+      onChange: (s) => received.push([...s]),
+    });
     getBtn(tf.element, 'fire')!.click();
     const last = received[received.length - 1];
     expect(last).not.toContain('fire');

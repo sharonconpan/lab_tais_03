@@ -5,10 +5,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { AbilityDetail } from '../../src/presentation/AbilityDetail';
-import {
-  FIXTURE_ABILITY_ES,
-  FIXTURE_ABILITY_EN_ONLY,
-} from '../mocks/MockPokeApiClient';
+import { FIXTURE_ABILITY_ES, FIXTURE_ABILITY_EN_ONLY } from '../mocks/MockPokeApiClient';
 
 // ------------------------------------------------------------------ //
 // Renderizado con descripción en español (RF-018)                      //
@@ -32,8 +29,8 @@ describe('AbilityDetail — descripción en español', () => {
 
   it('tiene botón Cerrar', () => {
     const view = new AbilityDetail({ detail: FIXTURE_ABILITY_ES, onClose: () => {} });
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('cerrar')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('cerrar')
     );
     expect(btn).not.toBeUndefined();
   });
@@ -41,8 +38,8 @@ describe('AbilityDetail — descripción en español', () => {
   it('onClose se invoca al hacer clic en Cerrar', () => {
     const spy = vi.fn();
     const view = new AbilityDetail({ detail: FIXTURE_ABILITY_ES, onClose: spy });
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('cerrar')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('cerrar')
     )!;
     btn.click();
     expect(spy).toHaveBeenCalledTimes(1);
@@ -122,8 +119,8 @@ describe('AbilityDetail — update', () => {
     const view = new AbilityDetail({ detail: FIXTURE_ABILITY_ES, onClose: spy1 });
 
     view.update({ detail: FIXTURE_ABILITY_ES, onClose: spy2 });
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('cerrar')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('cerrar')
     )!;
     btn.click();
     expect(spy2).toHaveBeenCalledTimes(1);

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { NetworkError, NotFoundError, TimeoutError, toErrorMessage } from '../../src/services/errors';
+import {
+  NetworkError,
+  NotFoundError,
+  TimeoutError,
+  toErrorMessage,
+} from '../../src/services/errors';
 
 describe('NetworkError', () => {
   it('es instancia de Error y tiene retryable=true', () => {

@@ -100,9 +100,7 @@ describe('AbilityController — close()', () => {
 // ------------------------------------------------------------------ //
 describe('AbilityController — manejo de errores', () => {
   it('NetworkError → error retryable=true', async () => {
-    const ctrl = new AbilityController(
-      new MockPokeApiClient().setAbilityBehavior('network-error')
-    );
+    const ctrl = new AbilityController(new MockPokeApiClient().setAbilityBehavior('network-error'));
     await ctrl.load('static');
     const s = ctrl.state as AsyncState<AbilityDetail>;
     expect(s.status).toBe('error');
@@ -110,9 +108,7 @@ describe('AbilityController — manejo de errores', () => {
   });
 
   it('NotFoundError → error retryable=false', async () => {
-    const ctrl = new AbilityController(
-      new MockPokeApiClient().setAbilityBehavior('not-found')
-    );
+    const ctrl = new AbilityController(new MockPokeApiClient().setAbilityBehavior('not-found'));
     await ctrl.load('static');
     const s = ctrl.state as AsyncState<AbilityDetail>;
     expect(s.status).toBe('error');
@@ -120,9 +116,7 @@ describe('AbilityController — manejo de errores', () => {
   });
 
   it('TimeoutError → error retryable=true (RF-025)', async () => {
-    const ctrl = new AbilityController(
-      new MockPokeApiClient().setAbilityBehavior('timeout')
-    );
+    const ctrl = new AbilityController(new MockPokeApiClient().setAbilityBehavior('timeout'));
     await ctrl.load('static');
     const s = ctrl.state as AsyncState<AbilityDetail>;
     expect(s.status).toBe('error');
@@ -130,9 +124,7 @@ describe('AbilityController — manejo de errores', () => {
   });
 
   it('TimeoutError → mensaje contiene "tard" / "tiempo" / "agotado"', async () => {
-    const ctrl = new AbilityController(
-      new MockPokeApiClient().setAbilityBehavior('timeout')
-    );
+    const ctrl = new AbilityController(new MockPokeApiClient().setAbilityBehavior('timeout'));
     await ctrl.load('static');
     const s = ctrl.state as AsyncState<AbilityDetail>;
     if (s.status === 'error') {

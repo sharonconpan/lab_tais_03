@@ -1,5 +1,11 @@
 import type { IPokeApiClient, FetchOptions } from '../../contracts/IPokeApiClient';
-import type { PokemonEntry, PokemonDetail, AbilityDetail, PokemonType, BaseStat } from '../domain/types';
+import type {
+  PokemonEntry,
+  PokemonDetail,
+  AbilityDetail,
+  PokemonType,
+  BaseStat,
+} from '../domain/types';
 import { MemoryCache } from './cache';
 import { httpGet } from './http';
 import { NotFoundError } from './errors';
@@ -7,20 +13,41 @@ import { NotFoundError } from './errors';
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
 const TYPE_LABELS: Record<string, string> = {
-  normal:'Normal', fire:'Fuego', water:'Agua', electric:'Eléctrico',
-  grass:'Planta', ice:'Hielo', fighting:'Lucha', poison:'Veneno',
-  ground:'Tierra', flying:'Volador', psychic:'Psíquico', bug:'Bicho',
-  rock:'Roca', ghost:'Fantasma', dragon:'Dragón', dark:'Siniestro',
-  steel:'Acero', fairy:'Hada',
+  normal: 'Normal',
+  fire: 'Fuego',
+  water: 'Agua',
+  electric: 'Eléctrico',
+  grass: 'Planta',
+  ice: 'Hielo',
+  fighting: 'Lucha',
+  poison: 'Veneno',
+  ground: 'Tierra',
+  flying: 'Volador',
+  psychic: 'Psíquico',
+  bug: 'Bicho',
+  rock: 'Roca',
+  ghost: 'Fantasma',
+  dragon: 'Dragón',
+  dark: 'Siniestro',
+  steel: 'Acero',
+  fairy: 'Hada',
 };
 
 const STAT_MAP: Record<string, BaseStat['name']> = {
-  hp: 'hp', attack: 'attack', defense: 'defense',
-  'special-attack': 'special-attack', 'special-defense': 'special-defense', speed: 'speed',
+  hp: 'hp',
+  attack: 'attack',
+  defense: 'defense',
+  'special-attack': 'special-attack',
+  'special-defense': 'special-defense',
+  speed: 'speed',
 };
 const STAT_LABELS: Record<BaseStat['name'], BaseStat['label']> = {
-  hp: 'PS', attack: 'Ataque', defense: 'Defensa',
-  'special-attack': 'Ataque Esp.', 'special-defense': 'Defensa Esp.', speed: 'Velocidad',
+  hp: 'PS',
+  attack: 'Ataque',
+  defense: 'Defensa',
+  'special-attack': 'Ataque Esp.',
+  'special-defense': 'Defensa Esp.',
+  speed: 'Velocidad',
 };
 
 function idFromUrl(url: string): number {
@@ -89,7 +116,10 @@ export class PokeApiClient implements IPokeApiClient {
     return entries;
   }
 
-  async getPokemonDetail(idOrName: number | string, options?: FetchOptions): Promise<PokemonDetail> {
+  async getPokemonDetail(
+    idOrName: number | string,
+    options?: FetchOptions
+  ): Promise<PokemonDetail> {
     const key = `pokemon-${idOrName}`;
     if (!options?.forceRefresh) {
       const cached = this.cache.get<PokemonDetail>(key);
@@ -127,9 +157,7 @@ export class PokeApiClient implements IPokeApiClient {
       if (cached) return cached;
     }
     const raw = await httpGet<RawPokemonListResponse>(`${BASE_URL}/type`, this.newSignal());
-    const types = raw.results
-      .map((r) => r.name as PokemonType)
-      .filter((t) => t in TYPE_LABELS);
+    const types = raw.results.map((r) => r.name as PokemonType).filter((t) => t in TYPE_LABELS);
     this.cache.set(key, types);
     return types;
   }

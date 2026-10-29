@@ -23,9 +23,7 @@ export function compareStats(
   b: PokemonDetail
 ): Record<BaseStat['name'], StatComparison> {
   // Indexar los stats de B por nombre para acceso O(1)
-  const statMapB = new Map<BaseStat['name'], number>(
-    b.stats.map((s) => [s.name, s.value])
-  );
+  const statMapB = new Map<BaseStat['name'], number>(b.stats.map((s) => [s.name, s.value]));
 
   const result = {} as Record<BaseStat['name'], StatComparison>;
 

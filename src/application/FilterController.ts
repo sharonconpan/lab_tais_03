@@ -95,10 +95,7 @@ export class FilterController implements IController<PokemonEntry[]> {
    * @param searchBase    Subconjunto base (resultado de búsqueda). Si se omite,
    *                      se usa el índice completo.
    */
-  async setTypes(
-    types: PokemonType[],
-    searchBase?: PokemonEntry[]
-  ): Promise<void> {
+  async setTypes(types: PokemonType[], searchBase?: PokemonEntry[]): Promise<void> {
     this._selectedTypes = [...types];
     if (searchBase !== undefined) {
       this._searchBase = searchBase;
@@ -134,7 +131,9 @@ export class FilterController implements IController<PokemonEntry[]> {
       this._setState({
         status: 'error',
         message: isTimeout ? i18n.tiempoAgotado : toErrorMessage(err),
-        retryable: isTimeout || (err instanceof Error && (err as { retryable?: boolean }).retryable !== false),
+        retryable:
+          isTimeout ||
+          (err instanceof Error && (err as { retryable?: boolean }).retryable !== false),
       });
     }
   }

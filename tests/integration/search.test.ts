@@ -10,9 +10,7 @@
  * searchValidation, searchFilter, SearchBar y SearchController.
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import {
-  MockPokeApiClient,
-} from '../mocks/MockPokeApiClient';
+import { MockPokeApiClient } from '../mocks/MockPokeApiClient';
 import { SearchController } from '../../src/application/SearchController';
 import { SearchBar } from '../../src/presentation/SearchBar';
 import { PokemonList } from '../../src/presentation/PokemonList';
@@ -119,7 +117,7 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     expect(state.data.some((e) => e.id === 122)).toBe(true);
   });
 
-  it("Esc-4: búsqueda \"farfetch'd\" con apóstrofo encuentra farfetchd", async () => {
+  it('Esc-4: búsqueda "farfetch\'d" con apóstrofo encuentra farfetchd', async () => {
     const extendedMock = new MockPokeApiClient();
     extendedMock.addIndexEntry({
       id: 83,
@@ -179,12 +177,10 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     container.appendChild(bar.element);
 
     const input = container.querySelector('input')!;
-    const submitBtn = (
-      container.querySelector('button[data-action="search"]') ??
-      Array.from(container.querySelectorAll('button')).find(
-        (b) => b.textContent?.toLowerCase().includes('buscar')
-      )!
-    ) as HTMLElement;
+    const submitBtn = (container.querySelector('button[data-action="search"]') ??
+      Array.from(container.querySelectorAll('button')).find((b) =>
+        b.textContent?.toLowerCase().includes('buscar')
+      )!) as HTMLElement;
 
     // Campo vacío → confirmar búsqueda
     input.value = '';
@@ -202,8 +198,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     container.appendChild(bar.element);
 
     const input = container.querySelector('input')!;
-    const submitBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('buscar')
+    const submitBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('buscar')
     )!;
 
     input.value = '';
@@ -211,8 +207,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     submitBtn.click();
 
     // Debe mostrarse algún mensaje de validación
-    const validationMsg = container.querySelector('[data-validation]') ??
-                          container.querySelector('[role="alert"]');
+    const validationMsg =
+      container.querySelector('[data-validation]') ?? container.querySelector('[role="alert"]');
     expect(validationMsg).not.toBeNull();
     expect(validationMsg?.textContent?.trim().length).toBeGreaterThan(0);
   });
@@ -235,8 +231,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     container.appendChild(bar.element);
 
     const input = container.querySelector('input')!;
-    const submitBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('buscar')
+    const submitBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('buscar')
     )!;
 
     input.value = '###';
@@ -245,8 +241,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
 
     expect(onSearch).not.toHaveBeenCalled();
 
-    const validationMsg = container.querySelector('[data-validation]') ??
-                          container.querySelector('[role="alert"]');
+    const validationMsg =
+      container.querySelector('[data-validation]') ?? container.querySelector('[role="alert"]');
     expect(validationMsg).not.toBeNull();
   });
 
@@ -276,8 +272,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     container.appendChild(bar.element);
 
     const input = container.querySelector('input')!;
-    const submitBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('buscar')
+    const submitBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('buscar')
     )!;
 
     input.value = 'pikachu';
@@ -301,7 +297,12 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     const bigMock = new MockPokeApiClient();
     // Añadir 25 entradas al índice
     for (let i = 100; i < 125; i++) {
-      bigMock.addIndexEntry({ id: i, name: `pokemon-${i}`, displayName: `Pokémon ${i}`, imageUrl: null });
+      bigMock.addIndexEntry({
+        id: i,
+        name: `pokemon-${i}`,
+        displayName: `Pokémon ${i}`,
+        imageUrl: null,
+      });
     }
     const controller = new SearchController(bigMock, { pageSize: 20 });
     await controller.search('pokemon');
@@ -317,7 +318,12 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
   it('Esc-10: Pagination funciona sobre resultados de búsqueda', async () => {
     const bigMock = new MockPokeApiClient();
     for (let i = 100; i < 125; i++) {
-      bigMock.addIndexEntry({ id: i, name: `pokemon-${i}`, displayName: `Pokémon ${i}`, imageUrl: null });
+      bigMock.addIndexEntry({
+        id: i,
+        name: `pokemon-${i}`,
+        displayName: `Pokémon ${i}`,
+        imageUrl: null,
+      });
     }
     const controller = new SearchController(bigMock, { pageSize: 20 });
     await controller.search('pokemon');
@@ -349,8 +355,8 @@ describe('HU-02 — Búsqueda: pruebas de integración', () => {
     const bar = new SearchBar({ onSearch: () => {}, onClear });
     container.appendChild(bar.element);
 
-    const clearBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('limpiar')
+    const clearBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('limpiar')
     )!;
     expect(clearBtn).not.toBeUndefined();
     clearBtn.click();

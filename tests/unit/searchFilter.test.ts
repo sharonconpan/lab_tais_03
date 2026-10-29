@@ -8,13 +8,13 @@ import { filterIndex } from '../../src/application/searchFilter';
 import type { PokemonEntry } from '../../src/domain/types';
 
 const INDEX: PokemonEntry[] = [
-  { id: 1,   name: 'bulbasaur',  displayName: 'Bulbasaur',   imageUrl: 'https://img/1.png'  },
-  { id: 4,   name: 'charmander', displayName: 'Charmander',  imageUrl: 'https://img/4.png'  },
-  { id: 7,   name: 'squirtle',   displayName: 'Squirtle',    imageUrl: 'https://img/7.png'  },
-  { id: 25,  name: 'pikachu',    displayName: 'Pikachu',     imageUrl: 'https://img/25.png' },
-  { id: 39,  name: 'jigglypuff', displayName: 'Jigglypuff',  imageUrl: null                 },
-  { id: 83,  name: "farfetch'd", displayName: "Farfetch'd",  imageUrl: null                 },
-  { id: 122, name: 'mr-mime',    displayName: 'Mr. Mime',    imageUrl: null                 },
+  { id: 1, name: 'bulbasaur', displayName: 'Bulbasaur', imageUrl: 'https://img/1.png' },
+  { id: 4, name: 'charmander', displayName: 'Charmander', imageUrl: 'https://img/4.png' },
+  { id: 7, name: 'squirtle', displayName: 'Squirtle', imageUrl: 'https://img/7.png' },
+  { id: 25, name: 'pikachu', displayName: 'Pikachu', imageUrl: 'https://img/25.png' },
+  { id: 39, name: 'jigglypuff', displayName: 'Jigglypuff', imageUrl: null },
+  { id: 83, name: "farfetch'd", displayName: "Farfetch'd", imageUrl: null },
+  { id: 122, name: 'mr-mime', displayName: 'Mr. Mime', imageUrl: null },
 ];
 
 describe('filterIndex', () => {
@@ -97,7 +97,7 @@ describe('filterIndex', () => {
   // ------------------------------------------------------------------ //
   // Caracteres especiales — RF-006                                       //
   // ------------------------------------------------------------------ //
-  it("\"farfetch'd\" (con apóstrofo) encuentra farfetchd", () => {
+  it('"farfetch\'d" (con apóstrofo) encuentra farfetchd', () => {
     const result = filterIndex(INDEX, "farfetch'd");
     expect(result.length).toBe(1);
     expect(result[0].id).toBe(83);
@@ -140,25 +140,19 @@ describe('filterIndex', () => {
 
   it('fast-check: búsqueda por nombre del índice siempre incluye esa criatura', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...INDEX),
-        (entry) => {
-          const result = filterIndex(INDEX, entry.name);
-          return result.some((e) => e.id === entry.id);
-        }
-      )
+      fc.property(fc.constantFrom(...INDEX), (entry) => {
+        const result = filterIndex(INDEX, entry.name);
+        return result.some((e) => e.id === entry.id);
+      })
     );
   });
 
   it('fast-check: búsqueda por id siempre devuelve ≤1 resultado', () => {
     fc.assert(
-      fc.property(
-        fc.integer({ min: 1, max: 99999 }).map(String),
-        (term) => {
-          const result = filterIndex(INDEX, term);
-          return result.length <= 1;
-        }
-      )
+      fc.property(fc.integer({ min: 1, max: 99999 }).map(String), (term) => {
+        const result = filterIndex(INDEX, term);
+        return result.length <= 1;
+      })
     );
   });
 });

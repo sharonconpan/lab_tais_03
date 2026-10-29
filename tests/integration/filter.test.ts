@@ -13,13 +13,10 @@
  *   - integración en main.ts
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import {
-  MockPokeApiClient,
-  FIXTURE_INDEX,
-} from '../mocks/MockPokeApiClient';
-import { FilterController }  from '../../src/application/FilterController';
-import { TypeFilter }        from '../../src/presentation/TypeFilter';
-import { PokemonList }       from '../../src/presentation/PokemonList';
+import { MockPokeApiClient, FIXTURE_INDEX } from '../mocks/MockPokeApiClient';
+import { FilterController } from '../../src/application/FilterController';
+import { TypeFilter } from '../../src/presentation/TypeFilter';
+import { PokemonList } from '../../src/presentation/PokemonList';
 import type { PokemonEntry, PokemonType } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
@@ -28,7 +25,6 @@ import type { PokemonEntry, PokemonType } from '../../src/domain/types';
 function queryText(container: HTMLElement, text: string): boolean {
   return container.textContent?.includes(text) ?? false;
 }
-
 
 // ------------------------------------------------------------------ //
 // Setup                                                                //
@@ -179,8 +175,9 @@ describe('HU-04 — Filtro por tipo: pruebas de integración', () => {
 
     // Hacer clic en el botón de "electric"
     const btn = Array.from(container.querySelectorAll('button, input[type="checkbox"]')).find(
-      (el) => el.textContent?.toLowerCase().includes('electric') ||
-               (el as HTMLInputElement).value?.toLowerCase() === 'electric'
+      (el) =>
+        el.textContent?.toLowerCase().includes('electric') ||
+        (el as HTMLInputElement).value?.toLowerCase() === 'electric'
     ) as HTMLElement | undefined;
     expect(btn).not.toBeUndefined();
     btn!.click();
@@ -200,8 +197,9 @@ describe('HU-04 — Filtro por tipo: pruebas de integración', () => {
 
     // Clic en "electric" (ya seleccionado) debe quitarlo
     const btn = Array.from(container.querySelectorAll('button, input[type="checkbox"]')).find(
-      (el) => el.textContent?.toLowerCase().includes('electric') ||
-               (el as HTMLInputElement).value?.toLowerCase() === 'electric'
+      (el) =>
+        el.textContent?.toLowerCase().includes('electric') ||
+        (el as HTMLInputElement).value?.toLowerCase() === 'electric'
     ) as HTMLElement | undefined;
     btn!.click();
 

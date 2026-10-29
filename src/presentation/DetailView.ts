@@ -145,9 +145,7 @@ export class DetailView implements IComponent<DetailViewProps> {
     for (const ability of detail.abilities) {
       const li = document.createElement('li');
       li.className = 'detail-view__ability';
-      const label = ability.isHidden
-        ? `${ability.name} (oculta)`
-        : ability.name;
+      const label = ability.isHidden ? `${ability.name} (oculta)` : ability.name;
 
       if (props.onAbilityClick) {
         const btn = document.createElement('button');
@@ -175,7 +173,7 @@ export class DetailView implements IComponent<DetailViewProps> {
     statsList.className = 'detail-view__stats';
     for (const stat of detail.stats) {
       const dt = document.createElement('dt');
-      dt.textContent = stat.label;   // Etiqueta en español: PS, Ataque, …
+      dt.textContent = stat.label; // Etiqueta en español: PS, Ataque, …
       const dd = document.createElement('dd');
       dd.textContent = String(stat.value);
       statsList.appendChild(dt);

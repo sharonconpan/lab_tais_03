@@ -24,9 +24,9 @@ function normalize(s: string): string {
  */
 function normalizeSpecial(s: string): string {
   return normalize(s)
-    .replace(/[.\s']+/g, '-')  // punto, espacio, apóstrofo → guión
-    .replace(/-+/g, '-')       // guiones múltiples → uno
-    .replace(/^-|-$/g, '');    // quitar guiones extremos
+    .replace(/[.\s']+/g, '-') // punto, espacio, apóstrofo → guión
+    .replace(/-+/g, '-') // guiones múltiples → uno
+    .replace(/^-|-$/g, ''); // quitar guiones extremos
 }
 
 /**
@@ -43,10 +43,7 @@ function normalizeSpecial(s: string): string {
  *
  * El término se recibe ya validado (no vacío, no solo símbolos).
  */
-export function filterIndex(
-  index: PokemonEntry[],
-  term: string
-): PokemonEntry[] {
+export function filterIndex(index: PokemonEntry[], term: string): PokemonEntry[] {
   const normalized = normalize(term);
 
   // Detectar búsqueda numérica: solo dígitos tras el trim
@@ -59,11 +56,13 @@ export function filterIndex(
 
   // Búsqueda textual: subcadena en name normalizado (directo o especial)
   return index.filter((e) => {
-    const eName         = normalize(e.name);
-    const eNameSpecial  = normalizeSpecial(e.name);
-    return eName.includes(normalized) ||
-           eNameSpecial.includes(normalizedSpecial) ||
-           eName.includes(normalizedSpecial) ||
-           eNameSpecial.includes(normalized);
+    const eName = normalize(e.name);
+    const eNameSpecial = normalizeSpecial(e.name);
+    return (
+      eName.includes(normalized) ||
+      eNameSpecial.includes(normalizedSpecial) ||
+      eName.includes(normalizedSpecial) ||
+      eNameSpecial.includes(normalized)
+    );
   });
 }

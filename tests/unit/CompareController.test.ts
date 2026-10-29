@@ -10,11 +10,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { CompareController } from '../../src/application/CompareController';
-import {
-  MockPokeApiClient,
-  FIXTURE_PIKACHU,
-  FIXTURE_NO_IMAGE,
-} from '../mocks/MockPokeApiClient';
+import { MockPokeApiClient, FIXTURE_PIKACHU, FIXTURE_NO_IMAGE } from '../mocks/MockPokeApiClient';
 import type { AsyncState, CompareResult } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //

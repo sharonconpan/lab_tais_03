@@ -13,12 +13,7 @@
  */
 import type { IController } from '../../contracts/IController';
 import type { IPokeApiClient } from '../../contracts/IPokeApiClient';
-import type {
-  AsyncState,
-  CatalogContext,
-  PokemonDetail,
-  PokemonType,
-} from '../domain/types';
+import type { AsyncState, CatalogContext, PokemonDetail, PokemonType } from '../domain/types';
 import { TimeoutError, NotFoundError, toErrorMessage } from '../services/errors';
 import { i18n } from '../i18n/es';
 
@@ -71,9 +66,7 @@ export class DetailController implements IController<PokemonDetail> {
    */
   async load(idOrName: number | string, context?: CatalogContext): Promise<void> {
     // Guardar contexto de navegación (RF-013)
-    this._catalogContext = context
-      ? { ...context }
-      : { ...EMPTY_CONTEXT };
+    this._catalogContext = context ? { ...context } : { ...EMPTY_CONTEXT };
 
     this._setState({ status: 'loading' });
     try {
@@ -100,9 +93,7 @@ export class DetailController implements IController<PokemonDetail> {
     const isTimeout = err instanceof TimeoutError;
     const isNotFound = err instanceof NotFoundError;
 
-    const message = isTimeout
-      ? i18n.tiempoAgotado
-      : toErrorMessage(err);
+    const message = isTimeout ? i18n.tiempoAgotado : toErrorMessage(err);
 
     // TimeoutError y NetworkError → retryable=true
     // NotFoundError               → retryable=false

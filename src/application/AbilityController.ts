@@ -72,11 +72,11 @@ export class AbilityController implements IController<AbilityDetail> {
   // ------------------------------------------------------------------ //
 
   private _handleError(err: unknown): void {
-    const isTimeout  = err instanceof TimeoutError;
+    const isTimeout = err instanceof TimeoutError;
     const isNotFound = err instanceof NotFoundError;
     this._setState({
-      status:   'error',
-      message:  isTimeout ? i18n.tiempoAgotado : toErrorMessage(err),
+      status: 'error',
+      message: isTimeout ? i18n.tiempoAgotado : toErrorMessage(err),
       retryable: !isNotFound,
     });
   }

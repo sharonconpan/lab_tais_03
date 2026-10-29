@@ -33,14 +33,15 @@ describe('httpGet', () => {
     vi.useFakeTimers();
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockImplementation((_url: string, opts?: RequestInit) =>
-        new Promise<never>((_res, rej) => {
-          // Rechaza cuando el AbortSignal interno de httpGet dispara
-          opts?.signal?.addEventListener('abort', () => {
-            const err = Object.assign(new Error('timeout'), { name: 'AbortError' });
-            rej(err);
-          });
-        })
+      vi.fn().mockImplementation(
+        (_url: string, opts?: RequestInit) =>
+          new Promise<never>((_res, rej) => {
+            // Rechaza cuando el AbortSignal interno de httpGet dispara
+            opts?.signal?.addEventListener('abort', () => {
+              const err = Object.assign(new Error('timeout'), { name: 'AbortError' });
+              rej(err);
+            });
+          })
       )
     );
     const promise = httpGet('https://example.com');

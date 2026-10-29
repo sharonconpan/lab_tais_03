@@ -168,7 +168,7 @@ export class SearchController implements IController<PokemonEntry[]> {
 
   private _emitCurrentPage(): void {
     const start = (this._page - 1) * this._pageSize;
-    const end   = start + this._pageSize;
+    const end = start + this._pageSize;
     const slice = this._filtered.slice(start, end);
     this._setState({ status: 'success', data: slice });
   }

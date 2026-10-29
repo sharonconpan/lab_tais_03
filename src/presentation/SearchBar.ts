@@ -40,7 +40,7 @@ export class SearchBar {
 
   update(props: Partial<SearchBarProps>): void {
     if (props.onSearch !== undefined) this._onSearch = props.onSearch;
-    if (props.onClear !== undefined)  this._onClear  = props.onClear;
+    if (props.onClear !== undefined) this._onClear = props.onClear;
   }
 
   /** Devuelve el término actual del campo de texto (sin recortar) */
@@ -126,7 +126,10 @@ export class SearchBar {
     // Eventos
     this._searchBtn.addEventListener('click', () => this._handleSearchClick());
     this._clearBtn.addEventListener('click', () => this._handleClearClick());
-    form.addEventListener('submit', (e) => { e.preventDefault(); this._handleSearchClick(); });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this._handleSearchClick();
+    });
 
     return form;
   }
@@ -149,9 +152,7 @@ export class SearchBar {
     if (!validation.valid) {
       // Validación síncrona e inmediata — sin debounce
       this._showValidation(
-        validation.reason === 'empty'
-          ? i18n.campoBusquedaVacio
-          : i18n.terminoInvalido
+        validation.reason === 'empty' ? i18n.campoBusquedaVacio : i18n.terminoInvalido
       );
       return;
     }

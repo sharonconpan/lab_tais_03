@@ -12,15 +12,11 @@
  * Estado inicial: ROJO hasta que los módulos existan (rojo → verde).
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import {
-  MockPokeApiClient,
-  FIXTURE_PIKACHU,
-  FIXTURE_NO_IMAGE,
-} from '../mocks/MockPokeApiClient';
+import { MockPokeApiClient, FIXTURE_PIKACHU, FIXTURE_NO_IMAGE } from '../mocks/MockPokeApiClient';
 import { CompareController } from '../../src/application/CompareController';
-import { ComparePanel }      from '../../src/presentation/ComparePanel';
-import { LoadingIndicator }  from '../../src/presentation/LoadingIndicator';
-import { ErrorMessage }      from '../../src/presentation/ErrorMessage';
+import { ComparePanel } from '../../src/presentation/ComparePanel';
+import { LoadingIndicator } from '../../src/presentation/LoadingIndicator';
+import { ErrorMessage } from '../../src/presentation/ErrorMessage';
 import type { CompareResult } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
@@ -150,9 +146,11 @@ describe('HU-06 — Comparación: Escenario 6 — Indicador de carga', () => {
     await ctrl.selectA(25);
     await ctrl.selectB(39);
 
-    expect(loading.element.getAttribute('hidden') !== null ||
-           loading.element.getAttribute('aria-hidden') === 'true' ||
-           ctrl.state.status !== 'loading').toBe(true);
+    expect(
+      loading.element.getAttribute('hidden') !== null ||
+        loading.element.getAttribute('aria-hidden') === 'true' ||
+        ctrl.state.status !== 'loading'
+    ).toBe(true);
     ctrl.destroy();
   });
 });
@@ -215,16 +213,18 @@ describe('HU-06 — Comparación: Escenario 1 — Comparación estándar', () =>
     container.appendChild(panel.element);
 
     // Debe existir alguna señal textual en el stat speed para A (▲ o "Mayor")
-    const speedRow = container.querySelector('[data-stat="speed"]') ??
-                     Array.from(container.querySelectorAll('*')).find(
-                       (el) => el.textContent?.toLowerCase().includes('velocidad')
-                     )?.parentElement;
+    const speedRow =
+      container.querySelector('[data-stat="speed"]') ??
+      Array.from(container.querySelectorAll('*')).find((el) =>
+        el.textContent?.toLowerCase().includes('velocidad')
+      )?.parentElement;
     expect(speedRow).not.toBeNull();
-    const markerA = speedRow?.querySelector('[data-winner="A"]') ??
-                    speedRow?.querySelector('.stat-winner--a') ??
-                    Array.from(speedRow?.querySelectorAll('*') ?? []).find(
-                      (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
-                    );
+    const markerA =
+      speedRow?.querySelector('[data-winner="A"]') ??
+      speedRow?.querySelector('.stat-winner--a') ??
+      Array.from(speedRow?.querySelectorAll('*') ?? []).find(
+        (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
+      );
     expect(markerA).not.toBeUndefined();
 
     panel.destroy();
@@ -250,16 +250,17 @@ describe('HU-06 — Comparación: Escenario 1 — Comparación estándar', () =>
     });
     container.appendChild(panel.element);
 
-    const hpRow = container.querySelector('[data-stat="hp"]') ??
-                  Array.from(container.querySelectorAll('*')).find(
-                    (el) => el.textContent?.includes('PS')
-                  )?.parentElement;
+    const hpRow =
+      container.querySelector('[data-stat="hp"]') ??
+      Array.from(container.querySelectorAll('*')).find((el) => el.textContent?.includes('PS'))
+        ?.parentElement;
     expect(hpRow).not.toBeNull();
-    const markerB = hpRow?.querySelector('[data-winner="B"]') ??
-                    hpRow?.querySelector('.stat-winner--b') ??
-                    Array.from(hpRow?.querySelectorAll('*') ?? []).find(
-                      (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
-                    );
+    const markerB =
+      hpRow?.querySelector('[data-winner="B"]') ??
+      hpRow?.querySelector('.stat-winner--b') ??
+      Array.from(hpRow?.querySelectorAll('*') ?? []).find(
+        (el) => el.textContent?.includes('▲') || el.textContent?.toLowerCase().includes('mayor')
+      );
     expect(markerB).not.toBeUndefined();
 
     panel.destroy();
@@ -350,8 +351,10 @@ describe('HU-06 — Comparación: Escenario 2 — Estadística empatada', () => 
     container.appendChild(panel.element);
 
     // Debe existir señal de empate en el DOM (= o "Empate")
-    const hasEmpate = queryText(container, '=') || queryText(container, 'Empate') ||
-                      container.querySelectorAll('[data-winner="tie"]').length > 0;
+    const hasEmpate =
+      queryText(container, '=') ||
+      queryText(container, 'Empate') ||
+      container.querySelectorAll('[data-winner="tie"]').length > 0;
     expect(hasEmpate).toBe(true);
 
     panel.destroy();

@@ -7,10 +7,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { FilterController } from '../../src/application/FilterController';
-import {
-  MockPokeApiClient,
-  FIXTURE_INDEX,
-} from '../mocks/MockPokeApiClient';
+import { MockPokeApiClient, FIXTURE_INDEX } from '../mocks/MockPokeApiClient';
 import type { AsyncState, PokemonEntry } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //

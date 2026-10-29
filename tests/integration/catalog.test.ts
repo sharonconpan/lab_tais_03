@@ -142,9 +142,10 @@ describe('HU-01 — Catálogo: pruebas de integración', () => {
       expect(img.getAttribute('src')).not.toBe('null');
     } else {
       // Si no hay img, debe existir algún elemento de placeholder
-      const placeholder = jigglypuffCard?.querySelector('[data-placeholder]') ??
-                          jigglypuffCard?.querySelector('svg') ??
-                          jigglypuffCard?.querySelector('[aria-label]');
+      const placeholder =
+        jigglypuffCard?.querySelector('[data-placeholder]') ??
+        jigglypuffCard?.querySelector('svg') ??
+        jigglypuffCard?.querySelector('[aria-label]');
       expect(placeholder).not.toBeNull();
     }
 
@@ -247,8 +248,9 @@ describe('HU-01 — Catálogo: pruebas de integración', () => {
 
     const buttons = container.querySelectorAll('button');
     const prevBtn = Array.from(buttons).find(
-      (b) => b.getAttribute('aria-label')?.toLowerCase().includes('anterior') ||
-             b.textContent?.toLowerCase().includes('anterior')
+      (b) =>
+        b.getAttribute('aria-label')?.toLowerCase().includes('anterior') ||
+        b.textContent?.toLowerCase().includes('anterior')
     );
     expect(prevBtn).not.toBeNull();
     expect(prevBtn?.disabled).toBe(true);
@@ -264,8 +266,9 @@ describe('HU-01 — Catálogo: pruebas de integración', () => {
 
     const buttons = container.querySelectorAll('button');
     const nextBtn = Array.from(buttons).find(
-      (b) => b.getAttribute('aria-label')?.toLowerCase().includes('siguiente') ||
-             b.textContent?.toLowerCase().includes('siguiente')
+      (b) =>
+        b.getAttribute('aria-label')?.toLowerCase().includes('siguiente') ||
+        b.textContent?.toLowerCase().includes('siguiente')
     );
     expect(nextBtn).not.toBeNull();
     expect(nextBtn?.disabled).toBe(true);
@@ -283,12 +286,14 @@ describe('HU-01 — Catálogo: pruebas de integración', () => {
 
     const buttons = container.querySelectorAll('button');
     const prevBtn = Array.from(buttons).find(
-      (b) => b.getAttribute('aria-label')?.toLowerCase().includes('anterior') ||
-             b.textContent?.toLowerCase().includes('anterior')
+      (b) =>
+        b.getAttribute('aria-label')?.toLowerCase().includes('anterior') ||
+        b.textContent?.toLowerCase().includes('anterior')
     )!;
     const nextBtn = Array.from(buttons).find(
-      (b) => b.getAttribute('aria-label')?.toLowerCase().includes('siguiente') ||
-             b.textContent?.toLowerCase().includes('siguiente')
+      (b) =>
+        b.getAttribute('aria-label')?.toLowerCase().includes('siguiente') ||
+        b.textContent?.toLowerCase().includes('siguiente')
     )!;
 
     prevBtn.click();

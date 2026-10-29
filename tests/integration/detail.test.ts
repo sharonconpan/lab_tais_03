@@ -6,14 +6,11 @@
  * Estado inicial esperado: ROJO hasta que existan DetailView y DetailController.
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import {
-  MockPokeApiClient,
-  FIXTURE_PIKACHU,
-} from '../mocks/MockPokeApiClient';
-import { DetailController }  from '../../src/application/DetailController';
-import { DetailView }        from '../../src/presentation/DetailView';
-import { LoadingIndicator }  from '../../src/presentation/LoadingIndicator';
-import { ErrorMessage }      from '../../src/presentation/ErrorMessage';
+import { MockPokeApiClient, FIXTURE_PIKACHU } from '../mocks/MockPokeApiClient';
+import { DetailController } from '../../src/application/DetailController';
+import { DetailView } from '../../src/presentation/DetailView';
+import { LoadingIndicator } from '../../src/presentation/LoadingIndicator';
+import { ErrorMessage } from '../../src/presentation/ErrorMessage';
 import type { AsyncState, CatalogContext, PokemonDetail } from '../../src/domain/types';
 
 // ------------------------------------------------------------------ //
@@ -159,8 +156,8 @@ describe('HU-03 — Ficha de criatura: pruebas de integración', () => {
     const view = new DetailView({ detail: state.data, onBack: () => {} });
     container.appendChild(view.element);
 
-    const backBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('volver')
+    const backBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('volver')
     );
     expect(backBtn).not.toBeUndefined();
   });
@@ -173,8 +170,8 @@ describe('HU-03 — Ficha de criatura: pruebas de integración', () => {
     const view = new DetailView({ detail: state.data, onBack });
     container.appendChild(view.element);
 
-    const backBtn = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('volver')
+    const backBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('volver')
     )!;
     backBtn.click();
     expect(onBack).toHaveBeenCalledTimes(1);
@@ -295,9 +292,9 @@ describe('HU-03 — Ficha de criatura: pruebas de integración', () => {
 
     const state = ctrl.state as { status: 'error'; message: string; retryable: boolean };
     const errorMsg = new ErrorMessage({
-      message:   state.message,
+      message: state.message,
       retryable: state.retryable,
-      onRetry:   () => {},
+      onRetry: () => {},
     });
     container.appendChild(errorMsg.element);
 

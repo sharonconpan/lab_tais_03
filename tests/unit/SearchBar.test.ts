@@ -13,19 +13,18 @@ function getInput(container: HTMLElement): HTMLInputElement {
 }
 function getSearchBtn(container: HTMLElement): HTMLButtonElement {
   return Array.from(container.querySelectorAll('button')).find(
-    (b) => b.getAttribute('data-action') === 'search' ||
-           b.textContent?.toLowerCase().includes('buscar')
+    (b) =>
+      b.getAttribute('data-action') === 'search' || b.textContent?.toLowerCase().includes('buscar')
   ) as HTMLButtonElement;
 }
 function getClearBtn(container: HTMLElement): HTMLButtonElement {
   return Array.from(container.querySelectorAll('button')).find(
-    (b) => b.getAttribute('data-action') === 'clear' ||
-           b.textContent?.toLowerCase().includes('limpiar')
+    (b) =>
+      b.getAttribute('data-action') === 'clear' || b.textContent?.toLowerCase().includes('limpiar')
   ) as HTMLButtonElement;
 }
 function getValidationMsg(container: HTMLElement): HTMLElement | null {
-  return container.querySelector('[data-validation]') ??
-         container.querySelector('[role="alert"]');
+  return container.querySelector('[data-validation]') ?? container.querySelector('[role="alert"]');
 }
 
 describe('SearchBar', () => {
@@ -53,8 +52,7 @@ describe('SearchBar', () => {
     const formEl = bar.element;
     // El form o el wrapper debe tener role=search
     const hasRole =
-      formEl.getAttribute('role') === 'search' ||
-      formEl.querySelector('[role="search"]') !== null;
+      formEl.getAttribute('role') === 'search' || formEl.querySelector('[role="search"]') !== null;
     expect(hasRole).toBe(true);
   });
 

@@ -70,7 +70,7 @@ describe('validateSearchTerm', () => {
     expect(validateSearchTerm('Mr. Mime').valid).toBe(true);
   });
 
-  it("\"Farfetch'd\" (con apóstrofo) devuelve { valid: true }", () => {
+  it('"Farfetch\'d" (con apóstrofo) devuelve { valid: true }', () => {
     expect(validateSearchTerm("Farfetch'd").valid).toBe(true);
   });
 

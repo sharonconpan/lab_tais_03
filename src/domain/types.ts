@@ -1,8 +1,23 @@
 /** Tipo de una criatura Pokémon */
 export type PokemonType =
-  | 'normal' | 'fire' | 'water' | 'electric' | 'grass' | 'ice'
-  | 'fighting' | 'poison' | 'ground' | 'flying' | 'psychic' | 'bug'
-  | 'rock' | 'ghost' | 'dragon' | 'dark' | 'steel' | 'fairy';
+  | 'normal'
+  | 'fire'
+  | 'water'
+  | 'electric'
+  | 'grass'
+  | 'ice'
+  | 'fighting'
+  | 'poison'
+  | 'ground'
+  | 'flying'
+  | 'psychic'
+  | 'bug'
+  | 'rock'
+  | 'ghost'
+  | 'dragon'
+  | 'dark'
+  | 'steel'
+  | 'fairy';
 
 /** Entrada mínima del índice */
 export interface PokemonEntry {

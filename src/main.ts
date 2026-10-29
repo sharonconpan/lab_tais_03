@@ -19,22 +19,22 @@ import './styles/detail.css';
 import './styles/filter.css';
 import './styles/compare.css';
 
-import { PokeApiClient }        from './services/PokeApiClient';
-import { CatalogController }    from './application/CatalogController';
-import { SearchController }     from './application/SearchController';
-import { DetailController }     from './application/DetailController';
-import { FilterController }     from './application/FilterController';
-import { AbilityController }    from './application/AbilityController';
-import { CompareController }    from './application/CompareController';
-import { LoadingIndicator }     from './presentation/LoadingIndicator';
-import { ErrorMessage }         from './presentation/ErrorMessage';
-import { PokemonList }          from './presentation/PokemonList';
-import { Pagination }           from './presentation/Pagination';
-import { SearchBar }            from './presentation/SearchBar';
-import { TypeFilter }           from './presentation/TypeFilter';
-import { DetailView }           from './presentation/DetailView';
-import { AbilityDetail }        from './presentation/AbilityDetail';
-import { ComparePanel }         from './presentation/ComparePanel';
+import { PokeApiClient } from './services/PokeApiClient';
+import { CatalogController } from './application/CatalogController';
+import { SearchController } from './application/SearchController';
+import { DetailController } from './application/DetailController';
+import { FilterController } from './application/FilterController';
+import { AbilityController } from './application/AbilityController';
+import { CompareController } from './application/CompareController';
+import { LoadingIndicator } from './presentation/LoadingIndicator';
+import { ErrorMessage } from './presentation/ErrorMessage';
+import { PokemonList } from './presentation/PokemonList';
+import { Pagination } from './presentation/Pagination';
+import { SearchBar } from './presentation/SearchBar';
+import { TypeFilter } from './presentation/TypeFilter';
+import { DetailView } from './presentation/DetailView';
+import { AbilityDetail } from './presentation/AbilityDetail';
+import { ComparePanel } from './presentation/ComparePanel';
 import type {
   AsyncState,
   AbilityDetail as AbilityDetailType,
@@ -48,19 +48,19 @@ import type {
 // ------------------------------------------------------------------ //
 // Controladores                                                        //
 // ------------------------------------------------------------------ //
-const api           = new PokeApiClient();
-const catalogCtrl   = new CatalogController(api);
-const searchCtrl    = new SearchController(api);
-const filterCtrl    = new FilterController(api);
-const detailCtrl    = new DetailController(api);
-const abilityCtrl   = new AbilityController(api);
-const compareCtrl   = new CompareController(api);
+const api = new PokeApiClient();
+const catalogCtrl = new CatalogController(api);
+const searchCtrl = new SearchController(api);
+const filterCtrl = new FilterController(api);
+const detailCtrl = new DetailController(api);
+const abilityCtrl = new AbilityController(api);
+const compareCtrl = new CompareController(api);
 
 // ------------------------------------------------------------------ //
 // Estado de la UI                                                      //
 // ------------------------------------------------------------------ //
-let searchActive   = false;
-let filterActive   = false;
+let searchActive = false;
+let filterActive = false;
 let selectedTypes: PokemonType[] = [];
 
 // ------------------------------------------------------------------ //
@@ -78,7 +78,7 @@ header.innerHTML = '<h1>PokeDex Explorer</h1>';
 
 const searchBarEl = new SearchBar({
   onSearch: (term) => handleSearch(term),
-  onClear:  ()     => handleClearSearch(),
+  onClear: () => handleClearSearch(),
 });
 
 const typeFilterEl = new TypeFilter({
@@ -87,9 +87,9 @@ const typeFilterEl = new TypeFilter({
   onChange: (types) => handleTypeChange(types),
 });
 
-const loadingEl    = new LoadingIndicator({ visible: false });
-const errorEl      = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
-const listEl       = new PokemonList({ items: [], onSelect: () => {} });
+const loadingEl = new LoadingIndicator({ visible: false });
+const errorEl = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
+const listEl = new PokemonList({ items: [], onSelect: () => {} });
 const paginationEl = new Pagination({
   params: { page: 1, pageSize: 20, total: 0 },
   onPrev: () => activeListCtrl().prevPage(),
@@ -112,7 +112,7 @@ detailWrapper.className = 'detail-wrapper';
 detailWrapper.setAttribute('hidden', '');
 
 const detailLoadingEl = new LoadingIndicator({ visible: false });
-const detailErrorEl   = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
+const detailErrorEl = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
 detailErrorEl.element.style.display = 'none';
 
 detailWrapper.appendChild(detailLoadingEl.element);
@@ -124,7 +124,7 @@ abilityWrapper.className = 'ability-wrapper';
 abilityWrapper.setAttribute('hidden', '');
 
 const abilityLoadingEl = new LoadingIndicator({ visible: false });
-const abilityErrorEl   = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
+const abilityErrorEl = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
 abilityErrorEl.element.style.display = 'none';
 
 abilityWrapper.appendChild(abilityLoadingEl.element);
@@ -151,7 +151,9 @@ catalogNavBtn.className = 'main-nav__catalog-btn';
 catalogNavBtn.textContent = '📋 Catálogo';
 catalogNavBtn.setAttribute('aria-label', 'Volver al catálogo');
 catalogNavBtn.style.display = 'none';
-catalogNavBtn.addEventListener('click', () => showCatalog({ searchTerm: '', selectedTypes: [], page: 1 }));
+catalogNavBtn.addEventListener('click', () =>
+  showCatalog({ searchTerm: '', selectedTypes: [], page: 1 })
+);
 navBar.appendChild(catalogNavBtn);
 
 header.appendChild(navBar);
@@ -162,17 +164,17 @@ compareWrapper.className = 'compare-wrapper';
 compareWrapper.setAttribute('hidden', '');
 
 const compareLoadingEl = new LoadingIndicator({ visible: false });
-const compareErrorEl   = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
+const compareErrorEl = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
 compareErrorEl.element.style.display = 'none';
 
 // SearchBars para cada slot (RF-029)
 const compareSearchA = new SearchBar({
   onSearch: (term) => compareCtrl.selectA(term),
-  onClear:  ()     => {},
+  onClear: () => {},
 });
 const compareSearchB = new SearchBar({
   onSearch: (term) => compareCtrl.selectB(term),
-  onClear:  ()     => {},
+  onClear: () => {},
 });
 
 let comparePanelEl: ComparePanel | null = null;
@@ -200,8 +202,8 @@ compareCtrl.subscribe((state: AsyncState<CompareResult>) => {
       const sB = compareCtrl.stateB as { status: 'success'; data: PokemonDetail };
       const props = {
         result: state.data,
-        slotA:  sA.status === 'success' ? sA.data : null,
-        slotB:  sB.status === 'success' ? sB.data : null,
+        slotA: sA.status === 'success' ? sA.data : null,
+        slotB: sB.status === 'success' ? sB.data : null,
         onSelectA: () => {},
         onSelectB: () => {},
       };
@@ -216,9 +218,9 @@ compareCtrl.subscribe((state: AsyncState<CompareResult>) => {
     case 'error':
       compareLoadingEl.update({ visible: false });
       compareErrorEl.update({
-        message:   state.message,
+        message: state.message,
         retryable: state.retryable,
-        onRetry:   () => {},
+        onRetry: () => {},
       });
       compareErrorEl.element.style.display = '';
       // Actualizar panel con datos parciales si existen
@@ -236,7 +238,10 @@ function _refreshComparePanel(): void {
   const sB = compareCtrl.stateB;
   const slotA = sA.status === 'success' ? sA.data : null;
   const slotB = sB.status === 'success' ? sB.data : null;
-  const result = compareCtrl.state.status === 'success' ? (compareCtrl.state as { status: 'success'; data: CompareResult }).data : null;
+  const result =
+    compareCtrl.state.status === 'success'
+      ? (compareCtrl.state as { status: 'success'; data: CompareResult }).data
+      : null;
   const props = {
     result,
     slotA,
@@ -284,12 +289,12 @@ function renderListState(state: AsyncState<PokemonEntry[]>): void {
     case 'error':
       loadingEl.update({ visible: false });
       errorEl.update({
-        message:   state.message,
+        message: state.message,
         retryable: state.retryable,
-        onRetry:   () => {
-          if (filterActive)       handleTypeChange(selectedTypes);
-          else if (searchActive)  handleClearSearch();
-          else                    catalogCtrl.load();
+        onRetry: () => {
+          if (filterActive) handleTypeChange(selectedTypes);
+          else if (searchActive) handleClearSearch();
+          else catalogCtrl.load();
         },
       });
       errorEl.element.style.display = '';
@@ -297,9 +302,15 @@ function renderListState(state: AsyncState<PokemonEntry[]>): void {
   }
 }
 
-catalogCtrl.subscribe((s) => { if (!filterActive && !searchActive) renderListState(s); });
-searchCtrl.subscribe((s)  => { if (!filterActive &&  searchActive) renderListState(s); });
-filterCtrl.subscribe((s)  => { if (filterActive)                   renderListState(s); });
+catalogCtrl.subscribe((s) => {
+  if (!filterActive && !searchActive) renderListState(s);
+});
+searchCtrl.subscribe((s) => {
+  if (!filterActive && searchActive) renderListState(s);
+});
+filterCtrl.subscribe((s) => {
+  if (filterActive) renderListState(s);
+});
 
 // ------------------------------------------------------------------ //
 // Suscripción al detalle (HU-03)                                     //
@@ -333,9 +344,9 @@ detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
     case 'error':
       detailLoadingEl.update({ visible: false });
       detailErrorEl.update({
-        message:   state.message,
+        message: state.message,
         retryable: state.retryable,
-        onRetry:   () => {},
+        onRetry: () => {},
       });
       detailErrorEl.element.style.display = '';
       break;
@@ -368,9 +379,9 @@ abilityCtrl.subscribe((state: AsyncState<AbilityDetailType>) => {
     case 'error':
       abilityLoadingEl.update({ visible: false });
       abilityErrorEl.update({
-        message:   state.message,
+        message: state.message,
         retryable: state.retryable,
-        onRetry:   state.retryable
+        onRetry: state.retryable
           ? () => {} // usuario debe reintentar manualmente
           : () => {},
       });
@@ -406,13 +417,15 @@ function handleClearSearch(): void {
 
 async function handleTypeChange(types: PokemonType[]): Promise<void> {
   selectedTypes = types;
-  filterActive  = types.length > 0;
+  filterActive = types.length > 0;
 
   typeFilterEl.update({
-    types: typeFilterEl.element.querySelectorAll('[data-type]').length > 0
-      ? Array.from(typeFilterEl.element.querySelectorAll<HTMLElement>('[data-type]'))
-          .map((el) => el.getAttribute('data-type') as PokemonType)
-      : selectedTypes,
+    types:
+      typeFilterEl.element.querySelectorAll('[data-type]').length > 0
+        ? Array.from(typeFilterEl.element.querySelectorAll<HTMLElement>('[data-type]')).map(
+            (el) => el.getAttribute('data-type') as PokemonType
+          )
+        : selectedTypes,
     selected: selectedTypes,
     onChange: handleTypeChange,
   });
@@ -427,9 +440,8 @@ async function handleTypeChange(types: PokemonType[]): Promise<void> {
     return;
   }
 
-  const base = searchActive && searchCtrl.state.status === 'success'
-    ? searchCtrl.state.data
-    : undefined;
+  const base =
+    searchActive && searchCtrl.state.status === 'success' ? searchCtrl.state.data : undefined;
   await filterCtrl.setTypes(types, base);
 }
 
@@ -440,9 +452,9 @@ async function handleTypeChange(types: PokemonType[]): Promise<void> {
 /** Muestra la ficha de una criatura (HU-03) */
 async function showDetail(id: number): Promise<void> {
   const ctx: CatalogContext = {
-    searchTerm:    searchBarEl.getCurrentTerm(),
+    searchTerm: searchBarEl.getCurrentTerm(),
     selectedTypes: [...selectedTypes],
-    page:          activeListCtrl().pagination.page,
+    page: activeListCtrl().pagination.page,
   };
   catalogWrapper.setAttribute('hidden', '');
   compareWrapper.setAttribute('hidden', '');
@@ -459,9 +471,9 @@ function showCatalog(_ctx: CatalogContext): void {
   compareNavBtn.style.display = '';
   catalogNavBtn.style.display = 'none';
   catalogWrapper.removeAttribute('hidden');
-  if (filterActive)      renderListState(filterCtrl.state);
+  if (filterActive) renderListState(filterCtrl.state);
   else if (searchActive) renderListState(searchCtrl.state);
-  else                   renderListState(catalogCtrl.state);
+  else renderListState(catalogCtrl.state);
 }
 
 /** Muestra la sección de comparación (HU-06, RF-029) */
@@ -531,8 +543,11 @@ function onPokemonSelect(id: number): void {
 // ------------------------------------------------------------------ //
 catalogCtrl.load();
 
-api.getTypeList().then((types) => {
-  typeFilterEl.update({ types, selected: selectedTypes, onChange: handleTypeChange });
-}).catch(() => {
-  // No crítico: el selector de tipos simplemente estará vacío
-});
+api
+  .getTypeList()
+  .then((types) => {
+    typeFilterEl.update({ types, selected: selectedTypes, onChange: handleTypeChange });
+  })
+  .catch(() => {
+    // No crítico: el selector de tipos simplemente estará vacío
+  });

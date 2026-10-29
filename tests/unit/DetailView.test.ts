@@ -65,9 +65,9 @@ describe('DetailView', () => {
 
   it('muestra los valores numéricos de las stats', () => {
     const view = new DetailView({ detail: FIXTURE_PIKACHU, onBack: () => {} });
-    expect(queryText(view.element, '35')).toBe(true);  // PS
-    expect(queryText(view.element, '55')).toBe(true);  // Ataque
-    expect(queryText(view.element, '90')).toBe(true);  // Velocidad
+    expect(queryText(view.element, '35')).toBe(true); // PS
+    expect(queryText(view.element, '55')).toBe(true); // Ataque
+    expect(queryText(view.element, '90')).toBe(true); // Velocidad
   });
 
   // ------------------------------------------------------------------ //
@@ -92,8 +92,7 @@ describe('DetailView', () => {
       expect(img.getAttribute('src')).not.toBe('null');
     } else {
       const placeholder =
-        view.element.querySelector('[data-placeholder]') ??
-        view.element.querySelector('svg');
+        view.element.querySelector('[data-placeholder]') ?? view.element.querySelector('svg');
       expect(placeholder).not.toBeNull();
     }
   });
@@ -109,8 +108,8 @@ describe('DetailView', () => {
   // ------------------------------------------------------------------ //
   it('tiene botón Volver en español', () => {
     const view = new DetailView({ detail: FIXTURE_PIKACHU, onBack: () => {} });
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('volver')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('volver')
     );
     expect(btn).not.toBeUndefined();
   });
@@ -118,8 +117,8 @@ describe('DetailView', () => {
   it('onBack se invoca al hacer clic en Volver', () => {
     const spy = vi.fn();
     const view = new DetailView({ detail: FIXTURE_PIKACHU, onBack: spy });
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('volver')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('volver')
     )!;
     btn.click();
     expect(spy).toHaveBeenCalledTimes(1);
@@ -144,8 +143,8 @@ describe('DetailView', () => {
 
     view.update({ detail: FIXTURE_PIKACHU, onBack: spy2 });
 
-    const btn = Array.from(view.element.querySelectorAll('button')).find(
-      (b) => b.textContent?.toLowerCase().includes('volver')
+    const btn = Array.from(view.element.querySelectorAll('button')).find((b) =>
+      b.textContent?.toLowerCase().includes('volver')
     )!;
     btn.click();
     expect(spy2).toHaveBeenCalledTimes(1);
@@ -212,12 +211,12 @@ describe('DetailView', () => {
       weightHg: 100,
       abilities: [{ name: 'blaze', isHidden: false }],
       stats: [
-        { name: 'hp',             label: 'PS',           value: 100 },
-        { name: 'attack',         label: 'Ataque',       value: 80  },
-        { name: 'defense',        label: 'Defensa',      value: 70  },
-        { name: 'special-attack', label: 'Ataque Esp.',  value: 90  },
-        { name: 'special-defense',label: 'Defensa Esp.', value: 60  },
-        { name: 'speed',          label: 'Velocidad',    value: 50  },
+        { name: 'hp', label: 'PS', value: 100 },
+        { name: 'attack', label: 'Ataque', value: 80 },
+        { name: 'defense', label: 'Defensa', value: 70 },
+        { name: 'special-attack', label: 'Ataque Esp.', value: 90 },
+        { name: 'special-defense', label: 'Defensa Esp.', value: 60 },
+        { name: 'speed', label: 'Velocidad', value: 50 },
       ],
     };
     const view = new DetailView({ detail: custom, onBack: () => {} });
