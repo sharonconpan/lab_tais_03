@@ -1,43 +1,68 @@
 /**
- * HU01-08 / HU02-06 / HU03-04 — Punto de entrada
- * RF-001, RF-002, RF-003, RF-023, RF-024, RF-025, RF-026 (HU-01)
- * RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-027 (HU-02)
- * RF-012, RF-013, RF-023, RF-024, RF-025 (HU-03)
+ * HU01-08 / HU02-06 / HU03-04 / HU04-05 — Punto de entrada
+ * RF-001..RF-003, RF-023..RF-026 (HU-01)
+ * RF-004..RF-011, RF-027 (HU-02)
+ * RF-012, RF-013 (HU-03)
+ * RF-014..RF-017, RF-028 (HU-04)
  *
  * Modos de la interfaz:
- *   - 'catalog' : CatalogController + SearchController visibles (HU-01 / HU-02)
- *   - 'detail'  : DetailView visible, catálogo/búsqueda ocultos (HU-03)
+ *   'catalog' — CatalogController + SearchController + TypeFilter visibles
+ *   'detail'  — DetailView visible, catálogo oculto (HU-03)
  *
- * Navegación HU-03:
- *   1. Clic en una PokemonCard → onPokemonSelect(id) → showDetail(id)
- *   2. Pulsar "Volver" → DetailController.getCatalogContext() → showCatalog(ctx)
+ * Pipeline de filtrado (HU-04):
+ *   1. SearchController produce un subconjunto del índice por nombre.
+ *   2. FilterController recibe ese subconjunto como base y aplica el filtro OR.
+ *   3. Cuando no hay filtro activo se muestra el resultado de Search/Catalog.
+ *   4. Cuando hay filtro activo se muestra el resultado de FilterController.
+ *
+ * clearTypes() y clearSearch() son independientes (RF-016).
  */
 import './styles/catalog.css';
 import './styles/detail.css';
+import './styles/filter.css';
 
 import { PokeApiClient }       from './services/PokeApiClient';
 import { CatalogController }   from './application/CatalogController';
 import { SearchController }    from './application/SearchController';
 import { DetailController }    from './application/DetailController';
+import { FilterController }    from './application/FilterController';
 import { LoadingIndicator }    from './presentation/LoadingIndicator';
 import { ErrorMessage }        from './presentation/ErrorMessage';
 import { PokemonList }         from './presentation/PokemonList';
 import { Pagination }          from './presentation/Pagination';
 import { SearchBar }           from './presentation/SearchBar';
+import { TypeFilter }          from './presentation/TypeFilter';
 import { DetailView }          from './presentation/DetailView';
 import type {
   AsyncState,
   CatalogContext,
   PokemonDetail,
   PokemonEntry,
+  PokemonType,
 } from './domain/types';
 
 // ------------------------------------------------------------------ //
-// DOM — contenedores de cada vista                                    //
+// Controladores                                                        //
+// ------------------------------------------------------------------ //
+const api          = new PokeApiClient();
+const catalogCtrl  = new CatalogController(api);
+const searchCtrl   = new SearchController(api);
+const filterCtrl   = new FilterController(api);
+const detailCtrl   = new DetailController(api);
+
+// ------------------------------------------------------------------ //
+// Estado de la UI                                                      //
+// ------------------------------------------------------------------ //
+let searchActive  = false;       // hay término de búsqueda activo
+let filterActive  = false;       // hay tipos seleccionados
+let selectedTypes: PokemonType[] = [];
+
+// ------------------------------------------------------------------ //
+// DOM — contenedores                                                   //
 // ------------------------------------------------------------------ //
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
-// ── Vista catálogo/búsqueda ────────────────────────────────────────
+// ── Vista catálogo / búsqueda / filtro ────────────────────────────
 const catalogWrapper = document.createElement('div');
 catalogWrapper.className = 'catalog-layout';
 
@@ -47,7 +72,14 @@ header.innerHTML = '<h1>PokeDex Explorer</h1>';
 
 const searchBarEl = new SearchBar({
   onSearch: (term) => handleSearch(term),
-  onClear:  ()     => handleClear(),
+  onClear:  ()     => handleClearSearch(),
+});
+
+// TypeFilter — cargado con tipos al arranque
+const typeFilterEl = new TypeFilter({
+  types: [],       // se rellena al obtener la lista de tipos
+  selected: [],
+  onChange: (types) => handleTypeChange(types),
 });
 
 const loadingEl    = new LoadingIndicator({ visible: false });
@@ -55,23 +87,24 @@ const errorEl      = new ErrorMessage({ message: '', retryable: false, onRetry: 
 const listEl       = new PokemonList({ items: [], onSelect: () => {} });
 const paginationEl = new Pagination({
   params: { page: 1, pageSize: 20, total: 0 },
-  onPrev: () => activeController().prevPage(),
-  onNext: () => activeController().nextPage(),
+  onPrev: () => activeListCtrl().prevPage(),
+  onNext: () => activeListCtrl().nextPage(),
 });
 
 errorEl.element.style.display = 'none';
 
 catalogWrapper.appendChild(header);
 catalogWrapper.appendChild(searchBarEl.element);
+catalogWrapper.appendChild(typeFilterEl.element);
 catalogWrapper.appendChild(loadingEl.element);
 catalogWrapper.appendChild(errorEl.element);
 catalogWrapper.appendChild(listEl.element);
 catalogWrapper.appendChild(paginationEl.element);
 
-// ── Vista detalle ──────────────────────────────────────────────────
+// ── Vista detalle ─────────────────────────────────────────────────
 const detailWrapper = document.createElement('div');
 detailWrapper.className = 'detail-wrapper';
-detailWrapper.setAttribute('hidden', '');     // oculto al iniciar
+detailWrapper.setAttribute('hidden', '');
 
 const detailLoadingEl = new LoadingIndicator({ visible: false });
 const detailErrorEl   = new ErrorMessage({ message: '', retryable: false, onRetry: () => {} });
@@ -84,29 +117,25 @@ app.appendChild(catalogWrapper);
 app.appendChild(detailWrapper);
 
 // ------------------------------------------------------------------ //
-// Controladores                                                        //
+// Controlador "activo" para paginación                                //
 // ------------------------------------------------------------------ //
-const api          = new PokeApiClient();
-const catalogCtrl  = new CatalogController(api);
-const searchCtrl   = new SearchController(api);
-const detailCtrl   = new DetailController(api);
 
-/** true cuando hay una búsqueda activa en curso */
-let searchActive = false;
-
-/** Referencia al DetailView activo (se recrea en cada navegación) */
-let detailViewEl: DetailView | null = null;
-
-/** Devuelve el controlador activo del catálogo según modo de búsqueda */
-function activeController(): CatalogController | SearchController {
-  return searchActive ? searchCtrl : catalogCtrl;
+/**
+ * Devuelve el controlador cuya paginación debe usar la barra de paginación.
+ * Prioridad: filtro > búsqueda > catálogo.
+ */
+function activeListCtrl(): CatalogController | SearchController | FilterController {
+  if (filterActive)  return filterCtrl;
+  if (searchActive)  return searchCtrl;
+  return catalogCtrl;
 }
 
 // ------------------------------------------------------------------ //
-// Suscripción al catálogo / búsqueda                                  //
+// Renderizado de la lista                                             //
 // ------------------------------------------------------------------ //
-function renderCatalogState(state: AsyncState<PokemonEntry[]>): void {
-  const ctrl = activeController();
+
+function renderListState(state: AsyncState<PokemonEntry[]>): void {
+  const ctrl = activeListCtrl();
 
   switch (state.status) {
     case 'loading':
@@ -131,11 +160,9 @@ function renderCatalogState(state: AsyncState<PokemonEntry[]>): void {
         message:   state.message,
         retryable: state.retryable,
         onRetry:   () => {
-          if (searchActive) {
-            handleClear();
-          } else {
-            catalogCtrl.load();
-          }
+          if (filterActive)  handleTypeChange(selectedTypes);
+          else if (searchActive) handleClearSearch();
+          else catalogCtrl.load();
         },
       });
       errorEl.element.style.display = '';
@@ -143,12 +170,17 @@ function renderCatalogState(state: AsyncState<PokemonEntry[]>): void {
   }
 }
 
-catalogCtrl.subscribe(renderCatalogState);
-searchCtrl.subscribe(renderCatalogState);
+// Cada controlador notifica al mismo renderizador.
+// Solo el controlador "activo" actualizará la vista efectivamente.
+catalogCtrl.subscribe((s) => { if (!filterActive && !searchActive) renderListState(s); });
+searchCtrl.subscribe((s)  => { if (!filterActive && searchActive)  renderListState(s); });
+filterCtrl.subscribe((s)  => { if (filterActive)                   renderListState(s); });
 
 // ------------------------------------------------------------------ //
 // Suscripción al detalle (HU-03)                                      //
 // ------------------------------------------------------------------ //
+let detailViewEl: DetailView | null = null;
+
 detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
   switch (state.status) {
     case 'loading':
@@ -159,13 +191,7 @@ detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
     case 'success': {
       detailLoadingEl.update({ visible: false });
       detailErrorEl.element.style.display = 'none';
-
-      // Reconstruir DetailView (o actualizar si ya existe)
-      const handleBack = () => {
-        const ctx = detailCtrl.getCatalogContext();
-        showCatalog(ctx);
-      };
-
+      const handleBack = () => showCatalog(detailCtrl.getCatalogContext());
       if (detailViewEl) {
         detailViewEl.update({ detail: state.data, onBack: handleBack });
       } else {
@@ -180,9 +206,7 @@ detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
       detailErrorEl.update({
         message:   state.message,
         retryable: state.retryable,
-        onRetry:   state.retryable
-          ? () => { /* El usuario debe volver y reintentar */ }
-          : () => {},
+        onRetry:   () => {},
       });
       detailErrorEl.element.style.display = '';
       break;
@@ -190,54 +214,85 @@ detailCtrl.subscribe((state: AsyncState<PokemonDetail>) => {
 });
 
 // ------------------------------------------------------------------ //
-// Navegación entre vistas                                             //
-// ------------------------------------------------------------------ //
-
-/**
- * Muestra la ficha de la criatura con el id dado.
- * Guarda el CatalogContext actual para restaurarlo al volver (RF-013).
- */
-async function showDetail(id: number): Promise<void> {
-  // Capturar contexto actual antes de navegar
-  const ctrl = activeController();
-  const context: CatalogContext = {
-    searchTerm:    searchBarEl.getCurrentTerm?.() ?? '',
-    selectedTypes: [],
-    page:          ctrl.pagination.page,
-  };
-
-  // Ocultar catálogo, mostrar detalle
-  catalogWrapper.setAttribute('hidden', '');
-  detailWrapper.removeAttribute('hidden');
-
-  await detailCtrl.load(id, context);
-}
-
-/**
- * Vuelve al catálogo restaurando el CatalogContext guardado (RF-013).
- */
-function showCatalog(ctx: CatalogContext): void {
-  // Ocultar detalle, mostrar catálogo
-  detailWrapper.setAttribute('hidden', '');
-  catalogWrapper.removeAttribute('hidden');
-
-  // Renderizar el estado actual del catálogo tal como estaba
-  renderCatalogState(catalogCtrl.state);
-}
-
-// ------------------------------------------------------------------ //
-// Handlers del catálogo / búsqueda                                    //
+// Handlers                                                            //
 // ------------------------------------------------------------------ //
 
 async function handleSearch(term: string): Promise<void> {
   searchActive = true;
   await searchCtrl.search(term);
+  // Si hay filtro activo, recalcular con la nueva base de búsqueda
+  if (filterActive && searchCtrl.state.status === 'success') {
+    await filterCtrl.setTypes(selectedTypes, searchCtrl.state.data);
+  }
 }
 
-function handleClear(): void {
+function handleClearSearch(): void {
   searchActive = false;
   searchCtrl.clear();
-  renderCatalogState(catalogCtrl.state);
+  filterCtrl.clearSearch();
+  if (filterActive) {
+    // Recalcular filtro sin restricción de búsqueda
+    filterCtrl.setTypes(selectedTypes);
+  } else {
+    renderListState(catalogCtrl.state);
+  }
+}
+
+async function handleTypeChange(types: PokemonType[]): Promise<void> {
+  selectedTypes = types;
+  filterActive  = types.length > 0;
+
+  // Actualizar el componente visual con la selección actual
+  typeFilterEl.update({
+    types: typeFilterEl.element.querySelectorAll('[data-type]').length > 0
+      ? Array.from(typeFilterEl.element.querySelectorAll<HTMLElement>('[data-type]'))
+          .map((el) => el.getAttribute('data-type') as PokemonType)
+      : selectedTypes,
+    selected: selectedTypes,
+    onChange: handleTypeChange,
+  });
+
+  if (!filterActive) {
+    filterCtrl.clearTypes();
+    // Mostrar resultado de búsqueda o catálogo
+    if (searchActive && searchCtrl.state.status === 'success') {
+      renderListState(searchCtrl.state);
+    } else {
+      renderListState(catalogCtrl.state);
+    }
+    return;
+  }
+
+  // Base: resultado de búsqueda activa o undefined (usa índice completo)
+  const base = searchActive && searchCtrl.state.status === 'success'
+    ? searchCtrl.state.data
+    : undefined;
+
+  await filterCtrl.setTypes(types, base);
+}
+
+// ------------------------------------------------------------------ //
+// Navegación detalle (HU-03)                                         //
+// ------------------------------------------------------------------ //
+
+async function showDetail(id: number): Promise<void> {
+  const ctx: CatalogContext = {
+    searchTerm:    searchBarEl.getCurrentTerm(),
+    selectedTypes: [...selectedTypes],
+    page:          activeListCtrl().pagination.page,
+  };
+  catalogWrapper.setAttribute('hidden', '');
+  detailWrapper.removeAttribute('hidden');
+  await detailCtrl.load(id, ctx);
+}
+
+function showCatalog(_ctx: CatalogContext): void {
+  detailWrapper.setAttribute('hidden', '');
+  catalogWrapper.removeAttribute('hidden');
+  // Restaurar la vista que estaba activa
+  if (filterActive)      renderListState(filterCtrl.state);
+  else if (searchActive) renderListState(searchCtrl.state);
+  else                   renderListState(catalogCtrl.state);
 }
 
 function onPokemonSelect(id: number): void {
@@ -245,6 +300,14 @@ function onPokemonSelect(id: number): void {
 }
 
 // ------------------------------------------------------------------ //
-// Arranque                                                             //
+// Arranque                                                            //
 // ------------------------------------------------------------------ //
+
 catalogCtrl.load();
+
+// Cargar tipos disponibles para el TypeFilter
+api.getTypeList().then((types) => {
+  typeFilterEl.update({ types, selected: selectedTypes, onChange: handleTypeChange });
+}).catch(() => {
+  // Si falla, el TypeFilter simplemente no muestra botones (no es crítico)
+});
