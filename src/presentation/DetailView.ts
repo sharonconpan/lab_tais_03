@@ -13,6 +13,8 @@ import { i18n } from '../i18n/es';
 export interface DetailViewProps {
   detail: PokemonDetail;
   onBack: () => void;
+  /** HU-05: callback opcional invocado al hacer clic en el nombre de una habilidad */
+  onAbilityClick?: (abilityName: string) => void;
 }
 
 const PLACEHOLDER_SVG = `
@@ -143,9 +145,20 @@ export class DetailView implements IComponent<DetailViewProps> {
     for (const ability of detail.abilities) {
       const li = document.createElement('li');
       li.className = 'detail-view__ability';
-      li.textContent = ability.isHidden
+      const label = ability.isHidden
         ? `${ability.name} (oculta)`
         : ability.name;
+
+      if (props.onAbilityClick) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'detail-view__ability-btn';
+        btn.textContent = label;
+        btn.addEventListener('click', () => props.onAbilityClick!(ability.name));
+        li.appendChild(btn);
+      } else {
+        li.textContent = label;
+      }
       abilitiesList.appendChild(li);
     }
     abilitiesSection.appendChild(abilitiesList);

@@ -1,0 +1,384 @@
+
+[1m[46m RUN [49m[22m [36mv3.1.4 [39m[90mD:/educativo/2026B/lab de TAIS/lab_tais_03[39m
+
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — transiciones de estado[2m > [22mel estado inicial es idle[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — transiciones de estado[2m > [22mload() transiciona idle → loading → success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — transiciones de estado[2m > [22mestado success contiene el PokemonDetail correcto (pikachu)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — transiciones de estado[2m > [22mestado success contiene el PokemonDetail correcto (jigglypuff)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — transiciones de estado[2m > [22mload() emite loading antes de que la promesa se resuelva[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — CatalogContext[2m > [22mgetCatalogContext devuelve contexto vacío antes de cualquier carga[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — CatalogContext[2m > [22mload() sin context → getCatalogContext devuelve contexto vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — CatalogContext[2m > [22mload() con context → getCatalogContext devuelve el contexto guardado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — CatalogContext[2m > [22mgetCatalogContext devuelve una copia (no la referencia interna)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — CatalogContext[2m > [22msegunda llamada a load() con distinto contexto sobreescribe el anterior[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — manejo de errores[2m > [22mNetworkError → estado error con retryable=true[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — manejo de errores[2m > [22mTimeoutError → estado error con retryable=true (RF-025)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — manejo de errores[2m > [22mTimeoutError → mensaje contiene "tard" o "tiempo" o "agotado"[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — manejo de errores[2m > [22mNotFoundError → estado error con retryable=false[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — manejo de errores[2m > [22merror guarda el contexto igualmente (context no se pierde ante error)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — suscripción[2m > [22msubscribe notifica cada cambio de estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — suscripción[2m > [22munsubscribe deja de recibir notificaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — suscripción[2m > [22mmúltiples suscriptores reciben el mismo estado[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — destroy[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailController.test.ts[2m > [22mDetailController — destroy[2m > [22mdestroy limpia los listeners (no se reciben más notificaciones)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — estado inicial[2m > [22mestado inicial es idle[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — estado inicial[2m > [22mexpone clearTypes y clearSearch como funciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — setTypes transiciones[2m > [22msetTypes([]) → idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — setTypes transiciones[2m > [22msetTypes con tipos → idle→loading→success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — setTypes transiciones[2m > [22memite loading antes de que resuelva la promesa[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — filtro por un tipo[2m > [22melectric → solo pikachu (id 25)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — filtro por un tipo[2m > [22mnormal → jigglypuff (id 39), no pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — filtro por un tipo[2m > [22mtipo sin criaturas en fixture → success con [] (RF-016)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — filtro OR por dos tipos[2m > [22melectric + normal → pikachu Y jigglypuff[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — filtro OR por dos tipos[2m > [22mnormal + fairy (jigglypuff en ambos) → sin duplicados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — intersección con búsqueda[2m > [22msearchBase con solo pikachu + electric → pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — intersección con búsqueda[2m > [22msearchBase con jigglypuff + electric → vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — intersección con búsqueda[2m > [22msearchBase con bulbasaur + electric → vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — clearTypes / clearSearch[2m > [22mclearTypes() después de setTypes → idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — clearTypes / clearSearch[2m > [22mclearTypes() notifica a los suscriptores[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — clearTypes / clearSearch[2m > [22mclearSearch() no cambia el estado de tipos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — manejo de errores[2m > [22mNetworkError al pedir tipos → estado error retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — manejo de errores[2m > [22mTimeoutError al pedir tipos → retryable=true con mensaje "tiempo"[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — suscripción[2m > [22munsubscribe deja de recibir notificaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — suscripción[2m > [22mmúltiples suscriptores reciben el mismo número de llamadas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — destroy[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/FilterController.test.ts[2m > [22mFilterController — destroy[2m > [22mdespués de destroy no se reciben notificaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mestado inicial es idle[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("") devuelve { valid: false, reason: "empty" }[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("") no llama a getPokemonIndex[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("???") devuelve { valid: false, reason: "only-symbols" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("###") no llama a getPokemonIndex[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("pikachu") → success con pikachu[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("PIKACHU") → success con pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("chu") → success que incluye pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("25") → success con pikachu (id=25)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("farfetch'd") → success con farfetchd[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("mr-mime") → success con mr-mime[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("zzznoencontrado") → success con data vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msearch("99999") → error con mensaje de número inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22msegunda búsqueda no vuelve a llamar a getPokemonIndex[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mpaginación: pageSize=2 con 5 entradas del fixture da page.total=5[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mnextPage avanza al siguiente bloque de resultados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mprevPage no baja de página 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mnextPage en la última página no cambia el estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mclear() vuelve a idle y vacía los resultados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22memite loading antes de success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22merror de red al cargar índice → estado error con retryable=true[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22munsubscribe elimina al listener[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchController.test.ts[2m > [22mSearchController[2m > [22mdestroy no lanza errores[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mrenderiza un input con label asociado[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mtiene botón Buscar y botón Limpiar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mtiene role=search en el contenedor[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mcampo vacío: clic en Buscar no invoca onSearch[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mcampo vacío: muestra mensaje de validación en español[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22msolo símbolos: clic en Buscar no invoca onSearch[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22msolo símbolos: muestra mensaje de validación[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mtérmino válido: onSearch se invoca con el término limpio[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mtérmino válido: oculta el mensaje de validación previo[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mdoble clic rápido: onSearch se invoca solo una vez (debounce)[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mdos búsquedas separadas por más de 300 ms producen dos llamadas[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mLimpiar: invoca onClear[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mLimpiar: limpia el campo de texto[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mLimpiar: oculta el mensaje de validación si estaba visible[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22macepta apóstrofos y puntos en el término (Farfetch'd, Mr. Mime)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/SearchBar.test.ts[2m > [22mSearchBar[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mrenderiza un botón por cada tipo[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mcada botón tiene data-type con el nombre del tipo[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mel texto del botón incluye el nombre del tipo[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mmuestra nota "2 tipos" (RF-028)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mla nota tiene data-type-note[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mel grupo de botones tiene role="group"[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — renderizado[2m > [22mel elemento raíz es div.type-filter[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — aria-pressed inicial[2m > [22mtipo no seleccionado → aria-pressed="false"[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — aria-pressed inicial[2m > [22mtipo seleccionado → aria-pressed="true"[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — aria-pressed inicial[2m > [22mtipo seleccionado tiene clase type-filter__btn--selected[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — aria-pressed inicial[2m > [22mtipo no seleccionado no tiene clase --selected[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mclic en tipo no seleccionado → onChange con ese tipo[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mclic en tipo ya seleccionado → onChange sin ese tipo[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mseleccionar dos tipos en secuencia → onChange con los dos[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mdeseleccionar uno de dos → onChange con solo el restante[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mtras seleccionar, aria-pressed se actualiza a true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — selección y deselección[2m > [22mtras deseleccionar, aria-pressed vuelve a false[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — update[2m > [22mupdate re-renderiza con nuevos tipos[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — update[2m > [22mupdate refleja tipos seleccionados actualizados[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — update[2m > [22mupdate reemplaza el callback onChange[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilter.test.ts[2m > [22mTypeFilter — destroy[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra el número nacional[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra el nombre de la criatura[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra el tipo de la criatura[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra todos los tipos cuando hay más de uno[32m 5[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra la altura[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra el peso[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra las habilidades[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra las 6 etiquetas de estadística en español[32m 5[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra los valores numéricos de las stats[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mimagen tiene atributo alt con el nombre de la criatura[32m 7[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mmuestra placeholder cuando imageUrl es null[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mnúmero y nombre siguen visibles cuando imageUrl es null[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mtiene botón Volver en español[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22monBack se invoca al hacer clic en Volver[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mupdate reemplaza el contenido con la nueva criatura[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mupdate reemplaza el callback onBack[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mel elemento raíz es un article[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mel nombre está en un h2[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mdestroy no lanza errores[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mtodos los campos de FIXTURE_PIKACHU están presentes en el DOM[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/DetailView.test.ts[2m > [22mDetailView[2m > [22mrenderiza correctamente una criatura con stats propias[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-1: filtrar por "electric" devuelve solo criaturas de ese tipo[32m 5[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-1: filtrar por "normal" devuelve solo criaturas de ese tipo[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-1: FilterController transiciona idle→loading→success al establecer tipos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-2: filtrar por ["electric", "normal"] devuelve la unión (OR)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-2: el resultado OR no tiene duplicados cuando una criatura es de dos tipos seleccionados[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-3: filtro + búsqueda aplica ambos criterios (intersección)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-3: si búsqueda devuelve solo jigglypuff, filtro electric no muestra resultados[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-4: sin resultados → estado success con array vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-4: PokemonList muestra mensaje sin resultados cuando data está vacío[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-5: deseleccionar tipo (setTypes vacío) vuelve al estado idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-5: TypeFilter llama onChange cuando se hace clic en un tipo[32m 14[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-5: TypeFilter permite deseleccionar un tipo ya seleccionado[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-6: TypeFilter muestra nota sobre máximo de 2 tipos (RF-028)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-7: clearTypes() quita los tipos seleccionados y vuelve a idle[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-7: FilterController expone clearTypes() y clearSearch() de forma independiente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-8: el estado inicial de FilterController es idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/filter.test.ts[2m > [22mHU-04 — Filtro por tipo: pruebas de integración[2m > [22mEsc-8: sin tipos seleccionados setTypes([]) mantiene idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: AbilityController transiciona idle→loading→success para habilidad en español[32m 5[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: AbilityDetail muestra nombre de la habilidad[32m 6[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: AbilityDetail muestra descripción en español[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: AbilityDetail NO muestra nota cuando descripción está en español[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: AbilityDetail tiene botón Cerrar en español[32m 9[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-1: onClose se invoca al pulsar Cerrar[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-2: AbilityDetail muestra descripción en inglés cuando no existe en español[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-2: AbilityDetail muestra nota en español cuando descripción está en inglés[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-2: AbilityController.descriptionLanguage === "en" para habilidad sin español[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-3: LoadingIndicator es visible durante la carga de la habilidad[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-4: AbilityController.close() transiciona a idle[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-4: close() notifica a los suscriptores con idle[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-5: NetworkError → estado error con retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-5: NetworkError renderiza ErrorMessage con botón Reintentar[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-5: NotFoundError → estado error con retryable=false[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mEsc-6: TimeoutError → estado error retryable=true con mensaje de tiempo agotado[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mAbilityController.destroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/ability.test.ts[2m > [22mHU-05 — Detalle de habilidad: pruebas de integración[2m > [22mAbilityDetail.destroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailController transiciona idle→loading→success al cargar pikachu[32m 6[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView renderiza imagen con alt accesible[32m 20[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra el número nacional[32m 5[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra el nombre de la criatura[32m 6[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra el tipo de la criatura[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra altura y peso[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra las habilidades[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra las 6 estadísticas base con etiquetas en español[32m 8[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView muestra los valores numéricos de las stats[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: DetailView tiene botón Volver en español[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: onBack se invoca al pulsar Volver[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-1: LoadingIndicator es visible durante la carga de la ficha[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-2: criatura sin imagen muestra placeholder, número y nombre siguen visibles[32m 8[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-2: criatura con múltiples tipos muestra todos[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-3: DetailController guarda el CatalogContext antes de cargar[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-3: DetailController.getCatalogContext devuelve contexto vacío si no se pasó[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-4: error de red al cargar ficha → estado error con retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-4: error de red renderiza ErrorMessage con botón Reintentar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-4: NotFoundError → estado error con retryable=false[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mEsc-5: timeout → estado error retryable=true con mensaje de tiempo agotado[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/detail.test.ts[2m > [22mHU-03 — Ficha de criatura: pruebas de integración[2m > [22mDetailView.destroy no lanza errores[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-1: renderiza tarjetas para cada criatura del índice[32m 28[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-1: tarjetas contienen número nacional y nombre[32m 7[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-1: LoadingIndicator es visible mientras carga y oculto en reposo[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-1: LoadingIndicator tiene aria-live=polite[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-1: LoadingIndicator muestra texto en español[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-3: criatura sin imagen muestra placeholder visual[32m 8[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-4: error de red muestra ErrorMessage con botón Reintentar[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-4: error no retryable omite botón Reintentar[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-4: onRetry se invoca al hacer clic en Reintentar[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mEsc-5: timeout muestra mensaje de tiempo agotado y retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mPaginación muestra número de página y total[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mPaginación desactiva "Anterior" en página 1[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mPaginación desactiva "Siguiente" en última página[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mPaginación llama onPrev y onNext al hacer clic[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mCatalogController transiciona idle→loading→success[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mCatalogController transiciona a error con retryable=true ante NetworkError[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mCatalogController nextPage avanza página y carga nuevos datos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/catalog.test.ts[2m > [22mHU-01 — Catálogo: pruebas de integración[2m > [22mCatalogController prevPage en página 1 no cambia de página[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-1: búsqueda por nombre exacto devuelve la criatura correcta[32m 5[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-1: búsqueda sin distinguir mayúsculas ("PIKACHU" → pikachu)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-2: búsqueda parcial "chu" encuentra pikachu[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-2: búsqueda parcial con espacios sobrantes (" bulba ") normaliza[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-3: búsqueda por número exacto "25" devuelve pikachu[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-4: búsqueda "mr. mime" con punto encuentra mr-mime[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-4: búsqueda "farfetch'd" con apóstrofo encuentra farfetchd[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-5: búsqueda sin resultados devuelve array vacío con status success[32m 0[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-5: PokemonList muestra mensaje de "sin resultados" cuando data está vacío[32m 5[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-6: búsqueda con término vacío devuelve ValidationError sin petición[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-6: campo vacío — SearchBar no llama onSearch[32m 22[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-6: campo vacío — SearchBar muestra mensaje de validación en español[32m 6[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-7: término con solo símbolos devuelve ValidationError[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-7: término "###" — SearchBar muestra validación y no llama onSearch[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-8: número que no existe en el índice devuelve mensaje específico[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-9: doble confirmación rápida en SearchBar produce una sola llamada a onSearch[32m 4[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-10: resultados paginados cuando superan el pageSize[32m 1[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mEsc-10: Pagination funciona sobre resultados de búsqueda[32m 2[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mLimpiar — SearchBar llama a onClear al hacer clic en Limpiar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/integration/search.test.ts[2m > [22mHU-02 — Búsqueda: pruebas de integración[2m > [22mLimpiar — SearchController.clear() vuelve a idle[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mestado inicial es idle[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mload emite loading y luego success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mload en success contiene datos de la primera página[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mload con pageSize=2 devuelve solo 2 entradas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mload con NetworkError → estado error con retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mload con TimeoutError → estado error con mensaje tiempo agotado[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22msubscribe notifica al listener al cambiar estado[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22munsubscribe deja de notificar[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mnextPage avanza a página 2 y devuelve los items siguientes[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mprevPage en página 1 no cambia de página[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mnextPage en última página no cambia de página[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mnextPage + prevPage restaura la primera página[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mpagination refleja page, pageSize y total correctos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/CatalogController.test.ts[2m > [22mCatalogController[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — transiciones de estado[2m > [22mestado inicial es idle[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — transiciones de estado[2m > [22mload() transiciona idle → loading → success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — transiciones de estado[2m > [22memite loading antes de que la promesa resuelva[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — transiciones de estado[2m > [22msuccess contiene la habilidad con descripción en español[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — transiciones de estado[2m > [22msuccess contiene la habilidad con descripción en inglés[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — close()[2m > [22mclose() en idle no lanza error[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — close()[2m > [22mclose() tras success → idle[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — close()[2m > [22mclose() notifica a los suscriptores con { status: idle }[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — close()[2m > [22mclose() tras error → idle[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — manejo de errores[2m > [22mNetworkError → error retryable=true[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — manejo de errores[2m > [22mNotFoundError → error retryable=false[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — manejo de errores[2m > [22mTimeoutError → error retryable=true (RF-025)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — manejo de errores[2m > [22mTimeoutError → mensaje contiene "tard" / "tiempo" / "agotado"[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — suscripción[2m > [22munsubscribe deja de recibir notificaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — suscripción[2m > [22mmúltiples suscriptores reciben el mismo número de llamadas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — destroy[2m > [22mdestroy no lanza errores[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityController.test.ts[2m > [22mAbilityController — destroy[2m > [22mtras destroy no se reciben notificaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mmuestra el displayName de la habilidad[32m 8[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mmuestra la descripción[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mNO muestra la nota cuando el idioma es "es" (RF-019)[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mtiene botón Cerrar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22monClose se invoca al hacer clic en Cerrar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mel nombre está en un h2[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en español[2m > [22mel elemento raíz es article.ability-detail[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en inglés con nota[2m > [22mmuestra el displayName de la habilidad[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en inglés con nota[2m > [22mmuestra la descripción en inglés[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en inglés con nota[2m > [22mmuestra la nota de idioma cuando descriptionLanguage === "en" (RF-019)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — descripción en inglés con nota[2m > [22mla nota tiene data-lang-note[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — update[2m > [22mupdate re-renderiza con nueva habilidad[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — update[2m > [22mupdate: de "es" a "en" aparece la nota[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — update[2m > [22mupdate: de "en" a "es" desaparece la nota[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — update[2m > [22mupdate reemplaza el callback onClose[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/AbilityDetail.test.ts[2m > [22mAbilityDetail — destroy[2m > [22mdestroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetPokemonIndex devuelve entradas mapeadas[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetPokemonIndex usa caché en segunda llamada[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetPokemonDetail mapea stats y tipos[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetPokemonDetail lanza NotFoundError ante 404[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetPokemonDetail imageUrl es null cuando sprites.front_default es null[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetAbility elige es cuando existe[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mgetAbility cae a en cuando no hay es[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokeApiClient.test.ts[2m > [22mPokeApiClient[2m > [22mcancelAll aborta peticiones en curso[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnúmero "25" devuelve solo pikachu[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnúmero "1" devuelve solo bulbasaur[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnúmero inexistente "99999" devuelve array vacío[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnombre exacto "pikachu" devuelve pikachu[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m"PIKACHU" en mayúsculas encuentra pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m"Pikachu" en PascalCase encuentra pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnombre parcial "chu" encuentra pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnombre parcial "saur" encuentra bulbasaur[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mnombre parcial que coincide con varias criaturas devuelve todas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m" pikachu " con espacios sobrantes encuentra pikachu[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m"farfetch'd" (con apóstrofo) encuentra farfetchd[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m"mr-mime" encuentra mr-mime[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22m"mr" parcial encuentra mr-mime[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mtérmino sin coincidencias devuelve array vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mfast-check: el resultado es siempre un subconjunto del índice original[32m 13[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mfast-check: búsqueda por nombre del índice siempre incluye esa criatura[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/searchFilter.test.ts[2m > [22mfilterIndex[2m > [22mfast-check: búsqueda por id siempre devuelve ≤1 resultado[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mmap vacío → devuelve el índice completo sin modificar[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mun tipo: devuelve solo las criaturas de ese tipo[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mun tipo: criaturas ajenas al tipo no aparecen[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mtipo sin criaturas en el índice → array vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mdos tipos OR: unión de ambos conjuntos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mdos tipos que comparten una criatura: sin duplicados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22míndice restringido + tipo fuera del subconjunto → vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22míndice restringido + tipo dentro del subconjunto → la criatura[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mpreserva el orden del índice base[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mfast-check: resultado siempre subconjunto del índice base[32m 8[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mfast-check: con un tipo el resultado ⊆ criaturas de ese tipo[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/typeFilterFn.test.ts[2m > [22mapplyTypeFilter[2m > [22mfast-check: sin duplicados en OR de dos tipos[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mmuestra número de página actual[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mmuestra total de páginas calculado[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mdesactiva botón Anterior en página 1[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mactiva botón Anterior en páginas > 1[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mdesactiva botón Siguiente en última página[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mactiva botón Siguiente cuando no es última página[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22monPrev se invoca al hacer clic en Anterior[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22monNext se invoca al hacer clic en Siguiente[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mupdate refleja nueva página y estado de botones[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/Pagination.test.ts[2m > [22mPagination[2m > [22mdestroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mtiene role=alert[32m 7[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mmuestra el mensaje de error[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mcuando retryable=true muestra botón Reintentar[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mcuando retryable=false NO muestra botón[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22monRetry se invoca al hacer clic en Reintentar[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22monRetry no se invoca si retryable=false (no hay botón)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mupdate reemplaza mensaje y botón[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mupdate puede quitar el botón cambiando retryable a false[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/ErrorMessage.test.ts[2m > [22mErrorMessage[2m > [22mdestroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mcon items vacíos muestra mensaje de estado vacío[32m 15[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mcon items vacíos no renderiza tarjetas[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mcon items renderiza una tarjeta por entrada[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mcada tarjeta muestra el id correcto[32m 5[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22monSelect se invoca con el id al hacer clic en una tarjeta[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mupdate con lista vacía muestra estado vacío[32m 5[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mupdate reemplaza tarjetas anteriores[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonList.test.ts[2m > [22mPokemonList[2m > [22mdestroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mtiene atributo data-pokemon-id con el id de la criatura[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mmuestra imagen con alt = nombre cuando imageUrl no es null[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mmuestra placeholder cuando imageUrl es null[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mmuestra número nacional[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mmuestra nombre de la criatura[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22minvoca onClick con el id correcto al hacer clic[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mupdate cambia el contenido correctamente[32m 7[2mms[22m[39m
+ [32m✓[39m tests/unit/PokemonCard.test.ts[2m > [22mPokemonCard[2m > [22mdestroy no lanza errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22mstring vacío devuelve { valid: false, reason: "empty" }[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22msolo espacios devuelve { valid: false, reason: "empty" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22msolo tabulación devuelve { valid: false, reason: "empty" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"???" devuelve { valid: false, reason: "only-symbols" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"###" devuelve { valid: false, reason: "only-symbols" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"..." devuelve { valid: false, reason: "only-symbols" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"@@@!!!" devuelve { valid: false, reason: "only-symbols" }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"pikachu" devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"25" (número) devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"Mr. Mime" (con punto y espacio) devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"Farfetch'd" (con apóstrofo) devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"  pikachu  " (con espacios sobrantes) devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22m"a" (un solo carácter alfanumérico) devuelve { valid: true }[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22mfast-check: todo string con al menos un alfanumérico es válido[32m 10[2mms[22m[39m
+ [32m✓[39m tests/unit/searchValidation.test.ts[2m > [22mvalidateSearchTerm[2m > [22mfast-check: todo string vacío o solo blancos es reason: "empty"[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mcuando visible=true tiene role=status[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mcuando visible=true tiene aria-live=polite[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mcuando visible=true muestra texto en español no vacío[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mcuando visible=false tiene aria-hidden=true[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mcuando visible=false no muestra texto visible[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mupdate cambia de oculto a visible correctamente[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mupdate cambia de visible a oculto correctamente[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/LoadingIndicator.test.ts[2m > [22mLoadingIndicator[2m > [22mdestroy no lanza errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/http.test.ts[2m > [22mhttpGet[2m > [22mdevuelve JSON en respuesta 200[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/http.test.ts[2m > [22mhttpGet[2m > [22mlanza NotFoundError ante 404[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/http.test.ts[2m > [22mhttpGet[2m > [22mlanza NetworkError ante error de red (TypeError)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/http.test.ts[2m > [22mhttpGet[2m > [22mlanza TimeoutError cuando el AbortController aborta por timeout[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22malmacena y recupera un valor antes del TTL[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22mdevuelve undefined tras expirar el TTL[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22minvalida una entrada específica[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22mclear elimina todas las entradas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22mno almacena instancias de Error[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/cache.test.ts[2m > [22mMemoryCache[2m > [22mdevuelve undefined para clave inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/errors.test.ts[2m > [22mNetworkError[2m > [22mes instancia de Error y tiene retryable=true[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/errors.test.ts[2m > [22mNotFoundError[2m > [22mincluye el recurso en el mensaje y tiene retryable=false[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/errors.test.ts[2m > [22mTimeoutError[2m > [22mes retryable y tiene nombre correcto[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/errors.test.ts[2m > [22mtoErrorMessage[2m > [22mdevuelve message de un Error[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/errors.test.ts[2m > [22mtoErrorMessage[2m > [22mdevuelve string genérico para no-Error[32m 0[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m26 passed[39m[22m[90m (26)[39m
+[2m      Tests [22m [1m[32m375 passed[39m[22m[90m (375)[39m
+[2m   Start at [22m 23:27:13
+[2m   Duration [22m 4.65s[2m (transform 994ms, setup 0ms, collect 3.67s, tests 878ms, environment 25.47s, prepare 4.36s)[22m
+

@@ -76,6 +76,7 @@ export type MockBehavior = 'success' | 'network-error' | 'not-found' | 'timeout'
 export class MockPokeApiClient implements IPokeApiClient {
   private _indexBehavior: MockBehavior = 'success';
   private _detailBehavior: MockBehavior = 'success';
+  private _abilityBehavior: MockBehavior = 'success';
   private _delay = 0;
   private _extraEntries: PokemonEntry[] = [];
 
@@ -83,6 +84,8 @@ export class MockPokeApiClient implements IPokeApiClient {
   setIndexBehavior(b: MockBehavior): this { this._indexBehavior = b; return this; }
   /** Configura el comportamiento de getPokemonDetail */
   setDetailBehavior(b: MockBehavior): this { this._detailBehavior = b; return this; }
+  /** Configura el comportamiento de getAbility */
+  setAbilityBehavior(b: MockBehavior): this { this._abilityBehavior = b; return this; }
   /** Añade retardo artificial (ms) — útil para probar el indicador de carga */
   setDelay(ms: number): this { this._delay = ms; return this; }
   /** Añade una entrada extra al índice (útil para tests de búsqueda con datos específicos) */
@@ -124,6 +127,10 @@ export class MockPokeApiClient implements IPokeApiClient {
   }
 
   async getAbility(name: string, _options?: FetchOptions): Promise<AbilityDetail> {
+    await this._wait();
+    if (this._abilityBehavior === 'network-error') throw new NetworkError();
+    if (this._abilityBehavior === 'timeout') throw new TimeoutError();
+    if (this._abilityBehavior === 'not-found') throw new NotFoundError(name);
     if (name === 'static')   return { ...FIXTURE_ABILITY_ES };
     if (name === 'overgrow') return { ...FIXTURE_ABILITY_EN_ONLY };
     throw new NotFoundError(name);
