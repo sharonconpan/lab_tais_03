@@ -33,13 +33,22 @@ describe('httpGet', () => {
     vi.useFakeTimers();
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockImplementation(
-        () => new Promise((_res, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { name: 'AbortError', message: 'timeout' })), 20_000))
+      vi.fn().mockImplementation((_url: string, opts?: RequestInit) =>
+        new Promise<never>((_res, rej) => {
+          // Rechaza cuando el AbortSignal interno de httpGet dispara
+          opts?.signal?.addEventListener('abort', () => {
+            const err = Object.assign(new Error('timeout'), { name: 'AbortError' });
+            rej(err);
+          });
+        })
       )
     );
     const promise = httpGet('https://example.com');
-    vi.advanceTimersByTime(10_001);
-    await expect(promise).rejects.toBeInstanceOf(TimeoutError);
+    // Registrar la aserción antes de avanzar para evitar unhandled rejection
+    const assertion = expect(promise).rejects.toBeInstanceOf(TimeoutError);
+    // Avanza los timers de forma asíncrona para que los microtasks se procesen
+    await vi.advanceTimersByTimeAsync(10_001);
+    await assertion;
     vi.useRealTimers();
   });
 });

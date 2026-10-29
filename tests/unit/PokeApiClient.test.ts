@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { PokeApiClient } from '../../src/services/PokeApiClient';
-import { NotFoundError, TimeoutError } from '../../src/services/errors';
+import { NotFoundError } from '../../src/services/errors';
 
 const makeResponse = (data: unknown, status = 200) =>
   ({ ok: status < 400, status, json: async () => data } as Response);

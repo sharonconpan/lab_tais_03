@@ -39,7 +39,7 @@ describe('ErrorMessage', () => {
 
   it('onRetry no se invoca si retryable=false (no hay botón)', () => {
     const spy = vi.fn();
-    const comp = new ErrorMessage({ message: 'Error', retryable: false, onRetry: spy });
+    new ErrorMessage({ message: 'Error', retryable: false, onRetry: spy });
     // No hay botón; spy no debe ser llamado
     expect(spy).not.toHaveBeenCalled();
   });
